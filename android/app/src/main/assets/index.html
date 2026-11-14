@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>سجل الحلقة</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f5f3ec;--sf:#fff;--tx:#1c2a23;--mu:#68776f;--br:#dcd8ca;--ac:#1f6b4f;--on:#fff;--ok:#e1f0e8;--bad:#b3392f;--wr:#8a5d00;--w2:#fff1cf}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121c17;--sf:#1b2a22;--tx:#e8efe9;--mu:#9bb0a4;--br:#2c4036;--ac:#5fc29b;--on:#0d1a13;--ok:#1d3a2e;--bad:#ff8f82;--wr:#f0c35a;--w2:#3a2f12}}
+:root[data-theme="dark"]{--bg:#121c17;--sf:#1b2a22;--tx:#e8efe9;--mu:#9bb0a4;--br:#2c4036;--ac:#5fc29b;--on:#0d1a13;--ok:#1d3a2e;--bad:#ff8f82;--wr:#f0c35a;--w2:#3a2f12}
+html{scroll-padding-top:env(safe-area-inset-top,0px)} .cl>b:first-child{display:block;cursor:pointer}.cl>b:first-child::after{content:' ▾';color:var(--mu)}.cl.shut>b:first-child::after{content:' ◂'}.cl.shut>:not(:first-child){display:none}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 Tajawal,system-ui,Tahoma,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+#top{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5;border-bottom:1px solid var(--br)}
+.hd{display:flex;align-items:center;gap:6px;padding:10px 12px}#hlp{padding:8px 12px}.hd b{font-size:19px;flex:1}.hd input{width:auto}
+nav{display:flex;gap:6px;padding:0 10px 8px}nav button{flex:1}
+main{max-width:760px;margin:auto;padding:12px 14px 90px}
+button,input,select,textarea{font:inherit;color:inherit}
+button{background:var(--sf);border:1px solid var(--br);border-radius:10px;padding:8px 10px;cursor:pointer}
+button.on,button.pri{background:var(--ac);color:var(--on);border-color:var(--ac)}
+input,select,textarea{background:var(--sf);border:1px solid var(--br);border-radius:10px;padding:8px 10px;width:100%;box-sizing:border-box}
+textarea{min-height:220px}
+.card{background:var(--sf);border:1px solid var(--br);border-radius:14px;padding:12px;margin-bottom:10px}
+.top{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.top b{font-size:17px}
+.nx{color:var(--mu);font-size:13px;flex-basis:100%;order:5}.pts{font-weight:700;color:var(--ac);margin-inline-start:auto}
+.seg,.ins,.tg,.row{display:flex;gap:6px;margin-top:8px}.seg button,.tg button{flex:1;padding:6px 4px;font-size:14px}.ins input{min-width:0;flex:1}.row>div{flex:1}
+.msg{font-size:13px;margin-top:6px}.err{color:var(--bad)}.wr{color:var(--wr)}
+label{display:block;font-size:13px;color:var(--mu);margin-top:8px}
+.badge{font-size:12px;padding:2px 10px;border-radius:99px;background:var(--ok)}
+.bn{padding:10px 12px;border-radius:12px;margin-bottom:10px;background:var(--w2);color:var(--wr)}
+#toast{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--ac);color:var(--on);padding:8px 18px;border-radius:99px;display:none;z-index:20}
+.sb{margin-bottom:10px}.sb input{font-size:17px;padding:12px}.tb{display:flex;gap:6px;align-items:center;margin-top:8px}.tb .badge{margin-inline-end:auto}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:6px;margin-bottom:12px}.chip{padding:12px 6px;font-size:15px;line-height:1.25}.chip.dn{background:var(--ok);border-color:var(--ac)}.chip.ab{background:var(--w2);color:var(--wr);text-decoration:line-through}.qp{display:flex;gap:6px;align-items:center;margin-top:8px}.qp span{color:var(--mu);min-width:22px}.qp button{flex:1;padding:8px 4px}details.card summary{cursor:pointer;color:var(--mu)}
+nav button{font-size:13px;padding:6px 2px}table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:6px 5px;border-bottom:1px solid var(--br);text-align:center;white-space:nowrap}th{color:var(--mu);font-weight:500}td:nth-child(2),th:nth-child(2){text-align:start}.lk{border:0;background:none;padding:0;color:var(--ac);font-weight:700;text-align:start}.gr{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;text-align:center}.gr b{display:block;font-size:20px;color:var(--ac)}.gr small{color:var(--mu);font-size:12px}
+.md{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:30;display:flex;align-items:flex-start;justify-content:center;padding:calc(16px + env(safe-area-inset-top,0px)) 14px 16px;overflow:auto}.md .card{width:100%;max-width:520px;margin:0}.xi{padding:2px 8px;opacity:.35;filter:grayscale(1)}.xi.on{opacity:1;filter:none;background:var(--w2)}input:not([type=date]):not([type=month]),textarea{unicode-bidi:plaintext}
+</style>
+</head>
+<body>
+<div id="top">
+<div class="hd"><b>📖 سجل الحلقة</b><span class="badge" id="bd"></span><input type="date" id="dt"><button id="gear">⚙</button><button id="hlp" title="الدليل">؟</button></div>
+<nav><button data-v="today">اليوم</button><button data-v="ex">الاختبارات</button><button data-v="st">الطلاب</button><button data-v="sta">الإحصاء</button><button data-v="rp">التقرير</button></nav>
+</div>
+<main id="v"></main>
+<div id="toast"></div>
+<script>
+const D={"pm":{"ر":"4-48","ته":"4-12,14-26,28-36,38-46,48-71","ت":"582-604,562-581,1-561","غ":"582-604,562-581,1-561"},"cat":[["رشيدي","مرحلة",1,0,1,3,4,13,"مرحلة الحروف"],["رشيدي","مرحلة",2,0,2,3,14,24,"مرحلة تشكيل الحروف"],["رشيدي","مرحلة",3,0,3,3,25,28,"مرحلة السكون"],["رشيدي","مرحلة",4,0,4,3,29,38,"مرحلة المد"],["رشيدي","مرحلة",5,0,5,3,39,42,"مرحلة اللام القمرية والشدة"],["رشيدي","مرحلة",6,0,6,3,43,46,"مرحلة التنوين واللام الشمسية"],["رشيدي","شامل",0,0,7,5,47,48,"اختبار كامل الجزء الرشيدي"],["تهذيب اللسان 1","مرحلة",1,0,1,3,4,12,"مرحلة أسماء الحروف العربية"],["تهذيب اللسان 1","مرحلة",2,0,2,3,14,23,"مرحلة تشكيل الحروف"],["تهذيب اللسان 1","مرحلة",3,0,3,3,24,26,"مرحلة السكون"],["تهذيب اللسان 1","مرحلة",4,0,4,3,28,33,"مرحلة المد الطبيعي"],["تهذيب اللسان 1","مرحلة",5,0,5,3,34,43,"مرحلة الشدة والتنوين"],["تهذيب اللسان 1","مرحلة",6,0,6,3,44,45,"مرحلة اللام القمرية والشمسية"],["تهذيب اللسان 1","شامل",0,0,7,5,46,46,"اختبار القسم الأول من تهذيب اللسان"],["تهذيب اللسان 2","مرحلة",1,0,1,3,48,50,"مرحلة لام لفظ الجلالة والحروف اللثوية"],["تهذيب اللسان 2","مرحلة",2,0,2,3,51,55,"مرحلة التفخيم والترقيق والقلقلة"],["تهذيب اللسان 2","مرحلة",3,0,3,3,56,61,"مرحلة أحكام النون الساكنة"],["تهذيب اللسان 2","مرحلة",4,0,4,3,62,64,"مرحلة أحكام الميم الساكنة والإدغام من حيث الصفة"],["تهذيب اللسان 2","مرحلة",5,0,5,3,65,68,"مرحلة المد الفرعي"],["تهذيب اللسان 2","مرحلة",6,0,6,3,69,71,"مرحلة الحروف المقطعة وآية الكرسي وسورة الشرح"],["تهذيب اللسان 2","شامل",0,0,7,5,71,71,"اختبار القسم الثاني من تهذيب اللسان"],["تلاوة","حزب",30,1,1,3,582,591,"الجزء 30 — النصف الأول"],["تلاوة","حزب",30,2,2,3,592,604,"الجزء 30 — النصف الثاني"],["تلاوة","جزء",30,0,3,3,582,604,"الجزء 30 كاملاً"],["تلاوة","حزب",29,1,4,3,562,571,"الجزء 29 — النصف الأول"],["تلاوة","حزب",29,2,5,3,572,581,"الجزء 29 — النصف الثاني"],["تلاوة","جزء",29,0,6,3,562,581,"الجزء 29 كاملاً"],["تلاوة","حزب",1,1,7,3,1,11,"الجزء 1 — النصف الأول"],["تلاوة","حزب",1,2,8,3,12,21,"الجزء 1 — النصف الثاني"],["تلاوة","جزء",1,0,9,3,1,21,"الجزء 1 كاملاً"],["تلاوة","حزب",2,1,10,3,22,31,"الجزء 2 — النصف الأول"],["تلاوة","حزب",2,2,11,3,32,41,"الجزء 2 — النصف الثاني"],["تلاوة","جزء",2,0,12,3,22,41,"الجزء 2 كاملاً"],["تلاوة","حزب",3,1,13,3,42,51,"الجزء 3 — النصف الأول"],["تلاوة","حزب",3,2,14,3,52,61,"الجزء 3 — النصف الثاني"],["تلاوة","جزء",3,0,15,3,42,61,"الجزء 3 كاملاً"],["تلاوة","حزب",4,1,16,3,62,71,"الجزء 4 — النصف الأول"],["تلاوة","حزب",4,2,17,3,72,81,"الجزء 4 — النصف الثاني"],["تلاوة","جزء",4,0,18,3,62,81,"الجزء 4 كاملاً"],["تلاوة","حزب",5,1,19,3,82,91,"الجزء 5 — النصف الأول"],["تلاوة","حزب",5,2,20,3,92,101,"الجزء 5 — النصف الثاني"],["تلاوة","جزء",5,0,21,3,82,101,"الجزء 5 كاملاً"],["تلاوة","خمسة أجزاء",1,0,22,5,1,101,"مرحلة أول خمسة"],["تلاوة","حزب",6,1,23,3,102,111,"الجزء 6 — النصف الأول"],["تلاوة","حزب",6,2,24,3,112,121,"الجزء 6 — النصف الثاني"],["تلاوة","جزء",6,0,25,3,102,121,"الجزء 6 كاملاً"],["تلاوة","حزب",7,1,26,3,122,131,"الجزء 7 — النصف الأول"],["تلاوة","حزب",7,2,27,3,132,141,"الجزء 7 — النصف الثاني"],["تلاوة","جزء",7,0,28,3,122,141,"الجزء 7 كاملاً"],["تلاوة","حزب",8,1,29,3,142,151,"الجزء 8 — النصف الأول"],["تلاوة","حزب",8,2,30,3,152,161,"الجزء 8 — النصف الثاني"],["تلاوة","جزء",8,0,31,3,142,161,"الجزء 8 كاملاً"],["تلاوة","حزب",9,1,32,3,162,171,"الجزء 9 — النصف الأول"],["تلاوة","حزب",9,2,33,3,172,181,"الجزء 9 — النصف الثاني"],["تلاوة","جزء",9,0,34,3,162,181,"الجزء 9 كاملاً"],["تلاوة","حزب",10,1,35,3,182,191,"الجزء 10 — النصف الأول"],["تلاوة","حزب",10,2,36,3,192,201,"الجزء 10 — النصف الثاني"],["تلاوة","جزء",10,0,37,3,182,201,"الجزء 10 كاملاً"],["تلاوة","خمسة أجزاء",2,0,38,5,102,201,"مرحلة ثاني خمسة"],["تلاوة","عشرة أجزاء",1,0,39,5,1,201,"مرحلة أول عشرة"],["تلاوة","حزب",11,1,40,3,202,211,"الجزء 11 — النصف الأول"],["تلاوة","حزب",11,2,41,3,212,221,"الجزء 11 — النصف الثاني"],["تلاوة","جزء",11,0,42,3,202,221,"الجزء 11 كاملاً"],["تلاوة","حزب",12,1,43,3,222,231,"الجزء 12 — النصف الأول"],["تلاوة","حزب",12,2,44,3,232,241,"الجزء 12 — النصف الثاني"],["تلاوة","جزء",12,0,45,3,222,241,"الجزء 12 كاملاً"],["تلاوة","حزب",13,1,46,3,242,251,"الجزء 13 — النصف الأول"],["تلاوة","حزب",13,2,47,3,252,261,"الجزء 13 — النصف الثاني"],["تلاوة","جزء",13,0,48,3,242,261,"الجزء 13 كاملاً"],["تلاوة","حزب",14,1,49,3,262,271,"الجزء 14 — النصف الأول"],["تلاوة","حزب",14,2,50,3,272,281,"الجزء 14 — النصف الثاني"],["تلاوة","جزء",14,0,51,3,262,281,"الجزء 14 كاملاً"],["تلاوة","حزب",15,1,52,3,282,291,"الجزء 15 — النصف الأول"],["تلاوة","حزب",15,2,53,3,292,301,"الجزء 15 — النصف الثاني"],["تلاوة","جزء",15,0,54,3,282,301,"الجزء 15 كاملاً"],["تلاوة","خمسة أجزاء",3,0,55,5,202,301,"مرحلة ثالث خمسة"],["تلاوة","حزب",16,1,56,3,302,311,"الجزء 16 — النصف الأول"],["تلاوة","حزب",16,2,57,3,312,321,"الجزء 16 — النصف الثاني"],["تلاوة","جزء",16,0,58,3,302,321,"الجزء 16 كاملاً"],["تلاوة","حزب",17,1,59,3,322,331,"الجزء 17 — النصف الأول"],["تلاوة","حزب",17,2,60,3,332,341,"الجزء 17 — النصف الثاني"],["تلاوة","جزء",17,0,61,3,322,341,"الجزء 17 كاملاً"],["تلاوة","حزب",18,1,62,3,342,351,"الجزء 18 — النصف الأول"],["تلاوة","حزب",18,2,63,3,352,361,"الجزء 18 — النصف الثاني"],["تلاوة","جزء",18,0,64,3,342,361,"الجزء 18 كاملاً"],["تلاوة","حزب",19,1,65,3,362,371,"الجزء 19 — النصف الأول"],["تلاوة","حزب",19,2,66,3,372,381,"الجزء 19 — النصف الثاني"],["تلاوة","جزء",19,0,67,3,362,381,"الجزء 19 كاملاً"],["تلاوة","حزب",20,1,68,3,382,391,"الجزء 20 — النصف الأول"],["تلاوة","حزب",20,2,69,3,392,401,"الجزء 20 — النصف الثاني"],["تلاوة","جزء",20,0,70,3,382,401,"الجزء 20 كاملاً"],["تلاوة","خمسة أجزاء",4,0,71,5,302,401,"مرحلة رابع خمسة"],["تلاوة","عشرة أجزاء",2,0,72,5,202,401,"مرحلة ثاني عشرة"],["تلاوة","حزب",21,1,73,3,402,411,"الجزء 21 — النصف الأول"],["تلاوة","حزب",21,2,74,3,412,421,"الجزء 21 — النصف الثاني"],["تلاوة","جزء",21,0,75,3,402,421,"الجزء 21 كاملاً"],["تلاوة","حزب",22,1,76,3,422,431,"الجزء 22 — النصف الأول"],["تلاوة","حزب",22,2,77,3,432,441,"الجزء 22 — النصف الثاني"],["تلاوة","جزء",22,0,78,3,422,441,"الجزء 22 كاملاً"],["تلاوة","حزب",23,1,79,3,442,451,"الجزء 23 — النصف الأول"],["تلاوة","حزب",23,2,80,3,452,461,"الجزء 23 — النصف الثاني"],["تلاوة","جزء",23,0,81,3,442,461,"الجزء 23 كاملاً"],["تلاوة","حزب",24,1,82,3,462,471,"الجزء 24 — النصف الأول"],["تلاوة","حزب",24,2,83,3,472,481,"الجزء 24 — النصف الثاني"],["تلاوة","جزء",24,0,84,3,462,481,"الجزء 24 كاملاً"],["تلاوة","حزب",25,1,85,3,482,491,"الجزء 25 — النصف الأول"],["تلاوة","حزب",25,2,86,3,492,501,"الجزء 25 — النصف الثاني"],["تلاوة","جزء",25,0,87,3,482,501,"الجزء 25 كاملاً"],["تلاوة","خمسة أجزاء",5,0,88,5,402,501,"مرحلة خامس خمسة"],["تلاوة","حزب",26,1,89,3,502,511,"الجزء 26 — النصف الأول"],["تلاوة","حزب",26,2,90,3,512,521,"الجزء 26 — النصف الثاني"],["تلاوة","جزء",26,0,91,3,502,521,"الجزء 26 كاملاً"],["تلاوة","حزب",27,1,92,3,522,531,"الجزء 27 — النصف الأول"],["تلاوة","حزب",27,2,93,3,532,541,"الجزء 27 — النصف الثاني"],["تلاوة","جزء",27,0,94,3,522,541,"الجزء 27 كاملاً"],["تلاوة","حزب",28,1,95,3,542,551,"الجزء 28 — النصف الأول"],["تلاوة","حزب",28,2,96,3,552,561,"الجزء 28 — النصف الثاني"],["تلاوة","جزء",28,0,97,3,542,561,"الجزء 28 كاملاً"],["تلاوة","خمسة أجزاء",6,0,98,5,502,561,"مرحلة سادس خمسة"],["تلاوة","عشرة أجزاء",3,0,99,5,402,561,"مرحلة ثالث عشرة"],["حفظ","حزب",30,1,1,3,582,591,"الجزء 30 — النصف الأول"],["حفظ","حزب",30,2,2,3,592,604,"الجزء 30 — النصف الثاني"],["حفظ","جزء",30,0,3,3,582,604,"الجزء 30 كاملاً"],["حفظ","حزب",29,1,4,3,562,571,"الجزء 29 — النصف الأول"],["حفظ","حزب",29,2,5,3,572,581,"الجزء 29 — النصف الثاني"],["حفظ","جزء",29,0,6,3,562,581,"الجزء 29 كاملاً"],["حفظ","حزب",1,1,7,3,1,11,"الجزء 1 — النصف الأول"],["حفظ","حزب",1,2,8,3,12,21,"الجزء 1 — النصف الثاني"],["حفظ","جزء",1,0,9,3,1,21,"الجزء 1 كاملاً"],["حفظ","حزب",2,1,10,3,22,31,"الجزء 2 — النصف الأول"],["حفظ","حزب",2,2,11,3,32,41,"الجزء 2 — النصف الثاني"],["حفظ","جزء",2,0,12,3,22,41,"الجزء 2 كاملاً"],["حفظ","حزب",3,1,13,3,42,51,"الجزء 3 — النصف الأول"],["حفظ","حزب",3,2,14,3,52,61,"الجزء 3 — النصف الثاني"],["حفظ","جزء",3,0,15,3,42,61,"الجزء 3 كاملاً"],["حفظ","حزب",4,1,16,3,62,71,"الجزء 4 — النصف الأول"],["حفظ","حزب",4,2,17,3,72,81,"الجزء 4 — النصف الثاني"],["حفظ","جزء",4,0,18,3,62,81,"الجزء 4 كاملاً"],["حفظ","حزب",5,1,19,3,82,91,"الجزء 5 — النصف الأول"],["حفظ","حزب",5,2,20,3,92,101,"الجزء 5 — النصف الثاني"],["حفظ","جزء",5,0,21,3,82,101,"الجزء 5 كاملاً"],["حفظ","خمسة أجزاء",1,0,22,5,1,101,"مرحلة أول خمسة"],["حفظ","حزب",6,1,23,3,102,111,"الجزء 6 — النصف الأول"],["حفظ","حزب",6,2,24,3,112,121,"الجزء 6 — النصف الثاني"],["حفظ","جزء",6,0,25,3,102,121,"الجزء 6 كاملاً"],["حفظ","حزب",7,1,26,3,122,131,"الجزء 7 — النصف الأول"],["حفظ","حزب",7,2,27,3,132,141,"الجزء 7 — النصف الثاني"],["حفظ","جزء",7,0,28,3,122,141,"الجزء 7 كاملاً"],["حفظ","حزب",8,1,29,3,142,151,"الجزء 8 — النصف الأول"],["حفظ","حزب",8,2,30,3,152,161,"الجزء 8 — النصف الثاني"],["حفظ","جزء",8,0,31,3,142,161,"الجزء 8 كاملاً"],["حفظ","حزب",9,1,32,3,162,171,"الجزء 9 — النصف الأول"],["حفظ","حزب",9,2,33,3,172,181,"الجزء 9 — النصف الثاني"],["حفظ","جزء",9,0,34,3,162,181,"الجزء 9 كاملاً"],["حفظ","حزب",10,1,35,3,182,191,"الجزء 10 — النصف الأول"],["حفظ","حزب",10,2,36,3,192,201,"الجزء 10 — النصف الثاني"],["حفظ","جزء",10,0,37,3,182,201,"الجزء 10 كاملاً"],["حفظ","خمسة أجزاء",2,0,38,5,102,201,"مرحلة ثاني خمسة"],["حفظ","عشرة أجزاء",1,0,39,5,1,201,"مرحلة أول عشرة"],["حفظ","حزب",11,1,40,3,202,211,"الجزء 11 — النصف الأول"],["حفظ","حزب",11,2,41,3,212,221,"الجزء 11 — النصف الثاني"],["حفظ","جزء",11,0,42,3,202,221,"الجزء 11 كاملاً"],["حفظ","حزب",12,1,43,3,222,231,"الجزء 12 — النصف الأول"],["حفظ","حزب",12,2,44,3,232,241,"الجزء 12 — النصف الثاني"],["حفظ","جزء",12,0,45,3,222,241,"الجزء 12 كاملاً"],["حفظ","حزب",13,1,46,3,242,251,"الجزء 13 — النصف الأول"],["حفظ","حزب",13,2,47,3,252,261,"الجزء 13 — النصف الثاني"],["حفظ","جزء",13,0,48,3,242,261,"الجزء 13 كاملاً"],["حفظ","حزب",14,1,49,3,262,271,"الجزء 14 — النصف الأول"],["حفظ","حزب",14,2,50,3,272,281,"الجزء 14 — النصف الثاني"],["حفظ","جزء",14,0,51,3,262,281,"الجزء 14 كاملاً"],["حفظ","حزب",15,1,52,3,282,291,"الجزء 15 — النصف الأول"],["حفظ","حزب",15,2,53,3,292,301,"الجزء 15 — النصف الثاني"],["حفظ","جزء",15,0,54,3,282,301,"الجزء 15 كاملاً"],["حفظ","خمسة أجزاء",3,0,55,5,202,301,"مرحلة ثالث خمسة"],["حفظ","حزب",16,1,56,3,302,311,"الجزء 16 — النصف الأول"],["حفظ","حزب",16,2,57,3,312,321,"الجزء 16 — النصف الثاني"],["حفظ","جزء",16,0,58,3,302,321,"الجزء 16 كاملاً"],["حفظ","حزب",17,1,59,3,322,331,"الجزء 17 — النصف الأول"],["حفظ","حزب",17,2,60,3,332,341,"الجزء 17 — النصف الثاني"],["حفظ","جزء",17,0,61,3,322,341,"الجزء 17 كاملاً"],["حفظ","حزب",18,1,62,3,342,351,"الجزء 18 — النصف الأول"],["حفظ","حزب",18,2,63,3,352,361,"الجزء 18 — النصف الثاني"],["حفظ","جزء",18,0,64,3,342,361,"الجزء 18 كاملاً"],["حفظ","حزب",19,1,65,3,362,371,"الجزء 19 — النصف الأول"],["حفظ","حزب",19,2,66,3,372,381,"الجزء 19 — النصف الثاني"],["حفظ","جزء",19,0,67,3,362,381,"الجزء 19 كاملاً"],["حفظ","حزب",20,1,68,3,382,391,"الجزء 20 — النصف الأول"],["حفظ","حزب",20,2,69,3,392,401,"الجزء 20 — النصف الثاني"],["حفظ","جزء",20,0,70,3,382,401,"الجزء 20 كاملاً"],["حفظ","خمسة أجزاء",4,0,71,5,302,401,"مرحلة رابع خمسة"],["حفظ","عشرة أجزاء",2,0,72,5,202,401,"مرحلة ثاني عشرة"],["حفظ","حزب",21,1,73,3,402,411,"الجزء 21 — النصف الأول"],["حفظ","حزب",21,2,74,3,412,421,"الجزء 21 — النصف الثاني"],["حفظ","جزء",21,0,75,3,402,421,"الجزء 21 كاملاً"],["حفظ","حزب",22,1,76,3,422,431,"الجزء 22 — النصف الأول"],["حفظ","حزب",22,2,77,3,432,441,"الجزء 22 — النصف الثاني"],["حفظ","جزء",22,0,78,3,422,441,"الجزء 22 كاملاً"],["حفظ","حزب",23,1,79,3,442,451,"الجزء 23 — النصف الأول"],["حفظ","حزب",23,2,80,3,452,461,"الجزء 23 — النصف الثاني"],["حفظ","جزء",23,0,81,3,442,461,"الجزء 23 كاملاً"],["حفظ","حزب",24,1,82,3,462,471,"الجزء 24 — النصف الأول"],["حفظ","حزب",24,2,83,3,472,481,"الجزء 24 — النصف الثاني"],["حفظ","جزء",24,0,84,3,462,481,"الجزء 24 كاملاً"],["حفظ","حزب",25,1,85,3,482,491,"الجزء 25 — النصف الأول"],["حفظ","حزب",25,2,86,3,492,501,"الجزء 25 — النصف الثاني"],["حفظ","جزء",25,0,87,3,482,501,"الجزء 25 كاملاً"],["حفظ","خمسة أجزاء",5,0,88,5,402,501,"مرحلة خامس خمسة"],["حفظ","حزب",26,1,89,3,502,511,"الجزء 26 — النصف الأول"],["حفظ","حزب",26,2,90,3,512,521,"الجزء 26 — النصف الثاني"],["حفظ","جزء",26,0,91,3,502,521,"الجزء 26 كاملاً"],["حفظ","حزب",27,1,92,3,522,531,"الجزء 27 — النصف الأول"],["حفظ","حزب",27,2,93,3,532,541,"الجزء 27 — النصف الثاني"],["حفظ","جزء",27,0,94,3,522,541,"الجزء 27 كاملاً"],["حفظ","حزب",28,1,95,3,542,551,"الجزء 28 — النصف الأول"],["حفظ","حزب",28,2,96,3,552,561,"الجزء 28 — النصف الثاني"],["حفظ","جزء",28,0,97,3,542,561,"الجزء 28 كاملاً"],["حفظ","خمسة أجزاء",6,0,98,5,502,561,"مرحلة سادس خمسة"],["حفظ","عشرة أجزاء",3,0,99,5,402,561,"مرحلة ثالث عشرة"]],"st":[],"log":[],"ex":[],"set":{"abs":-1,"exc":0,"pg":1,"xpg":1,"pos":1,"neg":-1,"rev":1,"taj":1,"les":1,"thr":{"جزء":90,"خمسة أجزاء":88,"عشرة أجزاء":88},"hdr":"سجل الحلقة"}};
+const $=(s,e=document)=>e.querySelector(s),$$=(s,e=document)=>[...e.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const K='halaqa.v1',SET=D.set,TR=['رشيدي','تهذيب اللسان 1','تهذيب اللسان 2','تلاوة','حفظ'];
+const CC={'رشيدي':'ر','تهذيب اللسان 1':'ته','تهذيب اللسان 2':'ته','تلاوة':'ت','حفظ':'غ'},LV={'رشيدي':'ر','تهذيب اللسان':'ته','تلاوة':'ت','غيب':'غ'};
+const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const fnv=s=>{let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return(h>>>0).toString(16)};
+function ld(k){try{const x=localStorage.getItem(k);if(!x)return null;const a=x.indexOf('|'),b=x.indexOf('|',a+1),j=x.slice(b+1);return fnv(j)===x.slice(a+1,b)?{n:+x.slice(0,a),j}:'bad'}catch(e){return'bad'}}
+let S=null,SN=0,LOADMSG='';
+{const A=ld(K+'.a'),B=ld(K+'.b'),ok=[A,B].filter(x=>x&&x!=='bad').sort((x,y)=>y.n-x.n);
+ if(ok.length){try{S=JSON.parse(ok[0].j);SN=ok[0].n}catch(e){}if(A==='bad'||B==='bad')LOADMSG='⚠ اكتُشف تلف في إحدى النسختين الداخليتين واستُعملت السليمة'}
+ else if(A==='bad'||B==='bad')LOADMSG='⚠ النسخ الداخلية تالفة؛ استُعملت أقدم نسخة محفوظة'}
+if(!S)try{S=JSON.parse(localStorage.getItem(K))}catch(e){}
+function put(){SN++;const j=JSON.stringify(S);localStorage.setItem(K+(SN%2?'.a':'.b'),SN+'|'+fnv(j)+'|'+j)}
+try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
+if(!S||!S.log)S={sn:1,sn2:1,sn3:1,sn4:1,sn5:1,sn6:1,sn7:1,sn8:1,sn9:1,sn10:1,sn11:1,st:D.st,log:D.log,ex:D.ex,day:{date:iso(new Date()),lesson:'',taj:'',r:{}}};
+if(!S.adj)S.adj=[];
+const save=()=>{try{(S.adj||[]).forEach(a=>{if(!a[8])a[8]=Date.now()});put()}catch(e){try{localStorage.removeItem(SK);put()}catch(e2){setTimeout(()=>toast('⚠ تعذّر الحفظ على هذا الجهاز، صدّر نسخة الآن'),0)}}};
+if(!S.trash)S.trash=[];
+const SK='halaqa.v1.snaps';
+function snaps(){try{return JSON.parse(localStorage.getItem(SK))||[]}catch(e){return[]}}
+function snap(why){try{const a=snaps();a.push({t:new Date().toISOString(),why,d:{st:S.st,log:S.log,ex:S.ex,adj:S.adj}});while(a.length>6)a.shift();localStorage.setItem(SK,JSON.stringify(a))}catch(e){}}
+if(!S.sn){snap('قبل تحديث الدفعة الأولى');S.sn=1;save()}
+const toast=t=>{const e=$('#toast');e.textContent=t;e.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display='none',2200)};
+/* خريطة الصفحات: لكل مسار قائمة مرتبة، والموضع = ترتيب الصفحة فيها */
+const P={},IX={};
+for(const c in D.pm){P[c]=[];IX[c]={};D.pm[c].split(',').forEach(x=>{const[a,b]=x.split('-').map(Number);for(let i=a;i<=(b||a);i++)P[c].push(i)});P[c].forEach((p,i)=>IX[c][p]=i+1)}
+const CAT={};D.cat.forEach(e=>{(CAT[e[0]]=CAT[e[0]]||[])[e[4]-1]=e});
+const byName=n=>S.st.find(s=>s.n===n),dr=n=>S.day.r[n]||(S.day.r[n]={a:'',s:['','',''],v:'',n:'',nt:''});
+const active=d=>S.st.filter(s=>(!s.j||s.j<=d)&&(!s.q||s.q>=d)).sort((a,b)=>a.n.localeCompare(b.n,'ar'));
+const VER='2026-11-14.1';
+const THK=['--bg','--sf','--tx','--mu','--br','--ac','--on','--ok','--bad','--wr','--w2'];
+const THS={o:{n:'أسود وبرتقالي',v:{'--bg':'#0a0a0a','--sf':'#161616','--tx':'#f2efe9','--mu':'#a39d92','--br':'#2b2b2b','--ac':'#f59e42','--on':'#1a0e00','--ok':'#2a1d0a','--bad':'#ff8f82','--wr':'#f0c35a','--w2':'#33260c'}},
+ b:{n:'أسود وأزرق',v:{'--bg':'#0a0b0e','--sf':'#14161b','--tx':'#eef1f6','--mu':'#9aa3b2','--br':'#262b35','--ac':'#4aa3ff','--on':'#001428','--ok':'#0d2238','--bad':'#ff8f82','--wr':'#f0c35a','--w2':'#2f2a14'}},
+ g:{n:'الأخضر (الأصلي)',v:null}};
+function applyTheme(){const r=document.documentElement;if(!r||!r.style)return;THK.forEach(k=>r.style.removeProperty(k));const t=THS[S.th||'o'];if(t&&t.v){r.setAttribute('data-theme','dark');for(const k in t.v)r.style.setProperty(k,t.v[k])}else r.removeAttribute('data-theme');
+ if(S.thc&&/^#[0-9a-f]{6}$/i.test(S.thc)){r.style.setProperty('--ac',S.thc);const n=parseInt(S.thc.slice(1),16),L=((n>>16)*299+((n>>8)&255)*587+(n&255)*114)/1000;r.style.setProperty('--on',L>150?'#111':'#fff')}
+ try{const m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',(getComputedStyle(document.documentElement).getPropertyValue('--bg')||'').trim()||'#0a0a0a')}catch(e){}}
+function clKey(c){const b=c.firstElementChild;return b?b.textContent.replace(/[0-9٠-٩()]+/g,'').trim():''}
+function applyCl(){try{$$('.cl').forEach(c=>{c.classList.toggle('shut',!((S.op||{})[clKey(c)]))})}catch(e){}}
+const isSp=()=>Array.isArray(S.day.sel);const actD=d=>isSp()?active(d).filter(s=>S.day.sel.includes(s.n)):active(d);
+const flag=(r,k,t)=>!r.a&&(r[k]==='1'||(r[k]===undefined&&!!t));
+const fmt=(t,f,e)=>t?t+' '+(e===''?f+' (إعادة)':f===e?f:f+'–'+e):'';
+/* موضع الطالب = آخر صفحة في آخر يوم سُجّل له في المسار، وإلا صفحة الأساس */
+function pos(st,c,upto){return pos2(st,c,upto)}
+function posOld(st,c,upto){let p=IX[c][st.b[c]]||0,ld='',lp=null;
+ for(const r of S.log){if(r[1]!==st.n||(upto&&r[0]>=upto))continue;
+  for(const k of[3,6,9])if(r[k]===c&&typeof r[k+2]==='number'){const q=IX[c][r[k+2]]||0;if(r[0]>ld){ld=r[0];lp=q}else if(r[0]===ld)lp=Math.max(lp,q)}}
+ let pd='',pp=null;for(const a of S.adj){if(a[1]!==st.n||CC[a[3]]!==c||(upto&&a[0]>=upto))continue;const v=a[2]==='تسميع'?IX[c][a[4]]:a[2]==='إعادة جزء'?rsPos(c,+a[5]):null;if(v==null)continue;if(a[0]>=pd){pd=a[0];pp=v}}
+ return pp!==null&&pd>=ld?pp:lp===null?p:lp}
+/* صيغة التسميع: 12 = وصلتُ إلى 12 ، 10-12 = نطاق ، 10- = إعادة ، والحرف قبلها للنوع */
+const ND=s=>s.replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d));
+function parse(raw,st,i,cur){let s=ND((raw||'').trim());if(!s)return null;
+ let c=/^ته/.test(s)?'ته':/^[رتغ]/.test(s)?s[0]:(i===1?T2(st):T1(st));
+ s=s.replace(/^(ته|[رتغ])/,'').trim().replace(/[\s،,\/]+/g,'-');if(s[0]==='-'&&s.length>1)s=s.slice(1)+'-';
+ if(!c)return{err:'اكتب نوع التسميع (ر / ته / ت / غ)'};
+ const m=s.match(/^(\d+)(-(\d*))?$/);if(!m)return{err:'صيغة غير مفهومة'};
+ const a=+m[1],dash=!!m[2],b=m[3]?+m[3]:null,L=P[c],ix=IX[c];
+ if(!ix[a])return{err:'الصفحة '+a+' خارج المسار'};
+ if(dash&&b===null)return{c,rep:1,f:a,e:'',q:cur[c]};
+ let f,q;
+ if(!dash){f=cur[c]+1;q=ix[a];if(q<f)return{err:'الصفحة '+a+' سبق تسميعها'}}
+ else{if(!ix[b])return{err:'الصفحة '+b+' خارج المسار'};f=ix[a];q=ix[b];if(q<f)return{err:'النطاق معكوس'}}
+ return{c,f:L[f-1],e:L[q-1],n:q-f+1,q}}
+/* الاختبارات: القادم = أول اختبار بعد آخر ما اجتازه، وحدّه = موضع صفحة «إلى» */
+const rsAd=(n,t)=>S.adj.filter(a=>a[1]===n&&(a[2]==='إعادة جزء'||a[2]==='مرحلة')&&a[3]===t).sort((a,b)=>a[0]<b[0]?1:a[0]>b[0]?-1:(b[8]||0)-(a[8]||0))[0],rd=(n,t)=>S.adj.filter(a=>a[1]===n&&a[3]===t&&['إعادة جزء','مرحلة','مسامحة'].includes(a[2])).map(a=>a[0]).sort().pop()||'';
+function rsPos(c,v){const s=v===1?1:v===30?582:20*(v-1)+2;return(IX[c][s]||1)-1}
+function rsRank(t,v,h){const e=(CAT[t]||[]).find(e=>e[1]==='حزب'&&e[2]==v&&e[3]==(h||1));return e?e[4]-1:0}
+const lastRank=(st,t)=>{const rs=rsAd(st.n,t),dR=rs?rs[0]:'';let m=(st.r||{})[t]||0,m2=0;S.ex.forEach(x=>{if(x[1]===st.n&&x[2]===t&&(x[4]==='نجح'||x[4]==='إعفاء')){if(x[0]>dR){if(x[3]>m2)m2=x[3]}else if(x[3]>m)m=x[3]}});if(rs)m=rs[2]==='مرحلة'?+rs[5]:Math.min(m,rsRank(t,+rs[5],+rs[4]||0));return Math.max(m,m2)};
+function nextEx(st,c){const ts=TR.filter(t=>CC[t]===c),t=ts.find(t=>lastRank(st,t)<CAT[t].length)||ts[ts.length-1],e=CAT[t][lastRank(st,t)];return e?{t,e,trig:IX[c][e[7]]||0}:null}
+function calc(st,r,date){const d=S.day,o={pts:0,pg:0,rp:0,err:[],warn:[],ent:[]},cur={};
+ ['ر','ته','ت','غ'].forEach(c=>cur[c]=pos(st,c,date));
+ if(r.a==='غ')o.pts+=SET.abs;else if(r.a==='ع')o.pts+=SET.exc;
+ r.s.forEach((raw,i)=>{const p=parse(raw,st,i,cur);if(!p)return;if(p.err){o.err.push('خانة '+(i+1)+': '+p.err);return}
+  o.ent[i]=p;if(p.rep)o.rp++;else{o.pg+=p.n;o.pts+=p.n*(i<2?SET.pg:SET.xpg);cur[p.c]=Math.max(cur[p.c],p.q);
+   const nx=nextEx(st,p.c);if(nx&&nx.trig&&p.q>nx.trig)o.warn.push('تجاوز حد الاختبار: '+nx.e[8])}});
+ if(!r.a){if(r.v)o.pts+=SET.rev;if(flag(r,'t',d.taj))o.pts+=SET.taj;if(flag(r,'l',d.lesson))o.pts+=SET.les;o.sb=isSp()?0:streakBonus(st.n,date);o.pts+=o.sb}
+ if(!r.a&&r.xr==='نجح')o.pts+=SET.rvx+(r.v?0:SET.rev);else if(!r.a&&r.xr==='نجح بعد إعادة')o.pts+=SET.rvx;if(r.n==='+')o.pts+=SET.pos;else if(r.n==='++')o.pts+=SET.pos2;else if(r.n==='-')o.pts+=SET.neg;
+ return o}
+/* صف بصيغة أعمدة «السجل» الأصلية (A..Y) */
+function toRow(st,r,date,o){const e=i=>o.ent[i]?[o.ent[i].c,o.ent[i].f,o.ent[i].e]:['','',''],d=S.day,p=!r.a;
+ return[date,st.n,r.a==='غ'?'غائب':r.a==='ع'?'بعذر':'',...e(0),...e(1),...e(2),p&&(r.v||r.xr==='نجح')?'صح':'',p&&r.v?(r.vd||''):'',p&&flag(r,'t',d.taj)?'صح':'',p&&flag(r,'l',d.lesson)?'صح':'',r.a?'':(r.xr||''),r.a?'':(r.xd||''),r.n==='++'?'إيجابية قوية':r.n==='+'?'إيجابية':r.n==='-'?'سلبية':'',r.nt||'',o.pts,o.pg,o.rp,d.lesson,d.taj,o.sb||0].concat(isSp()?['خاصة']:[])}
+function hint(st,date){const cs=lv(st);
+ return cs.map(c=>{const p=pos(st,c,date),nx=nextEx(st,c);return c+' '+(P[c][p]||'—')+(nx&&nx.trig&&p>=nx.trig?' ◂ اختبار: '+nx.e[8]:'')}).join(' · ')||'حدّد نوع التسميع'}
+function totals(){const t={};S.log.forEach(r=>t[r[1]]=(t[r[1]]||0)+(+r[20]||0));S.ex.forEach(x=>{const e=(CAT[x[2]]||[])[x[3]-1];if(x[4]==='نجح'&&e)t[x[1]]=(t[x[1]]||0)+e[5]});return t}
+/* ===== اليوم ===== */
+function card(st){const r=dr(st.n),d=S.day,b=(k,t,on)=>`<button data-t="${k}" class="${on?'on':''}">${t}</button>`;
+ return `<div class="card" data-n="${esc(st.n)}"><div class="top"><b>${esc(st.n)}</b>${st.g?`<span class="badge">${esc(st.g)}</span>`:''}<button class="xi${xd(st.n)?' on':''}" data-xo="${qa(st.n)}">📝</button><span class="pts"></span><div class="nx">${esc(hint(st,d.date))}</div><div class="nx" style="order:6">${esc(lastLine(st.n))}</div></div>
+<div class="seg"${isSp()?' style="display:none"':''}>${[['','حاضر'],['غ','غائب'],['ع','بعذر']].map(([v,t])=>`<button data-a="${v}" class="${r.a===v?'on':''}">${t}</button>`).join('')}</div>
+<div class="ins">${['تسميع','تسميع ٢','إضافي'].map((p,k)=>`<input data-k="${k}" placeholder="${p}" value="${esc(r.s[k])}">`).join('')}</div>
+${qp(st,r)}<div class="tg">${b('v','مراجعة',r.v)}${b('l','درس',flag(r,'l',d.lesson))}${b('t','تجويد',flag(r,'t',d.taj))}${b('+','+ إيجابية',r.n==='+')}${b('++','++ قوية',r.n==='++')}${b('-','− سلبية',r.n==='-')}</div>
+${r.v?`<input data-vd="1" placeholder="تفاصيل المراجعة" value="${esc(r.vd||'')}" style="margin-top:6px">`:''}<input data-nt="1" placeholder="${r.n==='++'?'ملاحظة إيجابية قوية (+2 نقطة)':r.n==='+'?'ملاحظة إيجابية (+نقطة)':r.n==='-'?'ملاحظة سلبية (−نقطة)':'ملاحظة عادية (لا تغيّر النقاط)'}" value="${esc(r.nt)}" style="margin-top:6px">${rv(r,st)}<div class="msg"></div></div>`}
+function upd(c){const st=byName(c.dataset.n),o=calc(st,dr(st.n),S.day.date),ent=o.ent.filter(Boolean);
+ $('.pts',c).textContent=(o.pts>0?'+':'')+o.pts;
+ $('.msg',c).innerHTML=o.err.map(x=>`<div class="err">${esc(x)}</div>`).join('')+o.warn.map(x=>`<div class="wr">⚠ ${esc(x)}</div>`).join('')+(ent.length?`<div>${esc(ent.map(p=>fmt(p.c,p.f,p.e)).join(' · '))}${o.pg?' — '+o.pg+' صفحة':''}</div>`:'')}
+let FOC=null,FQ='',MODE='',TODO=0;
+const qa=s=>esc(s).replace(/'/g,'&#39;');
+const nrm=s=>s.replace(/[\u064B-\u0652]/g,'').replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي');
+const touched=n=>{const r=S.day.r[n];return (late()&&S.log.some(x=>x[0]===S.day.date&&x[1]===n))||S.ex.some(x=>x[1]===n&&x[0]===S.day.date)||!!r&&(!!r.a||r.s.some(Boolean)||!!r.v||!!r.n||!!r.xr||!!r.nt)};
+function qp(st,r){if(r.a)return'';return[T1(st),T2(st)].map((c,i)=>{if(!c)return'';const p=pos(st,c,S.day.date),pg=P[c].slice(p,p+5),cur=ND(r.s[i]||'').replace(/^(ته|[رتغ])\s*/,'');return `<div class='qp'><span>${c}</span>${pg.map(x=>`<button data-q='${i}|${x}' class='${cur==x?'on':''}'>${x}</button>`).join('')}${pg[0]?`<button data-q='${i}|${pg[0]}-' class='${cur===pg[0]+'-'?'on':''}'>إعادة</button>`:''}</div>`}).join('')}
+function inner(d){const L=actD(d.date),q=nrm(FQ.trim()).split(/\s+/).filter(Boolean),M=L.filter(s=>(!S.dtg||s.g===S.dtg)&&q.every(t=>nrm(s.n).includes(t))),f=byName(FOC)||(q.length&&M.length===1?M[0]:null);return(f?`<div>${card(f)}<button class='pri' ${late()?'data-sr=1':'data-done=1'} style='width:100%;margin-bottom:10px;padding:12px'>${late()?'حفظ الصف في السجل':'تم ✓'}</button></div>`:'')+`<div class='grid'>${M.filter(s=>!TODO||!touched(s.n)).map(s=>{const r=S.day.r[s.n]||{};return `<button class='chip ${r.a?'ab':touched(s.n)?'dn':''}' data-s='${qa(s.n)}'>${esc(s.n)}${xd(s.n)?' 📝':''}</button>`}).join('')}</div>`}
+function cardsArea(d){const L=actD(d.date).filter(s=>!S.dtg||s.g===S.dtg);return `<div class='sb'><input id='fq' placeholder='ابحث باسم الطالب…' value='${qa(FQ)}' autocomplete='off'>${allTags().length?`<select id='dtg' style='margin-top:6px'><option value=''>كل المجموعات</option>${allTags().map(g=>`<option${g===S.dtg?' selected':''}>${esc(g)}</option>`).join('')}</select>`:''}<div class='tb'><span class='badge' id='dn'>سُجّل ${L.filter(s=>touched(s.n)).length} / ${L.length}</span><button data-undo='1'>↩ تراجع</button>${isSp()?'':`<button data-m='ab' class='${MODE==='ab'?'on':''}'>تسجيل الغياب</button>`}<button data-m='todo' class='${TODO?'on':''}'>المتبقون فقط</button></div></div>${S.dtg?`<div class='msg'>التصفية بالمجموعة للعرض فقط؛ «اعتماد الحصة» يشمل كل الطلاب.</div>`:''}<div id='ca'>${inner(d)}</div>`}
+function renderArea(){const d=S.day,L=actD(d.date).filter(s=>!S.dtg||s.g===S.dtg);$('#ca').innerHTML=inner(d);$$('#ca .card[data-n]').forEach(upd);$('#dn').textContent='سُجّل '+L.filter(s=>touched(s.n)).length+' / '+L.length}
+function pick(n){if(MODE==='ab'){pushUn(n);const r=dr(n);r.a=r.a==='غ'?'':'غ';save();renderArea();return}if(late()){const i=S.log.findIndex(r=>r[0]===S.day.date&&r[1]===n);if(i>=0)editRow(i)}FOC=n;renderArea();scrollTo({top:0,behavior:'smooth'})}
+function finish(){FOC=null;FQ='';render();scrollTo({top:0})}
+function toggleMode(m){if(m==='ab')MODE=MODE==='ab'?'':'ab';else TODO=TODO?0:1;render()}
+function vToday(){return(S.st.length?extBanner():'<div class="bn">لا يوجد طلاب بعد: افتح ⚙ واستعد ملف النسخة، أو أضف طلاباً من تبويب «الطلاب».</div>')+vToday0()}
+function setSp(on){if(isSp()===!!on)return;const cur=S.day;if(!S.alt)S.alt={date:cur.date,lesson:'',taj:'',r:{},reop:'',sel:[]};S.alt.date=cur.date;S.day=S.alt;S.alt=cur;if(on&&!Array.isArray(S.day.sel))S.day.sel=[];MODE='';FQ='';FOC=null;save();render()}
+function modeBar(){const d=S.day,sp=isSp();let x=`<div class='card'><div class='row'><button data-sp='0' class='${sp?'':'on'}'>حصة عادية</button><button data-sp='1' class='${sp?'on':''}'>حصة خاصة</button></div>`;
+ if(sp){const L=active(d.date),sel=new Set(d.sel),n=S.log.filter(r=>r[0]===d.date&&r[26]==='خاصة').length;x+=`<div class='msg'>وضع الحصة الخاصة: لا يُحتسب فيها حضور ولا غياب، وتُسجَّل بتاريخها في تقرير الطالب. اختر المشاركين:</div><div style='display:flex;flex-wrap:wrap;gap:6px'>${L.map(s=>`<button data-sel='${qa(s.n)}' class='${sel.has(s.n)?'on':''}'>${esc(s.n)}</button>`).join('')}</div><div class='msg'>المختارون: ${sel.size}${n?` · محفوظ لهذا التاريخ: ${n} سجلاً خاصاً`:''}</div>${n&&d.reop!==d.date?`<button id='reopen'>إعادة فتح الحصة الخاصة المرحَّلة لهذا التاريخ</button>`:''}`}
+ return x+'</div>'}
+function vToday0(){return modeBar()+vToday00()}
+function vToday00(){const d=S.day;
+ if(!isSp()&&S.log.some(r=>r[0]===d.date&&r[26]!=='خاصة')&&d.reop!==d.date)return `<div class="bn">حصة ${d.date} مرحَّلة إلى السجل (${S.log.filter(r=>r[0]===d.date).length} سجلاً). يمكنك طباعة تقريرها من «التقرير».</div><button id="reopen">إعادة فتحها للتعديل</button>`;
+ return (d.reop===d.date?'<div class="bn">أنت تعدّل حصة مرحَّلة: يبقى سجلها القديم كما هو حتى تضغط «اعتماد»، فيُستبدل.</div>':'')+`<details class="card"><summary>الدرس والتجويد</summary><div class="row"><div><label>الدرس<input id="ls" list="dl1" value="${esc(d.lesson)}"></label></div><div><label>التجويد<input id="tj" list="dl2" value="${esc(d.taj)}"></label></div></div>${dlist("dl1",23)}${dlist("dl2",24)}</details><div id="bn"></div>`+cardsArea(d)+`<div id="cb"></div><button class="pri" id="commit" style="width:100%;padding:12px">اعتماد الحصة وترحيلها إلى السجل</button>`}
+function commit(){const d=S.day;if(isSp()){Object.values(d.r).forEach(x=>{x.a=''});MODE=''}const errs=[],rows=actD(d.date).map(st=>{const r=dr(st.n),o=calc(st,r,d.date);if(o.err.length)errs.push(st.n+' — '+o.err.join('، '));return toRow(st,r,d.date,o)}),bn=$('#bn');
+ if(errs.length){bn.className='bn';bn.innerHTML='صحّح قبل الترحيل:<br>'+errs.map(esc).join('<br>');scrollTo(0,0);return}
+ const cb=$('#cb'),idle=rows.filter(r=>!r[2]&&!r[3]&&!r[6]&&!r[9]&&r[12]!=='صح').map(r=>r[1]);cb.className='bn';cb.innerHTML=isSp()?'حصة خاصة: '+rows.length+' طالباً (بلا حضور ولا غياب)':'حاضرون '+rows.filter(r=>!r[2]).length+' · غائبون '+rows.filter(r=>r[2]==='غائب').length+' · بعذر '+rows.filter(r=>r[2]==='بعذر').length+(idle.length?'<br>بلا تسميع ولا مراجعة ('+idle.length+'): '+idle.map(esc).join('، '):'');if(isSp()&&!rows.length){cb.className='bn';cb.innerHTML='اختر طالباً واحداً على الأقل للحصة الخاصة';return}if(isSp()&&d.reop!==d.date){const dup=rows.filter(r=>S.log.some(x=>x[0]===d.date&&x[26]==='خاصة'&&x[1]===r[1])).map(r=>r[1]);if(dup.length){cb.className='bn';cb.innerHTML='لهؤلاء سجل خاص مرحَّل في هذا التاريخ: '+dup.map(esc).join('، ')+'. استعمل «إعادة فتح الحصة الخاصة المرحَّلة» لتعديله بدل أن يُستبدل.';return}}const b=$('#commit');if(!b.dataset.ok){b.dataset.ok=1;b.textContent='اضغط مرة أخرى لتأكيد ترحيل '+rows.length+' طالباً';return}
+ snap('قبل ترحيل '+d.date);(S.ct=S.ct||{})[d.date]=Date.now();const sp=isSp(),sS=new Set(rows.map(r=>r[1]));S.log=S.log.filter(r=>sp?!(r[0]===d.date&&r[26]==='خاصة'&&sS.has(r[1])):!(r[0]===d.date&&r[26]!=='خاصة'));S.log.push(...rows);d.reop='';d.r={};d.lesson=d.taj='';if(sp)d.sel=[];save();toast('رُحّلت الحصة إلى السجل');render()}
+function reopen(){snap('قبل إعادة فتح حصة');const d=S.day,sp=isSp(),rows=S.log.filter(r=>r[0]===d.date&&(r[26]==='خاصة')===sp);d.reop=d.date;d.r={};if(sp)d.sel=rows.map(r=>r[1]);
+ rows.forEach(r=>{const o=dr(r[1]);o.a=r[2]==='غائب'?'غ':r[2]==='بعذر'?'ع':'';[3,6,9].forEach((k,i)=>{if(r[k])o.s[i]=r[k]+' '+r[k+1]+'-'+r[k+2]});
+  o.v=r[12]==='صح'?'1':'';o.vd=r[13]||'';o.t=r[14]==='صح'?'1':'0';o.l=r[15]==='صح'?'1':'0';o.n=r[18]==='إيجابية قوية'?'++':r[18]==='إيجابية'?'+':r[18]==='سلبية'?'-':'';o.nt=r[19]||'';o.xr=r[16]||'';o.xd=r[17]||''});
+ if(rows[0]){d.lesson=rows[0][23]||'';d.taj=rows[0][24]||''}save();render()}
+/* ===== الاختبارات ===== */
+function vEx(){return dueHtml()+`<div class="card"><label>الطالب<select id="xs">${active(S.day.date).map(s=>`<option${s.n===S.xs?' selected':''}>${esc(s.n)}</option>`).join('')}</select></label><label>المسار<select id="xt">${TR.map(t=>`<option>${t}</option>`).join('')}</select></label><label>الاختبار<select id="xe"></select></label>
+<div class="row"><div><label>العلامة<input id="xg" inputmode="numeric"></label></div><div><label>النتيجة<select id="xr"><option value="">من العلامة</option>${['نجح','رسب','إعفاء','لم يختبر'].map(x=>`<option>${x}</option>`).join('')}</select></label></div></div>
+<label>ملاحظة<input id="xn"></label><div id="xh" class="msg"></div><button class="pri" id="xsave" style="width:100%;margin-top:8px">حفظ الاختبار بتاريخ الحصة</button></div><div class="row" style="margin:0 0 10px"><div><input id="xq" placeholder="بحث بالاسم" value="${esc(S.xq||'')}"></div><div><select id="xo">${[['d','الأحدث تاريخاً'],['a','الأقدم تاريخاً'],['n','أبجدي (الاسم)'],['e','آخر ما أُدخل'],['r','الراسبون أولاً'],['t','حسب المسار']].map(([v,l])=>`<option value="${v}"${(S.xso||'d')===v?' selected':''}>${l}</option>`).join('')}</select></div></div><div id="xl"></div>`}
+function fillEx(sc){const st=byName($('#xs').value);if(!st)return;if(sc){const nx=nextEx(st,T1(st)||'ر');if(nx)$('#xt').value=nx.t}
+ const t=$('#xt').value,lr=lastRank(st,t),f=S.ex.filter(x=>x[1]===st.n&&x[2]===t&&x[3]===lr+1&&x[4]==='رسب'&&x[0]>rd(st.n,t)).length;
+ $('#xe').innerHTML=CAT[t].map((e,i)=>`<option value="${i+1}"${i===lr?' selected':''}>${e[4]}. ${esc(e[8])}</option>`).join('');
+ $('#xh').innerHTML='المنجز: '+lr+' من '+CAT[t].length+(f?' · رسب '+f+' مرة في القادم'+(f>=3?' <span class="err">⚠ يلزم إعادة الجزء</span>':''):'')}
+function saveEx(){const st=byName($('#xs').value),t=$('#xt').value,rk=+$('#xe').value,e=CAT[t][rk-1],g=$('#xg').value.trim(),th=SET.thr[e[1]];let res=$('#xr').value;
+ if(!res&&g!==''&&th)res=+g>=th?'نجح':'رسب';
+ if(!res){$('#xh').innerHTML='<span class="err">اختر النتيجة أو اكتب علامة'+(th?' (حدّ النجاح '+th+')':'')+'</span>';return}
+ S.xs=st.n;S.ex.push([S.day.date,st.n,t,rk,res,g===''?'':+g,$('#xn').value.trim()]);save();toast('حُفظ الاختبار');render()}
+function listEx(){PV='';$('#xl').innerHTML=S.ex.map((x,i)=>[x,i]).filter(([x])=>!S.xq||nrm(x[1]).includes(nrm(S.xq.trim()))).sort(xsort).map(([x,i])=>{const e=(CAT[x[2]]||[])[x[3]-1],f=S.ex.filter(y=>y[1]===x[1]&&y[2]===x[2]&&y[3]===x[3]&&y[4]==='رسب'&&y[0]>rd(x[1],x[2])).length;
+ return hdr(x[0])+`<div class="card"><div class="top"><button class="lk" data-ed="${i}">${esc(x[1])}</button><span class="badge">${esc(x[4])}${x[5]!==''?' ('+x[5]+')':''}</span><button data-ed="${i}" style="margin-inline-start:auto">تعديل ✎</button><div class="nx">${x[0]} · ${esc(x[2])} · ${esc(e?e[8]:'')}${x[6]?' — '+esc(x[6]):''}</div></div>${f>=3&&x[4]==='رسب'?'<button class="msg err" data-rs="'+i+'">⚠ رسب '+f+' مرات — اضغط لإعادة الجزء</button>':''}</div>`}).join('')}
+/* ===== الطلاب ===== */
+function vSt(){return alertsHtml()+`<input id="sq" placeholder="بحث عن طالب" value="${esc(S.q||'')}" style="margin-bottom:10px"><select id="ss" style="margin-bottom:10px">${[['n','أبجدي'],['p','الأعلى نقاطاً'],['g','الأكثر غياباً']].map(([v,l])=>`<option value="${v}"${(S.ss||'n')===v?' selected':''}>${l}</option>`).join('')}</select><div id="sl"></div>
+${qHtml()}<div class="card"><b>إضافة طالب</b><div class="row"><input id="an" placeholder="الاسم"><select id="al">${Object.keys(LV).map(l=>`<option>${l}</option>`).join('')}</select></div><button id="aadd" style="margin-top:8px">إضافة</button></div>
+`}
+function listSt(){const t=totals(),q=(S.q||'').trim(),d=S.day.date;
+ $('#sl').innerHTML=active(d).filter(s=>!q||nrm(s.n).includes(nrm(q))||(s.g&&nrm(s.g).includes(nrm(q)))).sort((a,b)=>S.ss==='p'?(t[b.n]||0)-(t[a.n]||0):S.ss==='g'?abn(b.n)-abn(a.n):0).map(s=>`<div class="card"><div class="top"><button class="lk" data-c="${qa(s.n)}">${esc(s.n)}</button><span class="badge">${esc(lvName(s)||s.lvl||'—')}</span>${s.g?`<span class="badge">${esc(s.g)}</span>`:''}<span class="pts">${t[s.n]||0} نقطة</span><div class="nx">${esc(hint(s,''))}</div></div><div class="msg">غياب: ${S.log.filter(r=>r[1]===s.n&&r[2]==='غائب').length} · إعادات: ${S.log.reduce((a,r)=>a+(r[1]===s.n?+r[22]||0:0),0)}</div></div>`).join('')}
+/* ===== التقرير ===== */
+function rowsFor(date){const l=S.log.filter(r=>r[0]===date&&r[26]!=='خاصة');if(l.length)return l;if(S.log.some(r=>r[0]===date))return[];const rd=isSp()?S.alt:S.day;if(!rd||rd.date!==date)return[];const t=S.day;S.day=rd;try{return active(date).map(st=>{const r=dr(st.n);return toRow(st,r,date,calc(st,r,date))})}finally{S.day=t}}
+function text(date){const rows=rowsFor(date).concat(S.log.filter(r=>r[0]===date&&r[26]==='خاصة')).filter(r=>inTg(r[1])),wd=new Date(date+'T00:00:00').toLocaleDateString('ar',{weekday:'long'}),L=['بسم الله الرحمن الرحيم',SET.hdr,'سجل المتابعة اليومي — '+wd+' '+date];
+ if(!S.log.some(r=>r[0]===date))L.push('⚠ مسودة غير مرحَّلة: الحضور والنقاط مبدئية، ولا يُعتمد هذا التقرير إلا بعد ترحيل الحصة.');
+ if(rows[0]&&rows[0][23])L.push('الدرس: '+rows[0][23]);if(rows[0]&&rows[0][24])L.push('التجويد: '+rows[0][24]);L.push('');
+ const seenX=new Set();rows.forEach((r,i)=>{const fx=!seenX.has(r[1]);seenX.add(r[1]);const xs=fx?S.ex.filter(x=>x[0]===date&&x[1]===r[1]):[],xp=xs.reduce((s,x)=>{const e=(CAT[x[2]]||[])[x[3]-1];return s+(x[4]==='نجح'&&e?e[5]:0)},0),
+  rec=[fmt(r[3],r[4],r[5]),fmt(r[6],r[7],r[8]),fmt(r[9],r[10],r[11])].filter(Boolean),ch=[r[12]==='صح'?'مراجعة ✓'+(r[13]?' ('+r[13]+')':''):'',r[14]==='صح'?'تجويد ✓':'',r[15]==='صح'?'درس ✓':''].filter(Boolean);
+  L.push((i+1)+'. '+r[1]+' — '+(r[26]==='خاصة'?'حصة خاصة':r[2]==='غائب'?'غائب':r[2]==='بعذر'?'غائب بعذر':'حاضر'));
+  if(rec.length)L.push('   • التسميع: '+rec.join(' | '));if(ch.length)L.push('   • '+ch.join(' · '));
+  xs.forEach(x=>{const e=(CAT[x[2]]||[])[x[3]-1];L.push('   • اختبار: '+x[2]+' — '+(e?e[8]:'')+' ('+x[4]+(x[5]!==''?' · '+x[5]:'')+')'+(x[6]?' — '+x[6]:''))});
+  if(r[16]&&(r[16]!=='لم يختبر'||r[17]))L.push('   • اختبار مراجعة: '+r[16]+(r[17]?' — '+r[17]:''));if((r[18]||r[19])&&r[18]!=='سلبية')L.push('   • ملاحظة'+(r[18]?' '+r[18]:'')+': '+(r[19]||''));adjLines(r[1],date).forEach(s=>L.push('   • '+s));if(0)L.push('   • ملاحظة '+(r[18]||'')+': '+(r[19]||''));L.push('   • النقاط: '+((+r[20]||0)+xp))});
+ return L.join('\n')}
+const dd=s=>new Date(s+'T00:00:00'),addD=(s,n)=>{const d=dd(s);d.setDate(d.getDate()+n);return iso(d)};
+function rng(k,s){const d=dd(s);if(k==='w'){const f=addD(s,-d.getDay());return[f,addD(f,6)]}return[iso(new Date(d.getFullYear(),d.getMonth(),1)),iso(new Date(d.getFullYear(),d.getMonth()+1,0))]}
+function stats(f,t,ns){const R={};ns.forEach(n=>R[n]={n,ses:0,ab:0,ex:0,pg:0,rp:0,pt:0,ok:0,no:0,np:0,nn:0});
+ S.log.forEach(r=>{const o=R[r[1]];if(!o||r[0]<f||r[0]>t)return;if(r[26]==='خاصة')o.sp=(o.sp||0)+1;else o.ses++;if(r[2]==='غائب')o.ab++;if(r[2]==='بعذر')o.ex++;o.pg+=+r[21]||0;o.rp+=+r[22]||0;o.pt+=+r[20]||0;if((r[16]||'').startsWith('نجح'))o.ok++;if(r[16]==='رسب')o.no++;if((r[18]||'').startsWith('إيجابية'))o.np++;if(r[18]==='سلبية')o.nn++});
+ S.ex.forEach(x=>{const o=R[x[1]];if(!o||x[0]<f||x[0]>t)return;if(x[4]==='نجح'){o.ok++;const e=(CAT[x[2]]||[])[x[3]-1];if(e)o.pt+=e[5]}else if(x[4]==='رسب')o.no++});return R}
+const tbl=(h,rows)=>`<div class='card' style='overflow-x:auto'><table><tr>${h.map(x=>`<th>${x}`).join('')}</tr>${rows.map(r=>`<tr>${r.map(x=>`<td>${x}`).join('')}</tr>`).join('')}</table></div>`;
+function pdata(){const k=S.pk||'w',[f,t]=rng(k,S.pd||S.day.date),A=Object.values(stats(f,t,S.st.map(s=>s.n))).filter(o=>(o.ses>0||o.sp>0)&&(!S.ftg||(byName(o.n)||{}).g===S.ftg)).sort((a,b)=>b.pt-a.pt||b.pg-a.pg);A.forEach(o=>o.rk=1+A.filter(p=>p.pt>o.pt).length);return{k,f,t,A,days:new Set(S.log.filter(r=>r[0]>=f&&r[0]<=t&&r[26]!=='خاصة').map(r=>r[0])).size}}
+function ptext(){const{k,f,t,A,days}=pdata(),L=[SET.hdr,(k==='w'?'الإحصائية الأسبوعية':'الإحصائية الشهرية')+' — من '+f+' إلى '+t+' ('+days+' حصص)',''];A.forEach(o=>L.push(o.rk+'. '+o.n+' — '+o.pt+' نقطة · '+o.pg+' صفحة · إعادات '+o.rp+' · حضر '+(o.ses-o.ab-o.ex)+' من '+o.ses+' · غياب '+o.ab+' · بعذر '+o.ex+' · اختبارات: نجح '+o.ok+' رسب '+o.no+' · ملاحظات إيجابية '+o.np+(S.pneg?' · سلبية '+o.nn:'')));return L.join('\n')}
+function copyStr(s){const a=document.createElement('textarea');a.value=s;a.style.cssText='position:fixed;opacity:0';document.body.appendChild(a);a.select();let ok=0;try{ok=document.execCommand('copy')}catch(e){}a.remove();if(!ok&&navigator.clipboard)navigator.clipboard.writeText(s).catch(()=>0);toast('تم النسخ')}
+function vSta(){const{k,f,t,A,days}=pdata();return `<div class='card'><div class='seg'><button data-pk='w' class='${k==='w'?'on':''}'>أسبوعي</button><button data-pk='m' class='${k==='m'?'on':''}'>شهري</button></div><label>أي تاريخ داخل الفترة<input type='date' id='pd' value='${S.pd||S.day.date}'></label><div class='msg'>من ${f} إلى ${t} · أيام الحصص: ${days}</div></div>`+tbl(['#','الطالب','نقاط','صفحات','إعادات','حضر','غاب','بعذر','✓','✗','+','−'],A.map(o=>[o.rk,`<button class='lk' data-c='${qa(o.n)}'>${esc(o.n)}</button>`,`<b>${o.pt}</b>`,o.pg,o.rp,o.ses-o.ab-o.ex,o.ab,o.ex,o.ok,o.no,o.np,o.nn]))+`${allTags().length?`<label>المجموعة (الوسم)<select id='ftg'><option value=''>الكل</option>${allTags().map(g=>`<option${g===S.ftg?' selected':''}>${esc(g)}</option>`).join('')}</select></label>`:''}<label style='display:flex;gap:8px;align-items:center'><input type='checkbox' id='pneg' ${S.pneg?'checked':''} style='width:auto'>إظهار الملاحظات السلبية في النص المنسوخ</label><button class='pri' id='pcp' style='width:100%'>نسخ الترتيب للواتساب</button>`}
+function vCard(){const all=[...S.st].sort((a,b)=>a.n.localeCompare(b.n,'ar')),n=S.cs&&byName(S.cs)?S.cs:all[0].n,st=byName(n),mk=S.cm||S.day.date.slice(0,7),[f,t]=rng('m',mk+'-01'),R=stats(f,t,[n])[n],att=R.ses-R.ab-R.ex;
+ const tr=['ر','ته','ت','غ'].map(c=>{const p=pos(st,c),es=S.log.filter(r=>r[1]===n&&[3,6,9].some(k=>r[k]===c&&r[k+1]!=='')),ld=es.reduce((m,r)=>r[0]>m?r[0]:m,'');return[c,P[c][p-1]||'—',ld||'—',es.length,P[c][p]||'—']});
+ let dn=0,tot=0;const ex=TR.map(x=>{const l=lastRank(st,x),T=CAT[x].length,e=CAT[x][l-1],nx=CAT[x][l],pd=S.ex.filter(y=>y[1]===n&&y[2]===x&&y[4]==='نجح').reduce((m,y)=>y[0]>m?y[0]:m,''),b=Math.round(l/T*12);dn+=l;tot+=T;return[x,l>=T?'منتهٍ':l?'جارٍ':'—','█'.repeat(b)+'░'.repeat(12-b),l+' / '+T,e?esc(e[8]):'—',pd||'—',nx?esc(nx[8]):'—']});
+ const mr=[...new Set(S.log.map(r=>r[0].slice(0,7)).concat(mk))].sort().map(m=>{const[a,b]=rng('m',m+'-01'),o=stats(a,b,[n])[n];return[m,o.ses,o.ses-o.ab-o.ex,o.ab,o.ex,o.pt,o.pg,o.ok]});
+ return `<div class='card'><button data-back='1'>→ رجوع</button><label>الطالب<select id='cs'>${all.map(s=>`<option${s.n===n?' selected':''}>${esc(s.n)}</option>`).join('')}</select></label><label>الشهر<input type='month' id='cm' value='${mk}'></label><div class='msg'>${esc(lvName(st)||st.lvl||'')}</div></div><div class='card cl'><b>بيانات الطالب</b><label>تاريخ الانضمام (فارغ = من بداية الحلقة)<input type='date' id='jd' value='${st.j||''}'></label><label>تاريخ الانقطاع (فارغ = مستمر)<input type='date' id='qd' value='${st.q||''}'></label><div class='row'><button data-cj='1'>الانضمام: من البداية</button><button data-cq='1'>إعادته للحلقة</button></div><label>الاسم (لإعادة التسمية)<input id='rn' dir='rtl' value='${qa(st.n)}'></label><label>دمج هذا الطالب في طالب آخر (للمكرّر)<select id='mg'><option value=''>— اختر —</option>${all.filter(s=>s.n!==n).map(s=>`<option>${esc(s.n)}</option>`).join('')}</select></label><button data-mg='1'>دمج</button></div><div class='card'><button data-gr='1' style='width:100%'>تقرير هذا الطالب وإرساله لولي الأمر ←</button></div><div class='card cl'><b>المسارات النشطة (أزرار الصفحات السريعة)</b><div class='msg'>الحالي: ${esc(lvName(st)||'—')}</div><div class='row'>${[['ر','الرشيدي'],['ته','تهذيب اللسان'],['ت','التلاوة'],['غ','الحفظ']].map(([c,l])=>`<label><input type='checkbox' data-mt='${c}'${st.tr&&st.tr.includes(c)?' checked':''}> ${l}</label>`).join('')}</div><div class='msg'>اختر مسارين على الأكثر. بلا اختيار = تلقائي بحسب الاختبارات.</div><button data-mta='1'>العودة إلى التلقائي</button></div><div class='card cl'><b>نقطة البداية (بلا تاريخ)</b><div class='msg'>أين بدأ الطالب في كل مسار، أو تقدير لوضعه الحالي. لا تُحسب نشاطاً في يوم.</div><div class='row'>${['ر','ته','ت','غ'].map(c=>`<div><label>${CN[c]}: آخر صفحة<input data-b='${c}' inputmode='numeric' value='${st.b&&st.b[c]||''}'></label></div>`).join('')}</div>${TR.map(x=>`<label>${x}: آخر اختبار منجز<select data-r='${x}'><option value='0'>لا شيء</option>${CAT[x].map((e,i)=>`<option value='${i+1}'${(st.r&&st.r[x]||0)===i+1?' selected':''}>${i+1}. ${esc(e[8])}</option>`).join('')}</select></label>`).join('')}</div>`+`<div class='card'><div class='gr'>${[['الحصص',R.ses],['حضر',att],['غاب',R.ab],['بعذر',R.ex],['نسبة الحضور',R.ses?Math.round(att/R.ses*100)+'%':'—'],['النقاط',R.pt],['الصفحات',R.pg],['الإعادات',R.rp],['اختبار ✓',R.ok],['اختبار ✗',R.no],['ملاحظات +',R.np],['ملاحظات −',R.nn]].map(([a,b])=>`<div><b>${b}</b><small>${a}</small></div>`).join('')}</div></div>`+tbl(['المسار','آخر صفحة','تاريخها','حصص','القادمة'],tr)+tbl(['المسار','الحالة','التقدم','منجز','آخر منجز','آخر نجاح','القادم'],ex)+`<div class='msg'>إجمالي الاختبارات المنجزة: ${dn} / ${tot}</div>`+tbl(['الشهر','حصص','حضر','غاب','بعذر','نقاط','صفحات','اختبار ✓'],mr)+'<details><summary class="msg">تصحيحات متقدمة: إعادة جزء، تصحيح موضع، مرحلة اختبارات</summary>'+adjUI(n)+'</details>'+delCard(n)}
+const rv=(r,st)=>r.a?'':(lv(st).includes('غ')||r.xr||r.xo)?rv0(r):`<div class='ins'><button data-xo2='1' style='width:100%'>+ اختبار مراجعة</button></div>`;
+const rv0=r=>r.a?'':`<div class='ins'><select data-xr style='width:100%'><option value=''>اختبار مراجعة: —</option>${[['نجح','نجح من أول مرة (4)'],['نجح بعد إعادة','نجح بعد إعادة (3)'],['رسب','رسب']].map(([v,l])=>`<option value="${v}"${r.xr===v?' selected':''}>${l}</option>`).join('')}</select></div>${r.xr?`<div class='ins'><input data-xd dir='rtl' placeholder='تفاصيل اختبار المراجعة' value='${qa(r.xd||'')}' style='width:100%'></div>`:''}`;
+const adjUI=n=>`<div class='card cl'><b>تعديل يدوي</b><div class='row'><select id='ai'><option>تسميع</option><option>إعادة جزء</option><option value='مرحلة'>بداية الاختبارات (يتخطى ما قبلها)</option></select><select id='at'>${TR.map(x=>`<option>${x}</option>`).join('')}</select></div><div class='row'><input id='ap' inputmode='numeric' placeholder='رقم الصفحة، أو رقم الجزء'><select id='aq' style='display:none'></select><input id='an2' placeholder='ملاحظة'></div><button class='pri' id='asave' style='width:100%;margin-top:8px'>حفظ التعديل بتاريخ الحصة</button><div class='msg' id='ah'>تسميع: يضبط آخر صفحة وصل إليها. إعادة جزء: للتلاوة والحفظ، فيعود المؤشر لأول الجزء وتسقط نتائج أنصافه.</div>${S.adj.map((a,i)=>[a,i]).filter(([a])=>a[1]===n).map(([a,i])=>`<div class='msg'>${a[0]&&a[0]>=T0?a[0]:'تقديري'} · ${esc(a[2])} · ${esc(a[3])} · ${a[2]==='تسميع'?'صفحة '+esc(a[4]):a[2]==='مرحلة'?'من: '+esc(((CAT[a[3]]||[])[a[5]]||[])[8]||'منتهٍ'):a[2]==='مسامحة'?'':'جزء '+esc(a[5])+(a[4]?' (النصف '+(a[4]==1?'الأول':'الثاني')+')':'')} <button data-ad='${i}'>✕</button></div>`).join('')}</div>`;
+function saveAdj(){const n=$('#cs').value,i=$('#ai').value,t=$('#at').value,v=+ND($('#ap').value.trim()),c=CC[t],h=$('#ah'),bad=m=>{h.innerHTML=`<span class='err'>${m}</span>`};
+ if(i==='مرحلة'){S.adj.push([S.day.date,n,i,t,'',+$('#aq').value-1,'',$('#an2').value.trim()]);save();toast('حُفظ التعديل');render();return}if(!v)return bad('اكتب رقماً');
+ if(i==='تسميع'&&!IX[c][v])return bad('الصفحة '+v+' خارج هذا المسار');
+ if(i==='إعادة جزء'&&!((t==='تلاوة'||t==='حفظ')&&v>=1&&v<=30))return bad('إعادة الجزء للتلاوة والحفظ فقط (1–30)');
+ S.adj.push([S.day.date,n,i,t,i==='تسميع'?v:'',i==='إعادة جزء'?v:'','',$('#an2').value.trim()]);save();toast('حُفظ التعديل');render()}
+function resetPart(i){return rsDlg(i)}
+function resetPartOld(i){const x=S.ex[i],e=(CAT[x[2]]||[])[x[3]-1];if(!e||!(x[2]==='تلاوة'||x[2]==='حفظ')||!(e[1]==='حزب'||e[1]==='جزء')){toast('حدّد الجزء يدوياً من بطاقة الطالب');return}S.adj.push([S.day.date,x[1],'إعادة جزء',x[2],'',e[2],'','رسب ثلاث مرات']);save();toast('أُعيد الجزء '+e[2]);render()}
+function act(st){const g=t=>lastRank(st,t),R=g('رشيدي'),A=g('تهذيب اللسان 1'),B=g('تهذيب اللسان 2'),T=g('تلاوة'),G=g('حفظ');return[[R<7,'رشيدي','ر'],[R>=7&&A<7,'تهذيب١','ته'],[R>=7&&T<3,'عمّ','ت'],[A>=7&&T>=3&&B<7,'تهذيب٢','ته'],[A>=7&&T>=3&&T<6,'تبارك','ت'],[T>=6&&B>=7&&T<99,'تلاوة','ت'],[T>=99&&G<99,'غيب','غ']].filter(x=>x[0])}
+const lv=st=>{if(st.tr&&st.tr.length)return['ر','ته','ت','غ'].filter(c=>st.tr.includes(c)).slice(0,2);const o=act(st).map(x=>x[2]);if(st.lvl==='غيب'&&!o.includes('غ'))return['غ'];return['ر','ته','ت','غ'].filter(c=>o.includes(c))},T1=st=>lv(st)[0]||'',T2=st=>lv(st)[1]||'',lvName=st=>(st.tr&&st.tr.length)?lv(st).map(c=>({'ر':'رشيدي','ته':'تهذيب اللسان','ت':'تلاوة','غ':'حفظ'})[c]).join(' + ')+' (يدوي)':st.lvl==='غيب'&&!act(st).some(x=>x[2]==='غ')?'غيب':act(st).map(x=>x[1]).join(' + ');
+function fillAq(){const i=$('#ai'),q=$('#aq');if(!i||!q)return;const m=i.value==='مرحلة',t=$('#at').value;q.style.display=m?'':'none';$('#ap').style.display=m?'none':'';if(m)q.innerHTML=CAT[t].map(e=>`<option value='${e[4]}'>${e[4]}. ${esc(e[8])}</option>`).join('')+`<option value='${CAT[t].length+1}'>✔ أنهى كل اختبارات هذا المسار</option>`}
+function alerts(){const A=[];active(S.day.date).forEach(st=>{lv(st).forEach(c=>{const p=pos(st,c),nx=nextEx(st,c);if(nx&&nx.trig&&p>=nx.trig)A.push([st.n,(p>nx.trig?'تجاوز حدّ ':'مستحق: ')+nx.e[8]])});TR.forEach(t=>{const nx=CAT[t][lastRank(st,t)];if(nx&&S.ex.filter(x=>x[1]===st.n&&x[2]===t&&x[3]===nx[4]&&x[4]==='رسب'&&x[0]>rd(st.n,t)).length>=3)A.push([st.n,'رسب 3 مرات: '+nx[8]])});const L=S.log.filter(r=>r[1]===st.n&&r[26]!=='خاصة').sort((a,b)=>a[0]<b[0]?1:-1).slice(0,+SET.abN||3);if(L.length===(+SET.abN||3)&&L.every(r=>r[2]==='غائب'))A.push([st.n,'غاب '+(+SET.abN||3)+' حصص متتالية',1])});return A}
+const alertsHtmlOld=()=>{const a=alerts();return a.length?`<div class='card'><b>تنبيهات (${a.length})</b>${a.map(([n,m,z])=>`<div class='msg'><button class='lk' data-c='${qa(n)}'>${esc(n)}</button> — ${esc(m)}${/^(مستحق|تجاوز)/.test(m)?` <button data-xo='${qa(n)}'>سجّل</button>`:''}${z?` <button data-qs='${qa(n)}'>إيقاف</button>`:''}</div>`).join('')}</div>`:''};
+const xd=n=>S.ex.some(x=>x[1]===n&&x[0]===S.day.date)||!!(S.day.r[n]&&S.day.r[n].xr);
+function openEx(i){const x=S.ex[i];if(!x)return;const e=(CAT[x[2]]||[])[x[3]-1],d=document.createElement('div');d.className='md';
+ d.innerHTML=`<div class='card'><b>${esc(x[1])}</b><div class='msg'>${esc(x[2])} · ${esc(e?e[8]:'')}</div><label>التاريخ<input type='date' id='ed' value='${x[0]}'></label><label>النتيجة<select id='er'>${['نجح','رسب','إعفاء','لم يختبر'].map(r=>`<option${r===x[4]?' selected':''}>${r}</option>`).join('')}</select></label><label>العلامة<input id='eg' inputmode='numeric' value='${qa(x[5])}'></label><label>الملاحظة<input id='en' dir='rtl' value='${qa(x[6]||'')}'></label><div class='row'><button class='pri' id='esv'>حفظ</button><button id='edl'>حذف</button><button id='ecl'>إغلاق</button></div></div>`;
+ document.body.appendChild(d);
+ d.onclick=ev=>{const b=ev.target.closest('button');if(ev.target===d||(b&&b.id==='ecl')){d.remove();return}if(!b)return;
+  if(b.id==='esv'){snap('قبل تعديل اختبار');x[0]=$('#ed').value||x[0];x[4]=$('#er').value;const g=$('#eg').value.trim();x[5]=g===''?'':+g;x[6]=$('#en').value.trim();save();d.remove();toast('حُفظ التعديل');render()}
+  else if(b.id==='edl'){if(!b.dataset.ok){b.dataset.ok=1;b.textContent='اضغط للتأكيد (يذهب لسلة المحذوفات)';return}snap('قبل حذف اختبار');S.trash.push({k:'اختبار',d:x,t:Date.now()});S.ex.splice(i,1);save();d.remove();toast('نُقل إلى سلة المحذوفات');render()}}}
+function vSv(){const a=snaps().map((s,i)=>[s,i]).reverse(),T=S.trash||[];
+ return `<div class='card'><button data-back='1'>→ رجوع</button><b style='margin-inline-start:10px'>نقاط الحفظ</b><div class='msg'>يصنعها التطبيق تلقائياً قبل الترحيل وإعادة الفتح والاستعادة والحذف، ويحتفظ بآخر 6.</div>${a.map(([s,i])=>`<div class='msg'>${esc(new Date(s.t).toLocaleString('ar'))} · ${esc(s.why)} · ${s.d.st.length} طالباً · ${s.d.log.length} سجلاً · ${s.d.ex.length} اختباراً <button data-sn='${i}'>استرجاع</button></div>`).join('')||`<div class='msg'>لا توجد بعد.</div>`}</div><div class='card'><b>سلة المحذوفات (${T.length})</b>${T.map((t,i)=>[t,i]).reverse().map(([t,i])=>`<div class='msg'>${esc(t.k)} · ${t.k==='طالب'?esc(t.d.st.n)+' · '+t.d.log.length+' سجل':esc(t.d[0])+' · '+esc(t.d[1])} <button data-tr='${i}'>استرجاع</button></div>`).join('')}</div>`}
+let PV='';
+const T0=D.log.map(r=>r[0]).sort()[0]||'';
+const abn=n=>S.log.filter(r=>r[1]===n&&r[2]==='غائب').length;
+const hdr=d=>{const m=S.xso||'d';if((m==='d'||m==='a')&&d!==PV){PV=d;return`<div class='msg' style='margin:10px 2px 4px;font-weight:700'>${d}</div>`}return''};
+const xsort=(A,B)=>{const[x,i]=A,[y,j]=B,m=S.xso||'d',c=(a,b)=>a<b?-1:a>b?1:0,L=c(y[0],x[0])||j-i;return m==='a'?c(x[0],y[0])||i-j:m==='n'?x[1].localeCompare(y[1],'ar')||L:m==='e'?j-i:m==='r'?((y[4]==='رسب')-(x[4]==='رسب'))||L:m==='t'?TR.indexOf(x[2])-TR.indexOf(y[2])||L:L};
+function rsPosH(t,v,h){const e=(CAT[t]||[]).find(e=>e[1]==='حزب'&&e[2]==v&&e[3]==h),c=CC[t];return e?(IX[c][e[6]]||1)-1:rsPos(c,v)}
+function pos2(st,c,upto){const E=[];
+ S.log.forEach(r=>{if(r[1]!==st.n||(upto&&r[0]>=upto))return;[3,6,9].forEach(k=>{if(r[k]===c&&typeof r[k+2]==='number'){const q=IX[c][r[k+2]]||0;E.push([r[0]+'1',q,q])}})});
+ S.adj.forEach((a,i)=>{if(a[1]!==st.n||CC[a[3]]!==c||(upto&&a[0]>upto))return;const v=a[2]==='تسميع'?IX[c][a[4]]:a[2]==='إعادة جزء'?(a[4]?rsPosH(a[3],+a[5],+a[4]):rsPos(c,+a[5])):null;if(v==null)return;E.push([a[0]+((a[8]&&S.ct&&S.ct[a[0]]&&a[8]>S.ct[a[0]])?'2':'0'),v,i])});
+ if(!E.length)return IX[c][st.b[c]]||0;E.sort((x,y)=>x[0]<y[0]?-1:x[0]>y[0]?1:x[2]-y[2]);return E[E.length-1][1]}
+function rsDlg(i){const x=S.ex[i];if(!x)return;const e=(CAT[x[2]]||[])[x[3]-1];if(!e)return;const t=x[2],jz=(t==='تلاوة'||t==='حفظ'),hz=jz&&e[1]==='حزب',jj=jz&&e[1]==='جزء',B=[];
+ if(hz)B.push(['إعادة هذا النصف (النصف '+(e[3]==1?'الأول':'الثاني')+' من الجزء '+e[2]+')',e[2],e[3]]);
+ if(jj)B.push(['إعادة النصف الأول من الجزء '+e[2],e[2],1],['إعادة النصف الثاني من الجزء '+e[2],e[2],2],['إعادة الجزء '+e[2]+' كاملاً',e[2],0]);
+ const d=document.createElement('div');d.className='md';
+ d.innerHTML=`<div class='card'><b>${esc(x[1])}</b><div class='msg'>رسب 3 مرات: ${esc(e[8])}. ماذا تريد؟</div>${B.map((b,k)=>`<button data-k='${k}' style='width:100%;margin-top:8px'>${esc(b[0])}</button>`).join('')}<button data-k='f' style='width:100%;margin-top:8px'>مسامحة (بدون إعادة)</button><button data-k='x' style='width:100%;margin-top:8px'>إلغاء</button></div>`;
+ document.body.appendChild(d);
+ d.onclick=ev=>{const b=ev.target.closest('button');if(ev.target===d||(b&&b.dataset.k==='x')){d.remove();return}if(!b)return;snap('قبل إعادة أو مسامحة');
+  if(b.dataset.k==='f')S.adj.push([S.day.date,x[1],'مسامحة',t,'',e[4],'','رسب 3 مرات']);
+  else{const q=B[+b.dataset.k];S.adj.push([S.day.date,x[1],'إعادة جزء',t,q[2]||'',q[1],'','رسب 3 مرات'])}
+  save();d.remove();toast('تم تنفيذ اختيارك');render()}}
+if(!S.sn2){snap('قبل تحديث الدفعة الثانية');S.sn2=1;save()}
+const adjLines=(n,d)=>S.adj.filter(a=>a[1]===n&&a[0]===d&&(a[2]==='إعادة جزء'||a[2]==='مسامحة')).map(a=>a[2]==='مسامحة'?'مسامحة في '+(((CAT[a[3]]||[])[a[5]-1]||[])[8]||'الاختبار')+(a[7]?' ('+a[7]+')':''):'إعادة '+(a[4]?'النصف '+(a[4]==1?'الأول':'الثاني')+' من ':'')+'الجزء '+a[5]+(a[7]?' ('+a[7]+')':''));
+const qHtml=()=>{const L=S.st.filter(s=>s.q&&s.q<S.day.date);return L.length?`<div class='card'><b>المنقطعون (${L.length})</b>${L.map(s=>`<div class='msg'><button class='lk' data-c='${qa(s.n)}'>${esc(s.n)}</button> — منذ ${s.q} <button data-qb='${qa(s.n)}'>إعادة</button></div>`).join('')}</div>`:''};
+const late=()=>false;
+const lateInit=d=>{const rr=S.log.find(r=>r[0]===d.date);if(rr&&!d.lesson&&!d.taj){d.lesson=rr[23]||'';d.taj=rr[24]||''}};
+function editRow(i){const r=S.log[i];if(!r)return;const o=dr(r[1]);o.a=r[2]==='غائب'?'غ':r[2]==='بعذر'?'ع':'';o.s=['','',''];[3,6,9].forEach((k,j)=>{if(r[k])o.s[j]=r[k]+' '+r[k+1]+'-'+r[k+2]});o.v=r[12]==='صح'?'1':'';o.vd=r[13]||'';o.t=r[14]==='صح'?'1':'0';o.l=r[15]==='صح'?'1':'0';o.xr=r[16]||'';o.xd=r[17]||'';o.n=r[18]==='إيجابية قوية'?'++':r[18]==='إيجابية'?'+':r[18]==='سلبية'?'-':'';o.nt=r[19]||''}
+function saveRow(n){const st=byName(n);if(!st)return;const d=S.day,r=dr(n),o=calc(st,r,d.date);if(o.err.length){toast(o.err[0]);return}snap('قبل حفظ صف متأخر');const row=toRow(st,r,d.date,o);S.log=S.log.filter(x=>!(x[0]===d.date&&x[1]===n));S.log.push(row);delete d.r[n];FOC=null;save();toast('حُفظ صف '+n);render()}
+if(!S.sn3){snap('قبل تحديث الدفعة الثالثة');S.sn3=1;save()}
+const rpRange=()=>[S.rf||S.day.date,S.rt2||S.day.date];
+function fillRpOld(){const a=$('#rtx');if(!a)return;const[f,t]=rpRange();a.value=stext($('#cs').value,f,t,S.rneg!==0)}
+function setRp(k){const d=S.day.date;if(k==='t'){S.rf=S.rt2=d}else if(k==='w'){[S.rf,S.rt2]=rng('w',d)}else if(k==='m'){[S.rf,S.rt2]=rng('m',d)}else{const x=dd(d);[S.rf,S.rt2]=rng('m',iso(new Date(x.getFullYear(),x.getMonth()-1,1)))}save();render()}
+function sendRp(){const st=byName(S.rs)||{},t=$('#rt').value,u='https://wa.me/'+(st.ph||'').replace(/\D/g,'')+'?text='+encodeURIComponent(t);try{if(!window.open(u,'_blank'))throw 0}catch(e){copyStr(t);toast('تعذّر فتح واتساب، نُسخت الرسالة')}}
+const CN={'ر':'الرشيدي','ته':'تهذيب اللسان','ت':'التلاوة','غ':'الحفظ'};
+const jzOf=p=>p>=582?30:p>=562?29:p<=21?1:Math.floor((p-2)/20)+1;
+const jzN=j=>'الجزء '+j+(j===29?' (تبارك)':j===30?' (عمّ)':'');
+function segTxt(c,s){const a=+s.a,b=+s.b;if(c!=='ت'&&c!=='غ')return a===b?'ص'+a:'من ص'+a+' إلى ص'+b;const ja=jzOf(a),jb=jzOf(b),r=a===b?'ص'+a:'ص'+a+'–'+b;return ja===jb?jzN(ja)+': '+r:'من '+jzN(ja)+' ص'+a+' إلى '+jzN(jb)+' ص'+b}
+function stext(n,f,t,neg){const R=stats(f,t,[n])[n],cp=(a,b)=>a[0]<b[0]?-1:a[0]>b[0]?1:0,rows=S.log.filter(r=>r[1]===n&&r[0]>=f&&r[0]<=t).sort(cp),L=[SET.hdr,'تقرير الطالب: '+n,'الفترة: من '+f+' إلى '+t,'','الحضور: '+(R.ses-R.ab-R.ex)+' من '+R.ses+' حصة (غياب '+R.ab+' · بعذر '+R.ex+')','النقاط: '+R.pt+' · الصفحات: '+R.pg+' · الإعادات: '+R.rp,'الاختبارات: نجح '+R.ok+' · رسب '+R.no],pr={};
+ const sg={};rows.forEach(r=>[3,6,9].forEach(k=>{const c=r[k];if(!c||r[k+2]===''||!IX[c])return;const f=IX[c][r[k+1]],q=IX[c][r[k+2]];if(!f||!q)return;const a=sg[c]||(sg[c]=[]),l=a[a.length-1];if(l&&f>=l.f&&f<=l.q+1){if(q>l.q){l.q=q;l.b=r[k+2]}}else a.push({f,q,a:r[k+1],b:r[k+2]})}));
+ Object.keys(sg).forEach(c=>L.push('التقدم في '+CN[c]+': '+sg[c].map(s=>segTxt(c,s)).join('، ثم ')));const bd=bdText(rows,S.ex.filter(x=>x[1]===n&&x[0]>=f&&x[0]<=t),neg,R);if(bd)L.push(bd);
+ const xs=S.ex.filter(x=>x[1]===n&&x[0]>=f&&x[0]<=t).sort(cp);
+ if(xs.length){L.push('','الاختبارات:');xs.forEach(x=>{const e=(CAT[x[2]]||[])[x[3]-1];L.push('• '+x[0]+' — '+x[2]+': '+(e?e[8]:'')+' ('+x[4]+(x[5]!==''?' · '+x[5]:'')+')'+(x[6]?' — '+x[6]:''))})}
+ L.push('','سجل الأيام:');
+ rows.forEach(r=>{const p=[r[26]==='خاصة'?'حصة خاصة':r[2]==='غائب'?'غائب':r[2]==='بعذر'?'غائب بعذر':'حاضر'],rec=[fmt(r[3],r[4],r[5]),fmt(r[6],r[7],r[8]),fmt(r[9],r[10],r[11])].filter(Boolean);
+  if(rec.length)p.push('التسميع: '+rec.join(' | '));if(r[12]==='صح')p.push('مراجعة ✓'+(r[13]?' ('+r[13]+')':''));if(r[14]==='صح')p.push('تجويد ✓');if(r[15]==='صح')p.push('درس ✓');
+  if(r[16]&&(r[16]!=='لم يختبر'||r[17]))p.push('اختبار مراجعة: '+r[16]+(r[17]?' — '+r[17]:''));
+  if((r[18]||r[19])&&(neg||r[18]!=='سلبية'))p.push('ملاحظة'+(r[18]?' '+r[18]:'')+': '+(r[19]||''));
+  if(+r[25])p.push('مكافأة انتظام +'+r[25]);adjLines(n,r[0]).forEach(s=>p.push(s));L.push(r[0]+' — '+p.join(' · ')+' · النقاط '+(r[20]||0))});
+ return L.join('\n')}
+function audit(){const out=[];
+ S.st.forEach(st=>{const n=st.n,rows=S.log.filter(r=>r[1]===n).sort((a,b)=>a[0]<b[0]?-1:a[0]>b[0]?1:0),ptr={},pg=[];
+  ['ر','ته','ت','غ'].forEach(c=>ptr[c]=IX[c][st.b[c]]||0);
+  rows.forEach(r=>[3,6,9].forEach(k=>{const c=r[k];if(c&&IX[c]&&r[k+2]!==''){const f=IX[c][r[k+1]],q=IX[c][r[k+2]];if(f&&q&&q>=f)pg.push(q-f+1)}}));
+  pg.sort((a,b)=>a-b);const md=pg.length?pg[pg.length>>1]:1;
+  rows.forEach(r=>[3,6,9].forEach(k=>{const c=r[k];if(!c||!IX[c]||r[k+2]==='')return;const f=IX[c][r[k+1]],q=IX[c][r[k+2]];if(!f||!q)return;
+   if(ptr[c]>0&&f>ptr[c]+1)out.push([n,r[0],'قفزة في الصفحات',c+': بعد صفحة '+P[c][ptr[c]-1]+' بدأ من '+r[k+1]+' (تخطّى '+(f-ptr[c]-1)+' صفحة)']);
+   else if(q<ptr[c])out.push([n,r[0],'رجوع للخلف',c+': كان وصل إلى '+P[c][ptr[c]-1]+' ثم سمّع '+r[k+1]+'–'+r[k+2]]);
+   ptr[c]=q}));
+  TR.forEach(t=>{let lr=(st.r||{})[t]||0;S.ex.map((x,i)=>[x,i]).filter(([x])=>x[1]===n&&x[2]===t).sort((a,b)=>a[0][0]<b[0][0]?-1:a[0][0]>b[0][0]?1:a[1]-b[1]).forEach(([x])=>{const e=(CAT[t]||[])[x[3]-1];
+   if(x[4]==='نجح'||x[4]==='إعفاء'){if(x[4]==='نجح'&&x[3]>lr+1)out.push([n,x[0],'قفز في تسلسل الاختبارات',t+': نجح في «'+(e?e[8]:'')+'» وآخر منجز لديه رتبة '+lr+' (تخطّى '+(x[3]-lr-1)+')']);else if(x[3]<=lr)out.push([n,x[0],'اختبار مكرّر',t+': «'+(e?e[8]:'')+'» سبق اجتيازه']);lr=Math.max(lr,x[3])}
+   if(e&&x[4]==='نجح'){const c=CC[t],p=pos(st,c,addD(x[0],1)),lim=IX[c][e[7]];if(lim&&p<lim)out.push([n,x[0],'اختبار قبل الوصول لحدّه',t+': «'+e[8]+'» وصل في التسميع إلى '+(P[c][p-1]||'—')+' وحدّه '+e[7]])}})});
+  rows.forEach((r,ri)=>{if(r[2]||r[3]||r[6]||r[9]||r[12]==='صح'||(r[16]&&r[16]!=='لم يختبر')||S.ex.some(x=>x[1]===n&&x[0]===r[0]))return;
+   const lt=rows.slice(ri+1).find(q=>q[3]||q[6]||q[9]);let v;
+   if(!lt)v='لا يوجد تسميع بعده، فلا يمكن الحكم';
+   else{const k=[3,6,9].find(k=>lt[k]&&lt[k+2]!==''),c=k?lt[k]:'',f=c&&IX[c][lt[k+1]],q=c&&IX[c][lt[k+2]],g=f&&q?q-f+1:0;
+    v=g>Math.max(2*md,md+2)?'تحقق: أول تسميع بعده ('+lt[0]+') شمل '+g+' صفحة (المعتاد '+md+') فقد تكون صفحات هذا اليوم دخلت فيه':'سليم: لا قفزة، وأول تسميع بعده ('+lt[0]+') '+g+' صفحة (المعتاد '+md+') ← غالباً لم يسمّع فعلاً'}
+   out.push([n,r[0],'يوم بلا نشاط',v])})});
+ return out.sort((a,b)=>a[0].localeCompare(b[0],'ar')||(a[1]<b[1]?-1:a[1]>b[1]?1:0))}
+function vAu(){const A=audit();return `<div class='card'><button data-back='1'>→ رجوع</button><b style='margin-inline-start:10px'>فحص منطق البيانات</b><div class='msg'>${A.length?A.length+' ملاحظة للمراجعة، وليست كلها أخطاء: بعضها طبيعي كطالب لم يسمّع فعلاً.':'لا ملاحظات: التسلسل سليم.'}</div></div>`+(A.length?tbl(['الطالب','التاريخ','النوع','التفصيل'],A.slice(0,300).map(a=>[`<button class='lk' data-c='${qa(a[0])}'>${esc(a[0])}</button>`,a[1],esc(a[2]),esc(a[3])])):'')}
+if(!S.sn4){snap('قبل تحديث الدفعة الرابعة');S.sn4=1;save()}
+SET.abN=SET.abN??3;SET.pos2=SET.pos2??2;SET.rvx=SET.rvx??3;SET.strN=SET.strN??3;SET.strB=SET.strB??1;Object.assign(SET,S.set||{});
+function streakBonus(n,date){const N=+SET.strN||3;let c=0;S.log.filter(r=>r[1]===n&&r[0]<date&&r[26]!=='خاصة').sort((a,b)=>a[0]<b[0]?1:-1).some(r=>{if(r[2]==='غائب')return true;if(r[2]!=='بعذر')c++;return false});return(c+1)%N===0?(+SET.strB||0):0}
+function bdText(rows,xs,neg,R){const B={},add=(k,v)=>{if(v)B[k]=(B[k]||0)+v};
+ rows.forEach(r=>{add('صفحات',(+r[21]||0)*SET.pg);add('مراجعة',r[12]==='صح'?SET.rev:0);add('تجويد',r[14]==='صح'?SET.taj:0);add('درس',r[15]==='صح'?SET.les:0);add('اختبار مراجعة',(r[16]==='نجح'||r[16]==='نجح بعد إعادة')?SET.rvx:0);add('انتظام',+r[25]||0);add('غياب',r[2]==='غائب'?SET.abs:r[2]==='بعذر'?SET.exc:0);
+  add('ملاحظات',r[18]==='سلبية'?(neg?SET.neg:0):(r[18]||'').startsWith('إيجابية')?(r[18]==='إيجابية قوية'?SET.pos2:SET.pos):0)});
+ xs.forEach(x=>{const e=(CAT[x[2]]||[])[x[3]-1];if(x[4]==='نجح'&&e)add('اختبارات',e[5])});
+ const parts=Object.keys(B).map(k=>k+' '+B[k]),known=Object.values(B).reduce((a,b)=>a+b,0);if(neg&&R.pt!==known)parts.push('أخرى '+(R.pt-known));
+ return parts.length?'مصادر النقاط: '+parts.join(' · '):''}
+const alertsHtml=()=>{const a=alerts();if(!a.length)return'';const G=[['مستحق','اختبارات مستحقة'],['تجاوز','تجاوز حدّ اختبار'],['رسب','رسوب ثلاث مرات'],['غاب','غياب متتالٍ']];
+ return `<details class='card'><summary><b>تنبيهات (${a.length})</b></summary>${G.map(([k,tt])=>{const L=a.filter(x=>x[1].startsWith(k));return L.length?`<details style='margin-top:8px'><summary>${tt} (${L.length})</summary>${L.map(([n,m,z])=>`<div class='msg'><button class='lk' data-c='${qa(n)}'>${esc(n)}</button> — ${esc(m)}${/^(مستحق|تجاوز)/.test(m)?` <button data-xo='${qa(n)}'>سجّل</button>`:''}${z?` <button data-qs='${qa(n)}'>إيقاف</button>`:''}</div>`).join('')}</details>`:''}).join('')}</details>`};
+function csv(f,t,n){const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"',H=['التاريخ','الطالب','الحضور','تسميع 1','تسميع 2','تسميع 3','مراجعة','تجويد','درس','اختبار مراجعة','نوع الملاحظة','الملاحظة','النقاط','الصفحات','الإعادات','نوع الحصة'],R=S.log.filter(r=>r[0]>=f&&r[0]<=t&&(!n||r[1]===n)&&(n||inTg(r[1]))).sort((a,b)=>a[0]<b[0]?-1:a[0]>b[0]?1:a[1].localeCompare(b[1],'ar'));
+ return[H.map(q).join(',')].concat(R.map(r=>[r[0],r[1],r[2]||'حاضر',fmt(r[3],r[4],r[5]),fmt(r[6],r[7],r[8]),fmt(r[9],r[10],r[11]),r[12]==='صح'?'✓'+(r[13]?' '+r[13]:''):'',r[14]==='صح'?'✓':'',r[15]==='صح'?'✓':'',r[16]?(r[16]+(r[17]?' — '+r[17]:'')):'',r[18],r[19],r[20],r[21],r[22],r[26]==='خاصة'?'خاصة':'عادية'].map(q).join(','))).join('\n')}
+function allText(f,t){const ns=[...new Set(S.log.filter(r=>r[0]>=f&&r[0]<=t&&inTg(r[1])).map(r=>r[1]))].sort((a,b)=>a.localeCompare(b,'ar'));return ns.length?ns.map(n=>stext(n,f,t,false)).join('\n\n— — — — —\n\n'):'لا سجلات في هذه الفترة'}
+function fillRp(){const a=$('#rt');if(!a)return;const[f,t]=rpRange(),n=S.rs||'';a.value=S.rfm==='c'?csv(f,t,n):n?stext(n,f,t,S.rneg!==0):(f===t?(S.log.some(r=>r[0]===f)||f===S.day.date?text(f):'لا سجل في هذا اليوم'):allText(f,t))}
+const rpPre=k=>{const d=S.day.date;if(k==='t')return[d,d];if(k==='w'||k==='m')return rng(k,d);const x=dd(d);return rng('m',iso(new Date(x.getFullYear(),x.getMonth()-1,1)))};
+const vRp=()=>{const[f,t]=rpRange(),n=S.rs||'',st=n&&byName(n),L=[...S.st].sort((a,b)=>a.n.localeCompare(b.n,'ar')),cur=['t','w','m','p'].find(k=>{const[a,b]=rpPre(k);return a===f&&b===t}),pre=(k,l)=>`<button data-rp='${k}' class='${cur===k?'on':''}'>${l}</button>`,tg=allTags();
+ return `<div class='card'><div class='msg'><b>١) لمن؟</b></div><div class='row'><div><label>الطالب أو الجميع<select id='rs'><option value=''>شامل (كل الطلاب)</option>${L.map(s=>`<option${s.n===n?' selected':''}>${esc(s.n)}</option>`).join('')}</select></label></div>${tg.length&&!st?`<div><label>المجموعة (الوسم)<select id='rtg'><option value=''>كل المجموعات</option>${tg.map(g=>`<option${g===S.rtg?' selected':''}>${esc(g)}</option>`).join('')}</select></label></div>`:''}</div>
+<div class='msg' style='margin-top:10px'><b>٢) أي فترة؟</b></div><div class='row'>${pre('t','اليوم')}${pre('w','الأسبوع')}${pre('m','الشهر')}${pre('p','الشهر الماضي')}</div><div class='msg'>الأسبوع والشهر يُحسبان بالنسبة لتاريخ اليوم المفتوح (${S.day.date}). أو حدّد التاريخين بنفسك:</div><div class='row'><div><label>من<input type='date' id='rf' value='${f}'></label></div><div><label>إلى<input type='date' id='rt2' value='${t}'></label></div></div><div class='msg'>الفترة المختارة: ${f} ← ${t}</div>
+<div class='msg' style='margin-top:10px'><b>٣) الناتج</b></div><div class='row'><div><label>الصيغة<select id='rfm'><option value='t'${S.rfm==='c'?'':' selected'}>نص</option><option value='c'${S.rfm==='c'?' selected':''}>CSV (جدول)</option></select></label></div></div>${st?`<label style='display:flex;gap:8px;align-items:center'><input type='checkbox' id='rneg' ${S.rneg===0?'':'checked'} style='width:auto'>تضمين الملاحظات السلبية في رسالة ولي الأمر</label><label>رقم واتساب ولي الأمر (دولي بلا + ولا أصفار، مثل 31612345678)<input id='ph' inputmode='tel' value='${qa(st.ph||'')}'></label>`:''}<textarea id='rt' readonly style='margin-top:8px;min-height:360px'></textarea><div class='row'><button class='pri' id='rcp'>نسخ</button>${st?`<button id='rsend'>أرسل لولي الأمر</button>`:''}</div></div>${st?'':(sendList(f,t)||`<div class='card'><div class='msg'>لا يظهر «الإرسال الفردي لأولياء الأمور» لأنه لا يوجد يوم مرحَّل في هذه الفترة (اليوم المفتوح لا يظهر فيه حتى يُرحَّل). رحِّل اليوم أو اختر فترة فيها سجل، أو اختر طالباً من «النطاق» ليظهر زر «أرسل لولي الأمر».</div></div>`)}${negList(f,t)}`};
+function vCfg(){const f=(k,l)=>`<div><label>${l}<input data-cf='${k}' value='${SET[k]??''}'></label></div>`;
+ return `<div class='card'><button data-back='1'>→ رجوع</button><b style='margin-inline-start:10px'>الإعدادات</b><div class='msg'>تسري التغييرات على ما يُسجَّل بعدها فقط؛ نقاط الأيام السابقة تبقى كما سُجّلت.</div></div><div class='card cl'><b>المظهر والإصدار</b><div class='msg'>اختر مظهراً جاهزاً، أو غيّر لون التمييز فقط:</div><div class='row'>${Object.entries(THS).map(([k,t])=>`<button data-th='${k}' class='${(S.th||'o')===k?'on':''}'>${t.n}</button>`).join('')}</div><label>لون التمييز (اختياري)<input type='color' id='thc' value='${S.thc||'#f59e42'}'></label><button data-thx='1'>إلغاء اللون المخصص</button><div class='msg'>إصدار التطبيق: ${VER}</div></div><div class='card'><label>اسم المعهد والحلقة (يظهر في التقارير)<input data-cf='hdr' dir='rtl' value='${qa(SET.hdr||'')}'></label></div><div class='card cl'><b>قيم النقاط</b><div class='row'>${f('abs','الغياب')}${f('exc','بعذر')}${f('pg','الصفحة')}</div><div class='row'>${f('xpg','صفحة إضافي')}${f('rev','المراجعة')}${f('taj','التجويد')}</div><div class='row'>${f('les','الدرس')}${f('pos','ملاحظة +')}${f('pos2','ملاحظة ++')}</div><div class='row'>${f('neg','ملاحظة −')}${f('rvx','نجاح اختبار المراجعة')}<div></div></div><div class='row'>${f('strN','الانتظام: كل كم حصة')}${f('strB','قيمة مكافأة الانتظام')}${f('abN','غياب متتالٍ للتنبيه (حصص)')}</div></div><div class='card cl'><b>حدود نجاح الاختبارات (علامة)</b><div class='row'>${Object.keys(SET.thr).map(k=>`<div><label>${esc(k)}<input data-ct='${qa(k)}' value='${SET.thr[k]}'></label></div>`).join('')}</div></div>${bkUI()}`}
+$('#gear').onclick=()=>{S.pv=S.v==='cfg'?S.pv:S.v;S.v='cfg';save();render();scrollTo(0,0)};
+$('#hlp').onclick=()=>{S.pv=S.v==='hlp'?S.pv:S.v;S.v='hlp';save();render();scrollTo(0,0)};
+if(!S.sn5){snap('قبل تحديث الدفعة الأولى (النقاط والتقارير والإعدادات)');S.sn5=1;save()}
+if(LOADMSG)setTimeout(()=>toast(LOADMSG),600);
+const b64e=u=>{let s='';for(let i=0;i<u.length;i+=8192)s+=String.fromCharCode.apply(null,u.subarray(i,i+8192));return btoa(s)};
+const b64d=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+async function kdf(pw,salt){const k=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveKey']);return crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:200000,hash:'SHA-256'},k,{name:'AES-GCM',length:256},false,['encrypt','decrypt'])}
+async function gz(u,d){const s=new Blob([u]).stream().pipeThrough(new(d?DecompressionStream:CompressionStream)('gzip'));return new Uint8Array(await new Response(s).arrayBuffer())}
+async function pack(pw){return pw?packEnc(pw):packPlain()}
+async function packPlain(){let u=new TextEncoder().encode(JSON.stringify({v:1,t:new Date().toISOString(),st:S.st,log:S.log,ex:S.ex,adj:S.adj,set:S.set||{},ct:S.ct||{}})),f=0;try{u=await gz(u,0);f=1}catch(e){}const o=new Uint8Array(1+u.length);o[0]=f;o.set(u,1);const b=b64e(o);return'HALAQA0:'+b+'.'+fnv(b)}
+async function packEnc(pw){let u=new TextEncoder().encode(JSON.stringify({v:1,t:new Date().toISOString(),st:S.st,log:S.log,ex:S.ex,adj:S.adj,set:S.set||{},ct:S.ct||{}})),f=0;try{u=await gz(u,0);f=1}catch(e){}
+ const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12)),c=new Uint8Array(await crypto.subtle.encrypt({name:'AES-GCM',iv},await kdf(pw,salt),u)),o=new Uint8Array(29+c.length);o[0]=f;o.set(salt,1);o.set(iv,17);o.set(c,29);return'HALAQA1:'+b64e(o)}
+async function unpack(txt,pw){txt=txt.trim();if(txt[0]==='{'){const j=JSON.parse(txt);return{st:j.st,log:j.log,ex:j.ex,adj:j.adj||[],set:j.set||{},ct:j.ct||{},t:''}}
+ if(txt.startsWith('HALAQA0:')){const i=txt.lastIndexOf('.'),b=txt.slice(8,i);if(i<0||fnv(b)!==txt.slice(i+1))throw new Error('bad');const o=b64d(b);let u=o.slice(1);if(o[0])u=await gz(u,1);return JSON.parse(new TextDecoder().decode(u))}
+ if(!txt.startsWith('HALAQA1:'))throw new Error('format');const o=b64d(txt.slice(8));let u;try{u=new Uint8Array(await crypto.subtle.decrypt({name:'AES-GCM',iv:o.slice(17,29)},await kdf(pw,o.slice(1,17)),o.slice(29)))}catch(e){throw new Error('pw')}
+ if(o[0])u=await gz(u,1);return JSON.parse(new TextDecoder().decode(u))}
+const extDays=()=>S.ext?Math.floor((Date.now()-S.ext)/864e5):null;
+const extBanner=()=>{const d=extDays();return d===null||d>=7?`<div class='bn'>${d===null?'لم تحفظ نسخة خارجية بعد':'آخر نسخة خارجية: منذ '+d+' يوماً'} — احفظ نسخة الآن (أو من ⚙).<div class='row' style='margin-top:6px'><input id='qpw' type='password' placeholder='كلمة مرور (اختيارية)' autocomplete='off'><button id='qbk'>💾 احفظ نسخة الآن</button></div></div>`:''};
+const msgBk=(m,e)=>{const x=$('#bkmsg');if(x)x.innerHTML=e?`<span class='err'>${m}</span>`:m};
+const bkUI=()=>{const d=extDays();return `<div class='card cl'><b>النسخ الاحتياطي</b><div class='msg' style='${d===null||d>=7?'color:var(--bad)':''}'>${d===null?'لم تنشئ نسخة خارجية بعد':'آخر نسخة خارجية: منذ '+d+' يوماً'}</div><label>كلمة مرور الملف (اختيارية: اتركها فارغة لملف بلا كلمة. وإن وضعتَ كلمة فاحفظها، فنسيانها يعني ضياع الملف)<input type='password' id='pw' autocomplete='off'></label><button class='pri' id='bkmake' style='width:100%;margin-top:8px'>إنشاء ملف</button><textarea id='bk' placeholder='يظهر هنا النص المشفّر، أو الصق هنا نسخة لاستعادتها' style='margin-top:8px;min-height:120px'></textarea><div class='row'><button id='bkcopy'>نسخ النص</button><button id='bkdl'>تنزيل ملف</button><button id='bksh'>مشاركة</button></div><label>أو اختر ملفاً للاستعادة<input type='file' id='bkf'></label><label>كلمة مرور الملف المراد استعادته (اتركها فارغة إن كان بلا كلمة)<input type='password' id='pw2' autocomplete='off'></label><div class='row'><button id='bkchk'>فحص الملف</button><button id='bkres'>استعادة</button></div><div class='msg' id='bkmsg'></div><details><summary class='msg'>متقدم</summary><div class='row'><button id='bx'>تصدير نص غير مشفّر (للتحليل)</button></div></details><div class='row' style='margin-top:8px'><button id='sv'>نقاط الحفظ والمحذوفات</button><button id='au'>فحص منطق البيانات</button></div></div>`};
+async function mkBackup(){const pw=$('#pw').value;if(pw&&pw.length<4){msgBk('كلمة المرور 4 أحرف على الأقل، أو اتركها فارغة لملف بلا كلمة',1);return}try{$('#bk').value=await pack(pw);msgBk(pw?'تم إنشاء الملف المشفّر. انسخه أو نزّله أو شاركه، ثم تأكد منه بـ«فحص الملف».':'تم إنشاء ملف بلا كلمة مرور: غير مقروء للعين لكنه غير محمي، فلا ترسله لمن لا تأمنه. انسخه أو نزّله أو شاركه ثم افحصه.')}catch(e){msgBk('تعذّر التشفير في هذا المتصفح',1)}}
+async function bkOut(k){const tx=$('#bk').value;if(!/^HALAQA[01]:/.test(tx)){msgBk('أنشئ الملف أولاً',1);return}const nm='halaqa-backup-'+S.day.date+'.txt';let ok=0;
+ if(k==='copy'){copyStr(tx);ok=1}
+ else if(k==='dl'){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([tx],{type:'text/plain'}));a.download=nm;document.body.appendChild(a);a.click();a.remove();ok=1}
+ else{try{const f=new File([tx],nm,{type:'text/plain'});if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:'نسخة احتياطية'});ok=1}else if(navigator.share){await navigator.share({text:tx});ok=1}else msgBk('المشاركة غير متاحة هنا؛ استخدم النسخ',1)}catch(e){msgBk('لم تتم المشاركة',1)}}
+ if(ok){S.ext=Date.now();save();msgBk('سُجّل وقت النسخة الخارجية. تأكد أن الملف وصل إلى مكان آمن.')}}
+async function bkCheck(apply,btn){const tx=$('#bk').value,pw=$('#pw2').value;let d;try{d=await unpack(tx,pw)}catch(e){msgBk(e.message==='pw'?'كلمة المرور خاطئة أو الملف تالف':e.message==='bad'?'الملف تالف (فشل التحقق)':'ليس ملف نسخة صالحاً',1);return}
+ if(!Array.isArray(d.st)||!Array.isArray(d.log)||!Array.isArray(d.ex)){msgBk('بنية الملف غير صالحة',1);return}
+ const lastD=d.log.map(r=>r[0]).sort().pop()||'—';
+ msgBk(`الملف: ${d.st.length} طالباً · ${d.log.length} سجلاً · ${d.ex.length} اختباراً · ${(d.adj||[]).length} تعديلاً · آخر تاريخ ${lastD}${d.t?' · أُنشئ '+d.t.slice(0,10):''}<br>الحالي: ${S.st.length} طالباً · ${S.log.length} سجلاً · ${S.ex.length} اختباراً`);
+ if(apply){if(!btn.dataset.ok){btn.dataset.ok=1;btn.textContent='اضغط للتأكيد: ستُستبدل البيانات الحالية';return}applyBk(d)}}
+if(!SN)save();
+if(!S.sn6){snap('قبل تحديث دفعة حماية البيانات');S.sn6=1;save()}
+function lastLine(n){const r=S.log.filter(x=>x[1]===n&&x[0]<S.day.date).sort((a,b)=>a[0]<b[0]?1:-1)[0];if(!r)return'';const p=[r[2]==='غائب'?'غائب':r[2]==='بعذر'?'بعذر':''],rec=[fmt(r[3],r[4],r[5]),fmt(r[6],r[7],r[8]),fmt(r[9],r[10],r[11])].filter(Boolean);if(rec.length)p.push(rec.join(' | '));if(r[12]==='صح')p.push('مراجعة ✓');if(r[16]&&r[16]!=='لم يختبر')p.push('اختبار مراجعة '+r[16]);return'آخر حصة ('+r[0].slice(5)+'): '+(p.filter(Boolean).join(' · ')||'حاضر بلا تسميع')}
+const UN=[];function pushUn(n){const j=JSON.stringify(S.day.r[n]||null),l=UN[UN.length-1];if(l&&l[0]===n&&l[1]===j)return;UN.push([n,j]);if(UN.length>30)UN.shift()}
+function undo(){const u=UN.pop();if(!u){toast('لا شيء للتراجع عنه');return}if(u[1]==='null')delete S.day.r[u[0]];else S.day.r[u[0]]=JSON.parse(u[1]);save();toast('تم التراجع');renderArea()}
+const dlist=(id,k)=>`<datalist id="${id}">${[...new Set(S.log.map(r=>r[k]).filter(Boolean).reverse())].slice(0,12).map(x=>`<option value="${qa(x)}">`).join('')}</datalist>`;
+const dueHtml=()=>{const a=alerts().filter(x=>/^(مستحق|تجاوز)/.test(x[1]));return a.length?`<details class='card'><summary><b>المستحقون للاختبار (${a.length})</b></summary>${a.map(([n,m])=>`<div class='msg' style='display:flex;gap:6px;align-items:center'><span style='flex:1'>${esc(n)} — ${esc(m)}</span><button data-xo='${qa(n)}'>سجّل</button></div>`).join('')}</details>`:''};
+function sendList(f,t){const ns=[...new Set(S.log.filter(r=>r[0]>=f&&r[0]<=t&&inTg(r[1])).map(r=>r[1]))].sort((a,b)=>a.localeCompare(b,'ar'));if(!ns.length)return'';S.sent=S.sent||{};
+ return `<details class='card'><summary><b>إرسال فردي لأولياء الأمور (${ns.length})</b></summary><div class='msg'>الفترة: ${f} ← ${t}. الضغط على «أرسل» يفتح واتساب برسالة الطالب جاهزة، وتظهر ✓ بجانب من أرسلتَ له.</div><label style='display:flex;gap:8px;align-items:center'><input type='checkbox' id='rneg' ${S.rneg===0?'':'checked'} style='width:auto'>تضمين الملاحظات السلبية في الرسائل</label>${ns.map(n=>{const s=byName(n)||{};return `<div class='msg' style='display:flex;gap:6px;align-items:center'><span style='flex:1'>${S.sent[f+'|'+t+'|'+n]?'✓ ':''}${esc(n)}</span>${s.ph?'':`<input data-ph2='${qa(n)}' placeholder='رقم الولي' style='width:120px'>`}<button data-snd='${qa(n)}'>أرسل</button></div>`}).join('')}</details>`}
+const allTags=()=>[...new Set(S.st.map(s=>s.g).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ar'));
+const inTg=n=>!S.rtg||(byName(n)||{}).g===S.rtg;
+async function quickBk(){const pw=(($('#qpw')||{}).value)||'';if(pw&&pw.length<4){toast('كلمة المرور 4 أحرف على الأقل، أو اتركها فارغة');return}
+ let tx;try{tx=await pack(pw)}catch(e){toast('تعذّر إنشاء النسخة في هذا المتصفح');return}
+ const nm='halaqa-backup-'+S.day.date+'.txt';let ok=0;
+ try{const f=new File([tx],nm,{type:'text/plain'});if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:'نسخة احتياطية'});ok=1}}catch(e){if(e&&e.name==='AbortError')return}
+ if(!ok){try{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([tx],{type:'text/plain'}));a.download=nm;document.body.appendChild(a);a.click();a.remove();ok=1}catch(e){}}
+ if(ok){S.ext=Date.now();save();toast('حُفظت النسخة. تأكد أن الملف وصل إلى مكان آمن.');render()}else toast('تعذّر حفظ الملف؛ جرّب ⚙ ← النسخ الاحتياطي')}
+function delStudent(n){const st=byName(n);if(!st)return false;snap('قبل حذف طالب');
+ S.trash.push({k:'طالب',d:{st,log:S.log.filter(r=>r[1]===n),ex:S.ex.filter(x=>x[1]===n),adj:S.adj.filter(x=>x[1]===n)},t:Date.now()});
+ S.st=S.st.filter(s=>s!==st);S.log=S.log.filter(r=>r[1]!==n);S.ex=S.ex.filter(x=>x[1]!==n);S.adj=S.adj.filter(x=>x[1]!==n);
+ [S.day,S.alt].forEach(d=>{if(d&&d.r)delete d.r[n];if(d&&Array.isArray(d.sel))d.sel=d.sel.filter(x=>x!==n)});
+ if(S.rs===n)S.rs='';if(S.cs===n)S.cs='';save();return true}
+function restoreTr(i){const t=S.trash.splice(i,1)[0];if(!t)return false;
+ if(t.k==='طالب'){if(byName(t.d.st.n)){S.trash.splice(i,0,t);toast('يوجد طالب بالاسم نفسه الآن؛ غيّر اسمه أو احذفه أولاً');return false}
+  snap('قبل استرجاع طالب');S.st.push(t.d.st);S.log.push(...t.d.log);S.ex.push(...t.d.ex);S.adj.push(...t.d.adj);save();toast('تمت استعادة الطالب وسجلاته');render();return true}
+ (t.k==='اختبار'?S.ex:S.adj).push(t.d);save();toast('تمت الاستعادة من السلة');render();return true}
+function delCard(n){const s=byName(n)||{},tg=allTags();return `<div class='card cl'><b>الوسم (مجموعة)</b><div class='msg'>وسم شكلي مثل «أوقاف» يظهر بجانب الاسم، ويمكن البحث به وتصفية الإحصاء والتقارير.</div><input id='tg' list='tgl' value='${qa(s.g||'')}' placeholder='بلا وسم'><datalist id='tgl'>${tg.map(g=>`<option value='${qa(g)}'>`).join('')}</datalist></div><div class='card cl'><b>حذف الطالب</b><div class='msg'>يُنقل الطالب مع كل سجلاته واختباراته وتعديلاته إلى سلة المحذوفات (في الإعدادات ← نقاط الحفظ) ويمكن استرجاعه. تؤخذ نقطة حفظ قبل الحذف.</div><button data-delst='1'>حذف الطالب</button></div>`}
+function negList(f,t){const ns=[...new Set(S.log.filter(r=>r[0]>=f&&r[0]<=t&&r[18]==='سلبية'&&inTg(r[1])).map(r=>r[1]))].sort((a,b)=>a.localeCompare(b,'ar'));if(!ns.length)return'';S.sent=S.sent||{};
+ return `<details class='card' open><summary><b>إرسال الملاحظات السلبية لأولياء الأمور (${ns.length})</b></summary><div class='msg'>الفترة: ${f} ← ${t}. يُرسل تقرير الطالب كاملاً متضمناً الملاحظة السلبية. تظهر ✓ بجانب من أرسلتَ له.</div>${ns.map(n=>{const s=byName(n)||{};return `<div class='msg' style='display:flex;gap:6px;align-items:center'><span style='flex:1'>${S.sent['n|'+f+'|'+t+'|'+n]?'✓ ':''}${esc(n)}</span>${s.ph?'':`<input data-ph2='${qa(n)}' placeholder='رقم الولي' style='width:120px'>`}<button data-sndn='${qa(n)}'>أرسل</button></div>`}).join('')}</details>`}
+function sendNeg(n){const[f,t]=rpRange(),st=byName(n)||{},tx=stext(n,f,t,true),u='https://wa.me/'+(st.ph||'').replace(/\D/g,'')+'?text='+encodeURIComponent(tx);(S.sent=S.sent||{})['n|'+f+'|'+t+'|'+n]=Date.now();save();try{if(!window.open(u,'_blank'))throw 0}catch(e){copyStr(tx);toast('تعذّر فتح واتساب، نُسخت الرسالة')}render()}
+function sendOne(n){const[f,t]=rpRange(),st=byName(n)||{},tx=stext(n,f,t,S.rneg!==0),u='https://wa.me/'+(st.ph||'').replace(/\D/g,'')+'?text='+encodeURIComponent(tx);(S.sent=S.sent||{})[f+'|'+t+'|'+n]=Date.now();save();try{if(!window.open(u,'_blank'))throw 0}catch(e){copyStr(tx);toast('تعذّر فتح واتساب، نُسخت الرسالة')}render()}
+function renameStudent(a,b){if(!b||a===b)return;if(byName(b)){toast('الاسم مستخدم لطالب آخر');return}const s=byName(a);if(!s)return;snap('قبل تغيير اسم طالب');s.n=b;[S.log,S.ex,S.adj].forEach(A=>A.forEach(r=>{if(r[1]===a)r[1]=b}));if(S.day.r[a]){S.day.r[b]=S.day.r[a];delete S.day.r[a]}['cs','rs','xs'].forEach(k=>{if(S[k]===a)S[k]=b});S.cs=b;save();toast('تم تغيير الاسم');render()}
+function mergeStudent(a,b){const sa=byName(a),sb=byName(b);if(!sa||!sb||a===b)return;snap('قبل دمج طالب');const ds=new Set(S.log.filter(r=>r[1]===b).map(r=>r[0]));S.log=S.log.filter(r=>!(r[1]===a&&ds.has(r[0])));[S.log,S.ex,S.adj].forEach(A=>A.forEach(r=>{if(r[1]===a)r[1]=b}));if(!sb.ph&&sa.ph)sb.ph=sa.ph;if(sa.j&&(!sb.j||sa.j<sb.j))sb.j=sa.j;S.st=S.st.filter(s=>s.n!==a);delete S.day.r[a];S.cs=b;save();toast('تم الدمج');render()}
+function applyBk(d){snap('قبل الاستعادة من ملف');S.st=d.st;S.log=d.log;S.ex=d.ex;S.adj=d.adj||[];S.set=d.set||{};S.ct=d.ct||{};Object.assign(SET,S.set);save();toast('تمت الاستعادة');render()}
+$('#v').addEventListener('focusin',e=>{const c=e.target.closest&&e.target.closest('.card[data-n]');if(c&&e.target.tagName==='INPUT')pushUn(c.dataset.n)});
+if(!S.sn7){snap('قبل تحديث دفعتي الإدارة والتثبيت');S.sn7=1;save()} if(!S.sn8){snap('قبل إضافة المسارات اليدوية');S.sn8=1;save()} if(!S.sn9){snap('قبل تعديل التقارير والإحصاء');S.sn9=1;save()} if(!S.sn10){snap('قبل إضافة الحصة الخاصة');S.sn10=1;save()} if(!S.sn11){snap('قبل الوسم وحذف الطالب وتبسيط التقرير');S.sn11=1;save()} if(S.ver!==VER){snap('قبل الإصدار '+VER);S.ver=VER;save()}
+const vRpOld=()=>`<div class="card"><button class="pri" id="rcp" style="width:100%">نسخ التقرير للواتساب</button><textarea id="rt" readonly style="margin-top:8px;min-height:420px"></textarea></div>`;
+function copyTxt(){const a=$('#rt'),ok=()=>toast('نُسخ التقرير');try{navigator.clipboard.writeText(a.value).then(ok,()=>{a.select();document.execCommand('copy');ok()})}catch(e){a.select();document.execCommand('copy');ok()}}
+/* ===== الدليل ===== */
+const GUIDE=`
+<div class='card cl'><b>١) البداية السريعة: يومك في عشر خطوات</b>
+<div class='msg'>هذه الدورة تكررها كل حصة (أحد وثلاثاء وخميس):</div>
+<ol>
+<li>افتح التطبيق من أيقونته. تأكد أن التاريخ أعلى الشاشة هو تاريخ اليوم، وإلا اضبطه من حقل التاريخ.</li>
+<li>افتح قسم «الدرس والتجويد» واكتب عنوان الدرس وقاعدة التجويد مرة واحدة لكل الحصة (تُقترح لك العناوين السابقة تلقائياً).</li>
+<li>سجّل الغياب أولاً: اضغط «تسجيل الغياب» ثم اسم كل غائب (يظهر اسمه مشطوباً)، ثم ألغِ الوضع بالضغط على الزر مرة أخرى.</li>
+<li>اضغط اسم الطالب من الشبكة (أو ابحث عنه في حقل البحث) لتفتح بطاقته.</li>
+<li>اكتب تسميعه في خانة «تسميع» — الأسرع: اضغط زر الصفحة الجاهزة من أزرار الصفحات السريعة أسفل الخانات.</li>
+<li>علّم ما ينطبق: «مراجعة» أو «درس» أو «تجويد» (الدرس والتجويد يُعلمان تلقائياً لكل الحاضرين بمجرد كتابتهما أعلاه).</li>
+<li>راجع رقم النقاط الأحمر/الأخضر أعلى البطاقة، ثم اضغط «تم ✓» لتنتقل للطالب التالي.</li>
+<li>كرر حتى يكتمل العدّاد «سُجّل X / Y» (أو فعّل «المتبقون فقط» لإخفاء من سجّلتَهم).</li>
+<li>سجّل الاختبارات إن وُجدت من تبويب «الاختبارات» (زر «سجّل» في قائمة المستحقين ينقلك إليها بالطالب جاهزاً).</li>
+<li>اضغط «اعتماد الحصة وترحيلها إلى السجل» ثم اضغطها مرة ثانية للتأكيد. خُتمت الحصة وظهرت شارة «مرحَّلة ✓».</li>
+<li>أرسل التقرير: تبويب «التقرير» ← اليوم ← «نسخ» ثم الصق في مجموعة الأولياء.</li>
+</ol>
+<div class='msg'>⚠ لا شيء يدخل السجل قبل «اعتماد الحصة». إن أغلقتَ التطبيق قبلها فالمسودة محفوظة وتجدها عند فتح اليوم نفسه.</div></div>
+
+<div class='card cl'><b>٢) تبويب «اليوم» خانة خانة</b>
+<div class='msg'><b>الشريط العلوي:</b> الشارة بجانب العنوان تعرض «مفتوحة» أو «مرحَّلة ✓» لليوم المعروض (وتميّز العادية من الخاصة). حقل التاريخ ينقلك لأي يوم سابق أو قادم.</div>
+<div class='msg'><b>شريط البحث:</b> اكتب اسم الطالب لتصفية الشبكة، وإن بقي نتيجة واحدة فُتحت بطاقته مباشرة. Enter يفتح أول نتيجة.</div>
+<div class='msg'><b>قائمة المجموعة:</b> إن وُجدت وسوم فتظهر قائمة تصفية بجانب البحث؛ تعرض الطلاب والعدّاد فقط، و«اعتماد الحصة» يشمل كل الطلاب دائماً.</div>
+<div class='msg'><b>العدّاد والأزرار:</b> «سُجّل X / Y» عدد من مسجّل لهم اليوم. «↩ تراجع» يتراجع عن آخر تعديلات المسودة (حتى 30 خطوة، تعديلاتك داخل بطاقات اليوم فقط). «تسجيل الغياب» وضع سريع لتعليم الغائبين بالاسم. «المتبقون فقط» يخفي من سجّلتَ لهم شيئاً.</div>
+<div class='msg'><b>رقائق الأسماء:</b> الخضراء = سُجّل لهم اليوم، المشطوبة = غائبون. رمز 📝 بجانب الاسم = حُفظ له اختبار أو اختبار مراجعة في هذا التاريخ.</div>
+<div class='msg'><b>بطاقة الطالب:</b>
+<ul>
+<li>السطر الأول: الاسم، وسم المجموعة إن وُجد، النقاط المتوقعة لهذا اليوم، وسطر «تلميح» يعرض مساره وآخر صفحة سمّعها و«◂ اختبار» إن كان مستحقاً للاختبار القادم، وسطر «آخر حصة» بملخص يومه السابق.</li>
+<li>أزرار الحضور: حاضر / غائب / بعذر (بعذر = صفر نقطة ولا يكسر انتظامه ولا يُعد غياباً).</li>
+<li>ثلاث خانات تسميع: «تسميع» و«تسميع ٢» (لطالب يسمّع في مسارين) و«إضافي» (صفحات زائدة تُحتسب وتُنقّط مثل الصفحة).</li>
+<li>أزرار الصفحات السريعة: الصفحات الخمس القادمة في كل مسار نشط، وزر «إعادة» لإعادة الصفحة الحالية. الضغط يكتب الصيغة في الخانة، والضغط مرة أخرى يمسحها.</li>
+<li>أزرار: مراجعة (+1) · درس (+1) · تجويد (+1) · + إيجابية (+1) · ++ قوية (+2) · − سلبية (−1).</li>
+<li>خانة الملاحظة: نص حر يظهر في التقارير. بلا زر ملاحظة لا تتغير النقاط.</li>
+<li>اختبار المراجعة: يظهر دائماً لطلاب الحفظ، ولغيرهم زر «+ اختبار مراجعة». نجح من أول مرة = 3 + نقطة المراجعة (= 4 إن لم تُعلّم المراجعة)، نجح بعد إعادة = 3، رسب = 0. خانة «تفاصيل» اختيارية وتظهر في التقارير.</li>
+<li>«تم ✓» يغلق البطاقة ويعود بك للشبكة.</li>
+</ul></div>
+<div class='msg'><b>قبل الاعتماد</b> يعرض التطبيق ملخصاً: عدد الحاضرين والغائبين وبعذر، وأسماء من بلا تسميع ولا مراجعة (تأكد أنهم لم يسمّعوا فعلاً). الأخطاء الحمراء (كصفحة خارج المسار) تمنع الترحيل حتى تصححها.</div>
+<div class='msg'><b>نسيت الترحيل؟</b> المسودة تبقى محفوظة بتاريخها؛ افتح التطبيق في اليوم نفسه واضغط «اعتماد». ولتعديل حصة رحّلتَها: افتح تاريخها واضغط «إعادة فتحها للتعديل» (نقرتان) — يبقى السجل القديم كما هو حتى تعتمد من جديد، وتُؤخذ نقطة حفظ تلقائياً.</div>
+<div class='msg'>⚠ نص «نسخ اليوم» قبل الترحيل يعرض الجميع «حاضر» كمسودة، ويحمل لافتة «مسودة غير مرحَّلة»؛ لا ترسله قبل الاعتماد.</div></div>
+
+<div class='card cl'><b>٣) صيغ التسميع (مرجع سريع)</b>
+<div style='overflow-x:auto'><table><tr><th>اكتب</th><th>المعنى</th></tr>
+<tr><td>12</td><td>وصل إلى الصفحة 12 (يبدأ من صفحته الحالية + 1)</td></tr>
+<tr><td>10-12</td><td>نطاق صريح: من 10 إلى 12</td></tr>
+<tr><td>10-</td><td>إعادة للصفحة 10: لا تغيّر موضعه ولا صفحات، وتُعدّ في عدّاد الإعادات</td></tr>
+<tr><td>غ 12</td><td>الحرف الأول يحدد المسار: ر (الرشيدية) · ته (تهذيب اللسان) · ت (التلاوة) · غ (الحفظ). بلا حرف يُفهم مسار الخانة: الأولى مساره الأول والثانية مساره الثاني</td></tr>
+<tr><td>١٢ أو ۱۲</td><td>الأرقام العربية والفارسية تُفهم تلقائياً</td></tr></table></div>
+<div class='msg'>الفواصل (مسافة أو ، أو /) تُفهم شرطة: «10 12» = «10-12». وإن بدأت بشرطة «-12» فُهمت إعادة.</div>
+<div class='msg'><b>رسائل قد تظهر:</b> «الصفحة خارج المسار» (الرشيدية مثلاً بلا صفحات 13 و27 و37) · «الصفحة سبق تسميعها» (تجاوزت موضعه) · «النطاق معكوس». أما «⚠ تجاوز حد الاختبار» فتنبيه لا يمنع الترحيل.</div>
+<div class='msg'><b>جدول النقاط</b> (تغيّرها من ⚙ وتسري على ما يُسجَّل بعدها فقط):</div>
+<div style='overflow-x:auto'><table><tr><th>البند</th><th>النقاط</th><th>البند</th><th>النقاط</th></tr>
+<tr><td>غياب</td><td>−1</td><td>ملاحظة إيجابية</td><td>+1</td></tr>
+<tr><td>بعذر</td><td>0</td><td>ملاحظة قوية</td><td>+2</td></tr>
+<tr><td>صفحة (تسميع ١ و٢)</td><td>+1</td><td>ملاحظة سلبية</td><td>−1</td></tr>
+<tr><td>صفحة إضافي</td><td>+1</td><td>نجاح اختبار رسمي</td><td>3 أو 5 حسب الاختبار</td></tr>
+<tr><td>مراجعة</td><td>+1</td><td>نجاح اختبار مراجعة أول مرة</td><td>3 + المراجعة (= 4)</td></tr>
+<tr><td>تجويد</td><td>+1</td><td>نجاحه بعد إعادة</td><td>3</td></tr>
+<tr><td>درس</td><td>+1</td><td>رسوب اختبار مراجعة</td><td>0</td></tr>
+<tr><td>انتظام</td><td>+1 كل 3 حصص حضور متتالية</td><td></td><td></td></tr></table></div>
+<div class='msg'><b>الانتظام:</b> تُحسب من حصص ما قبل اليوم: كل 3 حصص حضور متتالية تمنح +1 في اليوم الثالث. الغياب يكسر المتتالية، والبعذر محايد (لا يكسر ولا يزيد). لا تُحسب في الحصة الخاصة.</div></div>
+
+<div class='card cl'><b>٤) الحصة الخاصة</b>
+<div class='msg'>لحصة إضافية بتاريخ معين وطلاب محددون (تقوية، تسميع استثنائي...). التطبيق لا يعرف أيام الدوام أصلاً، فأنت تحدد التاريخ من حقل التاريخ أعلى الشاشة.</div>
+<ol>
+<li>اضبط التاريخ أولاً، ثم اضغط «حصة خاصة» من شريط الوضع.</li>
+<li>اختر المشاركين بأسمائهم (تُضاء الأزرار).</li>
+<li>سجّل كالمعتاد — بلا أزرار حضور ولا غياب — ثم «اعتماد الحصة» بنقرتين.</li>
+<li>لتعديلها لاحقاً: افتح تاريخها واضغط «إعادة فتح الحصة الخاصة المرحَّلة لهذا التاريخ».</li>
+</ol>
+<div class='msg'><b>ما الذي يختلف عن العادية:</b> لا تُعدّ في عدد الحصص ولا الحضور ولا الانتظام ولا تنبيه الغياب المتتالي ولا عدد أيام الإحصاء. النقاط والصفحات والاختبارات تُحتسب كالعادة. في التقارير يظهر سطرها بوسم «حصة خاصة»، وفي CSV عمود «نوع الحصة». يجوز للطالب صفّان في التاريخ نفسه: عادي + خاص.</div>
+<div class='msg'>المسودات تُحفظ منفصلة لكل وضع، والتاريخ يُزامَن بين الوضعين عند التبديل. إعادة ترحيل طالب لديه صف خاص مرحَّل في التاريخ تُرفض حتى تعيد فتح الخاصة — حمايةً من الاستبدال الخاطئ.</div></div>
+
+<div class='card cl'><b>٥) تبويب «الاختبارات»</b>
+<div class='msg'><b>الكتالوج:</b> 219 اختباراً منقولة من ملف الإكسل: الرشيدي 7 · تهذيب اللسان 1: 7 · تهذيب اللسان 2: 7 · التلاوة 99 · الحفظ 99 (مراحل وأنصبة وأجزاء وخمسات وعشرات وشوامل). نقاط النجاح: 3 للمراحل والأنصبة والأجزاء، 5 للشوامل والخمسات والعشرات.</div>
+<div class='msg'><b>قائمة «المستحقون للاختبار»:</b> أعلى التبويب، تجمع من وصل تسميعه إلى حدّ اختباره القادم (أو تجاوزه) مع زر «سجّل» ينقلك لنموذج التسجيل بالطالب والمسار جاهزين.</div>
+<ol>
+<li>اختر الطالب فيُختار مساره المستحق تلقائياً، والاختبار القادم محدد مسبقاً (يمكنك تغييرهما).</li>
+<li>اكتب العامة واترك النتيجة «من العامة» فيحكم التطبيق بالحد (الجزء 90 · خمسة أجزاء 88 · عشرة أجزاء 88)، أو اختر النتيجة بنفسك (نجح/رسب/إعفاء/لم يختبر).</li>
+<li>«حفظ الاختبار بتاريخ الحصة» — أي بتاريخ اليوم المفتوح أعلى الشاشة، فاضبطه قبل الحفظ إن كان الاختبار أمس مثلاً.</li>
+</ol>
+<div class='msg'><b>الإعفاء بالرتبة:</b> إذا نجح طالب في اختبار متقدم يُسقط ما قبله تلقائياً (رتبته تصبح رتبة ذلك الاختبار).</div>
+<div class='msg'><b>الرسوب ثلاث مرات:</b> تحت سطر الاختبار الراسب يظهر عدّاد «رسب N مرة في القادم»، وعند 3 يظهر زر «⚠ رسب 3 مرات — اضغط لإعادة الجزء» يفتح خيارات: إعادة هذا النصف / إعادة الجزء كاملاً (أو أحد نصفيه) / <b>مسامحة</b> (لا تغيّر مؤشراً ولا رتبة وتصفّر العدّاد).</div>
+<div class='msg'><b>إعادة الجزء:</b> يعيد مؤشر التسميع لأول الجزء (أو أول النصف) ويسقط نتائج ما بعده. تنبيه: تعديل الإعادة في تاريخ حصة لم تُرحَّل بعد يسبق تسميعها، وبعدها يتبعه.</div>
+<div class='msg'><b>القائمة السفلية:</b> كل الاختبارات مع بحث بالاسم وترتيب (الأحدث · الأقدم · أبجدي · آخر ما أُدخل · الراسبون أولاً · حسب المسار). زر «تعديل ✎» يفتح نافذة: التاريخ، النتيجة، العلامة، الملاحظة، أو «حذف» (نقرتان، يذهب للسلة). ترتيب «الراسبون أولاً» يسهّل مراجعة نهاية كل شهر.</div></div>
+
+<div class='card cl'><b>٦) تبويب «الطلاب» وبطاقة الطالب</b>
+<div class='msg'><b>أعلى التبويب:</b> «تنبيهات» المجمعة بالنوع (اختبارات مستحقة · تجاوز حد اختبار · رسوب ثلاث مرات · غياب متتالٍ) ولكل تنبيه زر «سجّل» أو «إيقاف» (إيقاف الغياب المتتالٍ ينقل الطالب للمنقطعين — أعده من بطاقة «المنقطعون» بنفس التبويب). ثم بحث (يطابق الاسم أو الوسم) وترتيب (أبجدي · الأعلى نقاطاً · الأكثر غياباً) وقائمة تُظهر مستوى كل طالب ونقاطه وغيابه وإعاداته.</div>
+<div class='msg'><b>إضافة طالب:</b> الاسم + المستوى (رشيدي · تهذيب اللسان · تلاوة · غيب). اختر «غيب» لطالب حفظ من خارج المستويات (كطلاب الحفظ الذين تسميعهم غ ورتبهم صفر).</div>
+<div class='msg'><b>بطاقة الطالب</b> (اضغط اسمه):</div>
+<ul>
+<li><b>بيانات الطالب:</b> تاريخ الانضمام (فارغ = من بداية الحلقة)، تاريخ الانقطاع (فارغ = مستمر)، إعادة التسمية (تنتقل بها كل سجلاته)، <b>الدمج</b> لطالب مكرر: تُنقل سجلاته لطالب آخر ويُحذف، وانتبه: صفوفه في التواريخ التي للهدف فيها صف تُحذف.</li>
+<li><b>المسارات النشطة:</b> اختيار يدوي لمسارين على الأكثر لأزرار الصفحات السريعة. الافتراضي «تلقائي» يشتقها من رتب الاختبارات (رشيدي ← تهذيب١ ← عمّ ← تهذيب٢/تبارك ← تلاوة ← حفظ)، والوسم «غيب» يجعل المسار غ دائماً. «العودة إلى التلقائي» تلغي اليدوي.</li>
+<li><b>نقطة البداية:</b> آخر صفحة وصلها في كل مسار + آخر اختبار منجز في كل مسار، بلا تاريخ (لا تُحسب نشاطاً في يوم). استعملها لطالب انضم إليك وقد سمّع قبلك.</li>
+<li><b>الإحصاءات:</b> شبكة أرقام الشهر المختار (حصص، حضر، غاب، بعذر، نسبة الحضور، نقاط، صفحات، إعادات، اختبارات ✓/✗، ملاحظات +/−)، جدول المسارات (آخر صفحة وتاريخها وعدد حصصها والصفحة القادمة)، جدول تقدم الاختبارات بالأشرطة، وجدول شهري.</li>
+<li><b>تصحيحات متقدمة (تعديل يدوي):</b> «تسميع» يضبط آخر صفحة وصلها، «إعادة جزء» للتلاوة والحفظ (رقم الجزء 1–30)، «بداية الاختبارات» يتخطى ما قبل اختبار تختاره. كل تعديل مؤرخ بتاريخ الحصة ويظهر في تقرير اليوم، ويمكن حذفه (للسلة).</li>
+<li><b>الوسم (مجموعة):</b> نص حر مثل «أوقاف» يظهر شارة بجانب الاسم، ويمكن البحث به وتصفية الإحصاء والتقارير به. لا أثر له على الحساب.</li>
+<li><b>حذف الطالب:</b> بنقرتين؛ تُؤخذ نقطة حفظ ويُنقل مع كل سجلاته واختباراته وتعديلاته إلى سلة المحذوفات (استرجاعه من ⚙ ← نقاط الحفظ والمحذوفات).</li>
+<li>زر «تقرير هذا الطالب وإرساله لولي الأمر» ينقلك لتبويب التقرير بالطالب محدداً.</li>
+</ul></div>
+
+<div class='card cl'><b>٧) تبويب «الإحصاء»</b>
+<div class='msg'>ترتيب الطلاب بالنقاط أسبوعياً أو شهرياً. حقل التاريخ يختار أي يوم داخل الفترة المعروضة (الأسبوع = أحد–سبت المحيط بذلك اليوم، والشهر = شهره).</div>
+<div class='msg'>أعمدة الجدول: الترتيب · الطالب · النقاط · الصفحات · الإعادات · حضر (X من Y في النص المنسوخ) · غاب · بعذر · ✓ (اختبارات نجح) · ✗ (رسب) · + (ملاحظات إيجابية) · − (سلبية). الحصص الخاصة لا تُعدّ في «حضر» لكن طالبها يظهر في الجدول.</div>
+<div class='msg'>تصفية بالوسم (المجموعة)، وخانة «إظهار الملاحظات السلبية في النص المنسوخ» (الافتراضي مخفية). زر «نسخ الترتيب للواتساب» ينسخ نصاً كاملاً: الترتيب، النقاط، الصفحات، الإعادات، الحضور، الغياب، بعذر، نجح/رسب، الملاحظات.</div></div>
+
+<div class='card cl'><b>٨) تبويب «التقرير» والإرسال لأولياء الأمور</b>
+<div class='msg'>ثلاث خطوات مرقمة:</div>
+<ol>
+<li><b>لمن؟</b> طالب محدد أو «شامل (كل الطلاب)»، ويمكن تصفية الشامل بالوسم (المجموعة).</li>
+<li><b>أي فترة؟</b> أزرار: اليوم · الأسبوع · الشهر · الشهر الماضي (تُحسب بالنسبة لتاريخ اليوم المفتوح)، أو حدد التاريخين بنفسك. السطر الأخير يؤكد «الفترة المختارة».</li>
+<li><b>الناتج:</b> صيغة نص (للواتساب) أو CSV (جدول للإكسل، وفيه عمود «نوع الحصة»)، ثم «نسخ» أو «أرسل لولي الأمر».</li>
+</ol>
+<div class='msg'><b>نص اليوم (المجموعة):</b> يبدأ بالبسملة واسم المعهد واسم اليوم والتاريخ، والدرس والتجويد، ثم سطر لكل طالب: حالته، تسميعه بصيغة مقروءة، علاماته، اختباراته، ملاحظته (الإيجابية فقط — <b>السلبية مخفية دائماً</b>)، أسطر الإعادة والمسامحة، ونقاطه مع نقاط اختباراته. إن كان للطالب صف خاص يظهر سطره بوسم «حصة خاصة».</div>
+<div class='msg'><b>تقرير الطالب:</b> ملخص الحضور والنقاط، التقدم في كل مسار <b>بالمقاطع المسمَّعة فعلاً</b> («الجزء 1: ص7، ثم الجزء 29: ص562–572»)، «مصادر النقاط» (صفحات، مراجعة، تجويد... إلخ)، قائمة اختباراته، ثم سجل الأيام يوماً بيوم. خانة «تضمين الملاحظات السلبية» مفعّلة افتراضياً في تقرير الولي — ألغها إن أردت. ولإرساله: اكتب رقم واتساب الولي بصيغة دولية بلا + ولا أصفار (مثل 31612345678) ثم «أرسل».</div>
+<div class='msg'><b>قائمة «إرسال فردي لأولياء الأمور»:</b> تظهر في النطاق الشامل فقط وإذا وُجد يوم مرحَّل في الفترة (لا تظهر لليوم المفتوح قبل ترحيله). زر كل طالب يفتح واتساب برسالته، وتظهر ✓ بجانب من أرسلتَ له. وقائمة «إرسال الملاحظات السلبية» تسرد من لديهم سلبية في الفترة وترسل تقريرهم الكامل <b>متضمناً السلبية</b> بغض النظر عن الخانة. إن لم يفتح واتساب تُنسخ الرسالة تلقائياً.</div></div>
+
+<div class='card cl'><b>٩) النسخ الاحتياطي والاستعادة</b>
+<div class='msg'><b>بخطوة واحدة:</b> عندما يظهر الشريط «لم تحفظ نسخة/منذ 7 أيام» أعلى تبويب اليوم، اكتب كلمة مرور (اختيارية) واضغط «💾 احفظ نسخة الآن»: يُنشئ الملف ويفتح مشاركة أندرويد، وإلا نزّله. إن ألغيت المشاركة لا تُسجَّل نسخة.</div>
+<div class='msg'><b>من ⚙ ← النسخ الاحتياطي:</b> «إنشاء ملف» ثم انسخ النص أو نزّله أو شاركه. كلمة المرور 4 أحرف على الأقل؛ <b>بلا كلمة</b> = ملف غير مقروء للعين لكنه غير محمي، فلا ترسله لمن لا تأمنه.</div>
+<ol>
+<li><b>الفحص قبل الاستعادة:</b> الصق النص (أو اختر الملف) واضغط «فحص الملف» — يعرض أعداد الطلاب والسجلات والاختبارات وآخر تاريخ فيه مقارنةً بالحالي.</li>
+<li><b>الاستعادة:</b> نقرتان («اضغط للتأكيد: ستُستبدل البيانات الحالية»). تُؤخذ نقطة حفظ قبلها، فإن أخطأت استرجعت من نقاط الحفظ.</li>
+</ol>
+<div class='msg'>«تصدير نص غير مشفّر» في «متقدم» للتحليل الخارجي فقط. ويُقبل أيضاً ملف JSON خام من الإصدارات القديمة.</div>
+<div class='msg'>القاعدة الذهبية: نسخة خارج الهاتف (Drive أو رسالة لنفسك) كل أسبوع على الأقل. التخزين الداخلي نسختان متبادلتان مع بصمة تحقق، لكنه لا ينجو من مسح بيانات المتصفح أو تلف الجهاز.</div></div>
+
+<div class='card cl'><b>١٠) نقاط الحفظ وسلة المحذوفات وفحص المنطق</b>
+<div class='msg'>من ⚙ ← «نقاط الحفظ والمحذوفات»:</div>
+<ul>
+<li><b>نقاط الحفظ:</b> يصنعها التطبيق تلقائياً قبل كل ترحيل أو إعادة فتح أو استعادة أو حذف أو تعديل خطير أو تحديث إصدار، ويحتفظ بآخر 6. «استرجاع» نقرتان ويستبدل البيانات كلها بمحتوى النقطة.</li>
+<li><b>سلة المحذوفات:</b> الطلاب والاختبارات والتعديلات المحذوفة، ولكل عنصر «استرجاع». استرجاع طالب يُرفع إن وُجد طالب بالاسم نفسه (غيّر اسمه أولاً).</li>
+</ul>
+<div class='msg'><b>فحص منطق البيانات</b> (⚙ ← زره): يمرّ على السجل كله ويعرض ملاحظات للمراجعة: قفزات في الصفحات، رجوع للخلف، قفز في تسلسل الاختبارات، اختبار مكرر، اختبار قبل الوصول لحدّه، وأيام بلا نشاط مع حكم مساعد («غالباً لم يسمّع فعلاً»). ليست كلها أخطاء — بعضها طبيعي — لكنها أفضل أداة لاكتشاف ما لا يتناسق مع منطق الحلقة.</div></div>
+
+<div class='card cl'><b>١١) الإعدادات (⚙) والمظهر</b>
+<ul>
+<li><b>المظهر والإصدار:</b> ثلاثة مظاهر (أسود وبرتقالي — الافتراضي، أسود وأزرق، الأخضر الأصلي) ولون تمييز مخصص اختياري (يُحسب لون النص عليه تلقائياً). ورقم الإصدار يظهر هنا؛ عند كل إصدار جديد تُؤخذ نقطة حفظ تلقائياً عند أول تشغيل.</li>
+<li><b>اسم المعهد والحلقة:</b> يظهر في رأس كل التقارير والنصوص المنسوخة.</li>
+<li><b>قيم النقاط:</b> كل الأرقام في جدول النقاط أعلاه قابلة للتغيير، وكذلك «الانتظام: كل كم حصة» وقيمته، و«غياب متتالٍ للتنبيه» (الافتراضي 3). تسري على ما يُسجَّل بعدها فقط — نقاط الأيام السابقة لا تُعاد حسابها.</li>
+<li><b>حدود نجاح الاختبارات:</b> علامة النجاح لكل نوع (الجزء 90 · خمسة أجزاء 88 · عشرة أجزاء 88).</li>
+<li><b>البطاقات المطوية:</b> اضغط عنوان أي بطاقة (هنا وفي بطاقة الطالب) لتطوها أو تفتحها؛ حالتها محفوظة.</li>
+</ul></div>
+
+<div class='card cl'><b>١٢) أعمدة صف السجل (مرجع تقني)</b>
+<div class='msg'>كل صف في السجل 26 عموداً (وعمود إضافي «خاصة» للحصة الخاصة):</div>
+<div style='overflow-x:auto'><table><tr><th>#</th><th>المحتوى</th><th>#</th><th>المحتوى</th></tr>
+<tr><td>0</td><td>التاريخ</td><td>13</td><td>تفاصيل المراجعة</td></tr>
+<tr><td>1</td><td>اسم الطالب</td><td>14</td><td>تجويد (صح)</td></tr>
+<tr><td>2</td><td>الحضور (فارغ/غائب/بعذر)</td><td>15</td><td>درس (صح)</td></tr>
+<tr><td>3-5</td><td>تسميع ١: النوع، من، إلى</td><td>16</td><td>اختبار المراجعة ونتيجته</td></tr>
+<tr><td>6-8</td><td>تسميع ٢</td><td>17</td><td>تفاصيل اختبار المراجعة</td></tr>
+<tr><td>9-11</td><td>إضافي (إلى فارغ = إعادة)</td><td>18</td><td>نوع الملاحظة</td></tr>
+<tr><td>12</td><td>مراجعة (صح)</td><td>19-25</td><td>نص الملاحظة، النقاط، الصفحات، الإعادات، عنوان الدرس، عنوان التجويد، مكافأة الانتظام</td></tr></table></div>
+<div class='msg'>سجل الاختبارات: [التاريخ، الاسم، المسار، الرتبة، النتيجة، العلامة، الملاحظة]. والتعديلات اليدوية تحفظ بتاريخها وختمها الزمني.</div></div>
+
+<div class='card cl'><b>١٣) حماية بياناتك على الجهاز</b>
+<ul>
+<li><b>آيفون:</b> المتصفح قد يمسح تخزين المواقع غير المثبتة بعد 7 أيام دون استخدام. ثبّت التطبيق على الشاشة الرئيسية، وافتحه بانتظام، واحتفظ بنسخة خارجية.</li>
+<li><b>أندرويد:</b> التطبيق المثبّت يُمنح تخزيناً دائماً، لكن «مسح بيانات المتصفح» يمحوه — لا تمسحها.</li>
+<li><b>الحماية الفعلية</b> هي ملف النسخة خارج الهاتف. لا ترفع ملف نسخة احتياطية إلى GitHub أبداً (المستودع عام)، ولا تُدخل أسماء الطلاب في نسخة عامة.</li>
+<li><b>بعد رفع تحديث إلى GitHub:</b> افتح التطبيق مرتين وأنت متصل؛ سيظهر شريط «يوجد تحديث جديد — اضغط هنا لإعادة التحميل»، اضغطه مرة واحدة.</li>
+<li><b>ملاحظة معروفة:</b> وقت الترحيل محفوظ واحد لكل تاريخ، فإن عدّلت تعديلاً مؤرخاً بين حصتين في اليوم نفسه قد يتغير ترتيب أحداثه بالنسبة لإحدى الحصتين.</li>
+</ul></div>
+
+<div class='card cl'><b>١٤) مشاكل شائعة</b>
+<ul>
+<li><b>«الصفحة سبق تسميعها»:</b> كتبت صفحة قبل موضعه الحالي. إن كان الخطأ في الموضع نفسه صحّحه من بطاقة الطالب ← نقطة البداية أو تعديل يدوي.</li>
+<li><b>النقاط لا تتغير بعد تعديل قيمها:</b> القيم تسري مستقبلاً فقط؛ الأيام المرحَّلة تحفظ نقاطها كما سُجّلت.</li>
+<li><b>نسخت تقرير اليوم وظهر الجميع «حاضر»:</b> هذا مسودة ما قبل الترحيل. اعتمد الحصة ثم انسخ من جديد.</li>
+<li><b>طالب لا تظهر له أزرار صفحات:</b> مساره غير محدد — افتح بطاقته ← المسارات النشطة واختر له مساراً، أو سجّل له اختباراً يشتق منه النظام مساره.</li>
+<li><b>حصة خاصة لا تظهر في عدد الحصص:</b> مقصود؛ هي تُسجَّل في تقرير الطالب ونقاطه فقط.</li>
+<li><b>أرسلت تقريراً ولم يفتح واتساب:</b> تُنسخ الرسالة تلقائياً — الصقها في أي تطبيق.</li>
+<li><b>ظهرت رسالة تلف في النسخ الداخلية:</b> استُعملت السليمة تلقائياً؛ احفظ نسخة خارجية فوراً وافحص ملفها.</li>
+</ul></div>`;
+function vHlp(){return `<div class='card'><button data-back='1'>→ رجوع</button><b style='margin-inline-start:10px'>دليل الاستخدام الشامل</b><div class='msg'>يعمل هذا الدليل بلا إنترنت داخل التطبيق. اضغط عنوان أي قسم لفتحه أو طيه. إصدار التطبيق: ${VER}.</div></div>`+GUIDE}
+
+/* ===== التشغيل ===== */
+const after={today(){$$('.card[data-n]').forEach(upd)},ex(){fillEx(1);listEx()},st:listSt,sta(){},sv(){},au(){},cd(){fillAq();fillRp()},rp(){fillRp()},hlp(){},cfg(){}};
+function render(){try{applyTheme()}catch(e){}const v=S.v||'today';$$('nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===(v==='cd'||v==='sv'||v==='au'||v==='cfg'?'st':v)));$('#dt').value=S.day.date;
+ $('#bd').textContent=S.log.some(r=>r[0]===S.day.date&&(r[26]==='خاصة')===isSp())?'مرحَّلة ✓':'مفتوحة';$('#v').innerHTML=({today:vToday,ex:vEx,st:vSt,sta:vSta,cd:vCard,sv:vSv,au:vAu,cfg:vCfg,hlp:vHlp,rp:vRp})[v]();after[v]();applyCl()}
+$('#v').addEventListener('click',e=>{const t=e.target.closest&&e.target.closest('.cl>b:first-child');if(!t)return;const c=t.parentElement,k=clKey(c);S.op=S.op||{};S.op[k]=c.classList.contains('shut')?1:0;c.classList.toggle('shut');save()});
+$('nav').onclick=e=>{const b=e.target.closest('button');if(b){S.v=b.dataset.v;save();render()}};
+$('#dt').onchange=e=>{if(e.target.value){S.day.date=e.target.value;save();render()}};
+$('#v').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const c=b.dataset.xo!==undefined?null:b.closest('.card[data-n]');
+ if(c){const st=byName(c.dataset.n),r=dr(st.n),t=b.dataset.t;pushUn(st.n);
+  if('a' in b.dataset)r.a=b.dataset.a;else if(t==='v')r.v=r.v?'':'1';else if(t==='l')r.l=flag(r,'l',S.day.lesson)?'0':'1';else if(t==='t')r.t=flag(r,'t',S.day.taj)?'0':'1';else if(b.dataset.q){const[i,v]=b.dataset.q.split('|');r.s[+i]=r.s[+i]===v?'':v}else if(b.dataset.xo2!==undefined){r.xo=1}else r.n=r.n===t?'':t;
+  save();c.outerHTML=card(st);upd($(`.card[data-n="${CSS.escape(st.n)}"]`));return}
+ const id=b.id;if(b.dataset.s!==undefined)pick(b.dataset.s);else if(b.dataset.m)toggleMode(b.dataset.m);else if(b.dataset.undo)undo();else if(b.dataset.th!==undefined){S.th=b.dataset.th;save();render()}else if(b.dataset.thx!==undefined){delete S.thc;save();render()}else if(b.dataset.delst!==undefined){if(!b.dataset.ok){b.dataset.ok=1;b.textContent='اضغط للتأكيد: حذف الطالب وكل سجلاته';return}const nn=$('#cs').value;if(delStudent(nn)){S.v='st';toast('نُقل الطالب وسجلاته إلى سلة المحذوفات');render()}}else if(b.dataset.sp!==undefined)setSp(b.dataset.sp==='1');else if(b.dataset.sel!==undefined){const a=S.day.sel||(S.day.sel=[]),i=a.indexOf(b.dataset.sel);if(i>=0)a.splice(i,1);else a.push(b.dataset.sel);save();render()}else if(b.dataset.snd!==undefined)sendOne(b.dataset.snd);else if(b.dataset.sndn!==undefined)sendNeg(b.dataset.sndn);else if(b.dataset.mg){const to=$('#mg').value,fr=$('#cs').value;if(!to){toast('اختر الطالب المراد الدمج فيه');return}if(!b.dataset.ok){b.dataset.ok=1;b.textContent='اضغط للتأكيد: سيُدمج «'+fr+'» في «'+to+'»';return}mergeStudent(fr,to)}else if(b.dataset.done)finish();else if(b.dataset.xo!==undefined){S.xs=b.dataset.xo;S.v='ex';save();render();scrollTo(0,0)}else if(b.dataset.ed!==undefined)openEx(+b.dataset.ed);else if(b.dataset.sn!==undefined){if(!b.dataset.ok){b.dataset.ok=1;b.textContent='اضغط للتأكيد';return}const s=snaps()[+b.dataset.sn];if(!s)return;snap('قبل الاسترجاع');S.st=s.d.st;S.log=s.d.log;S.ex=s.d.ex;S.adj=s.d.adj||[];save();toast('تم الاسترجاع');render()}else if(b.dataset.tr!==undefined){restoreTr(+b.dataset.tr)}else if(id==='sv'){S.pv=S.v;S.v='sv';save();render();scrollTo(0,0)}else if(b.dataset.cj){const st=byName($('#cs').value);snap('قبل تعديل تواريخ طالب');st.j='';save();render()}else if(b.dataset.cq){const st=byName($('#cs').value);snap('قبل تعديل تواريخ طالب');st.q='';save();render()}else if(b.dataset.mta){const st=byName($('#cs').value);snap('قبل تعديل مسارات طالب');delete st.tr;save();render()}else if(b.dataset.qs!==undefined){snap('قبل إيقاف طالب');byName(b.dataset.qs).q=addD(S.day.date,-1);save();toast('أُوقف الطالب وانتقل إلى المنقطعين');render()}else if(b.dataset.qb!==undefined){snap('قبل إعادة طالب');byName(b.dataset.qb).q='';save();toast('أُعيد الطالب إلى الحلقة');render()}else if(b.dataset.sr!==undefined)saveRow(FOC);else if(id==='au'){S.pv=S.v;S.v='au';save();render();scrollTo(0,0)}else if(b.dataset.rp)setRp(b.dataset.rp);else if(id==='rsend')sendRp();else if(b.dataset.gr){S.rs=$('#cs').value;S.pv=S.v;S.v='rp';save();render();scrollTo(0,0)}else if(id==='rcpy')copyStr($('#rtx').value);else if(b.dataset.c!==undefined){S.pv=S.v==='cd'?S.pv:S.v;S.cs=b.dataset.c;S.v='cd';save();render();scrollTo(0,0)}else if(b.dataset.pk){S.pk=b.dataset.pk;save();render()}else if(b.dataset.back){S.v=S.pv||'st';save();render()}else if(id==='pcp')copyStr(ptext());else if(id==='asave')saveAdj();else if(b.dataset.ad!==undefined){if(!b.dataset.ok){b.dataset.ok=1;b.textContent='تأكيد؟';return}snap('قبل حذف تعديل');S.trash.push({k:'تعديل',d:S.adj[+b.dataset.ad],t:Date.now()});S.adj.splice(+b.dataset.ad,1);save();render()}else if(b.dataset.rs!==undefined)resetPart(+b.dataset.rs);else if(id==='commit')commit();else if(id==='reopen'){if(!b.dataset.ok){b.dataset.ok=1;b.textContent='اضغط للتأكيد: ستعود سجلات هذا اليوم للتحرير';return}reopen()}else if(id==='xsave')saveEx();else if(id==='rcp')copyTxt();
+ else if(b.dataset.del){S.ex.splice(+b.dataset.del,1);save();render()}
+ else if(id==='aadd'){const n=$('#an').value.trim();if(!n||byName(n)){toast('اكتب اسماً جديداً');return}const l=$('#al').value;S.st.push({n,lvl:l,j:S.day.date,q:'',b:{},r:{},t1:LV[l],t2:''});save();render()}
+ else if(id==='qbk')quickBk();else if(id==='bkmake')mkBackup();else if(id==='bkcopy')bkOut('copy');else if(id==='bkdl')bkOut('dl');else if(id==='bksh')bkOut('sh');else if(id==='bkchk')bkCheck(0);else if(id==='bkres')bkCheck(1,b);else if(id==='bx')$('#bk').value=JSON.stringify({st:S.st,log:S.log,ex:S.ex,adj:S.adj,set:S.set||{},ct:S.ct||{}});
+ else if(id==='bi'){if(!b.dataset.ok){b.dataset.ok=1;b.textContent='اضغط للتأكيد: ستُستبدل البيانات الحالية';return}try{const j=JSON.parse($('#bk').value);if(!Array.isArray(j.st)||!Array.isArray(j.log)||!Array.isArray(j.ex))throw 0;snap('قبل الاستعادة من نسخة');S.st=j.st;S.log=j.log;S.ex=j.ex;S.adj=j.adj||[];save();toast('تمت الاستعادة');render()}catch(x){toast('النسخة غير صالحة')}}
+ else if(id==='br'){if(!b.dataset.ok){b.dataset.ok=1;b.textContent='اضغط للتأكيد (يُستبدل ما أدخلته)';return}S.st=D.st;S.log=D.log;S.ex=D.ex;S.adj=[];save();render()}});
+$('#v').addEventListener('input',e=>{const t=e.target,c=t.closest('.card[data-n]');
+ if(c){const r=dr(c.dataset.n);if(t.dataset.k!==undefined)r.s[+t.dataset.k]=t.value;else if(t.dataset.nt)r.nt=t.value;else if(t.dataset.xd!==undefined)r.xd=t.value;else if(t.dataset.vd!==undefined)r.vd=t.value;save();upd(c);return}
+ if(t.id==='ls'||t.id==='tj'){S.day[t.id==='ls'?'lesson':'taj']=t.value;save();$$('.card[data-n]').forEach(c=>{const r=dr(c.dataset.n);$('[data-t="l"]',c).classList.toggle('on',flag(r,'l',S.day.lesson));$('[data-t="t"]',c).classList.toggle('on',flag(r,'t',S.day.taj));upd(c)})}
+ else if(t.id==='sq'){S.q=t.value;listSt()}else if(t.id==='xq'){S.xq=t.value;listEx()}else if(t.id==='fq'){FQ=t.value;FOC=null;renderArea()}});
+$('#v').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='fq'){const f=$('.chip');if(f)pick(f.dataset.s)}});
+$('#v').addEventListener('change',e=>{if(e.target.id==='xs')fillEx(1);else if(e.target.id==='xt')fillEx(0);else if(e.target.id==='ai'||e.target.id==='at')fillAq();else if(e.target.id==='xo'){S.xso=e.target.value;save();listEx()}else if(e.target.id==='ss'){S.ss=e.target.value;save();listSt()}else if(e.target.id==='ph'){const s=byName(S.rs);if(s){s.ph=e.target.value;save()}}else if(e.target.id==='rs'){S.rs=e.target.value;save();render()}else if(e.target.id==='rn'){renameStudent($('#cs').value,e.target.value.trim())}else if(e.target.dataset.ph2!==undefined){const s=byName(e.target.dataset.ph2);if(s){s.ph=e.target.value;save();render()}}else if(e.target.id==='bkf'){const f=e.target.files[0];if(f)f.text().then(x=>{$('#bk').value=x.trim();msgBk('تم تحميل الملف. اكتب كلمة مروره ثم اضغط «فحص الملف».')})}else if(e.target.id==='rfm'){S.rfm=e.target.value;save();fillRp()}else if(e.target.dataset.cf!==undefined){const k=e.target.dataset.cf,v=e.target.value.trim(),x=k==='hdr'?v:(v===''?0:+v);if(k!=='hdr'&&isNaN(x)){toast('أدخل رقماً');return}S.set=S.set||{};S.set[k]=x;SET[k]=x;save();toast('حُفظ')}else if(e.target.dataset.ct!==undefined){const x=+e.target.value;if(isNaN(x)){toast('أدخل رقماً');return}SET.thr[e.target.dataset.ct]=x;S.set=S.set||{};S.set.thr=SET.thr;save();toast('حُفظ')}else if(e.target.dataset.b!==undefined){const st=byName($('#cs').value),c=e.target.dataset.b,v=e.target.value.trim();if(v===''){snap('قبل تعديل نقطة البداية');st.b[c]=null;save();render();return}const n=+ND(v);if(!IX[c][n]){toast('الصفحة '+n+' خارج هذا المسار');return}snap('قبل تعديل نقطة البداية');st.b[c]=n;save();render()}else if(e.target.dataset.r!==undefined){const st=byName($('#cs').value);snap('قبل تعديل نقطة البداية');(st.r=st.r||{})[e.target.dataset.r]=+e.target.value;save();render()}else if(e.target.id==='rf'||e.target.id==='rt2'){S[e.target.id]=e.target.value;save();fillRp()}else if(e.target.id==='rneg'){S.rneg=e.target.checked?1:0;save();fillRp()}else if(e.target.id==='thc'){S.thc=e.target.value;save();render()}else if(e.target.id==='tg'){const s=byName($('#cs').value);if(s){const v=e.target.value.trim();if(v)s.g=v;else delete s.g;save();render()}}else if(e.target.id==='rtg'||e.target.id==='ftg'||e.target.id==='dtg'){S[e.target.id]=e.target.value;save();render()}else if(e.target.id==='pneg'){S.pneg=e.target.checked?1:0;save()}else if(e.target.dataset.mt!==undefined){const st=byName($('#cs').value),s=new Set(st.tr||[]),c=e.target.dataset.mt;if(e.target.checked)s.add(c);else s.delete(c);if(s.size>2){toast('اختر مسارين على الأكثر');render()}else{snap('قبل تعديل مسارات طالب');if(s.size)st.tr=[...s];else delete st.tr;save();render()}}else if(e.target.id==='jd'||e.target.id==='qd'){const st=byName($('#cs').value);snap('قبل تعديل تواريخ طالب');if(e.target.id==='jd')st.j=e.target.value;else st.q=e.target.value;save();render()}else if(e.target.dataset.xr!==undefined){const c=e.target.closest('.card[data-n]'),st=byName(c.dataset.n);dr(st.n).xr=e.target.value;save();c.outerHTML=card(st);upd($(`.card[data-n="${CSS.escape(st.n)}"]`))}else if(e.target.id==='pd'&&e.target.value){S.pd=e.target.value;save();render()}else if(e.target.id==='cs'){S.cs=e.target.value;save();render()}else if(e.target.id==='cm'&&e.target.value){S.cm=e.target.value;save();render()}});
+render();
+if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){const had=!!navigator.serviceWorker.controller;addEventListener('load',()=>navigator.serviceWorker.register('sw.js').then(r=>{const u=()=>r.update().catch(()=>{});u();document.addEventListener('visibilitychange',()=>{if(!document.hidden)u()})}).catch(()=>{}));navigator.serviceWorker.addEventListener('controllerchange',()=>{if(!had||document.getElementById('updbar'))return;const d=document.createElement('div');d.id='updbar';d.style.cssText='position:fixed;left:0;right:0;bottom:0;z-index:99;background:var(--ac);color:var(--on);padding:14px;text-align:center;font-weight:700;cursor:pointer';d.textContent='يوجد تحديث جديد للتطبيق — اضغط هنا لإعادة التحميل';d.onclick=()=>location.reload();document.body.appendChild(d)})}
+/* ===== حاوية أندرويد (APK): تنزيل ومشاركة عبر الجسر الأصلي ===== */
+if(window.AndroidBridge){
+ window.bkOut=async function(k){const tx=$('#bk').value;if(!/^HALAQA[01]:/.test(tx)){msgBk('أنشئ الملف أولاً',1);return}
+  const nm='halaqa-backup-'+S.day.date+'.txt',b64=btoa(unescape(encodeURIComponent(tx)));let ok=0;
+  try{
+   if(k==='copy'){copyStr(tx);ok=1}
+   else if(k==='dl'){AndroidBridge.save(nm,b64);ok=1}
+   else{AndroidBridge.share(nm,b64);ok=1}
+  }catch(e){}
+  if(ok){S.ext=Date.now();save();msgBk(k==='copy'?'نُسخ الملف. تأكد أن النص وصل إلى مكان آمن.':k==='dl'?'نُزّل الملف إلى مجلد التنزيلات في هاتفك.':'فتح خيار المشاركة؛ اختر التطبيق الذي تريد إرسال النسخة إليه.')}}}
+
+</script>
+</body>
+</html>
