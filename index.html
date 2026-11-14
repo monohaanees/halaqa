@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>سجل الحلقة</title>
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#1f6b4f">
+<meta name="theme-color" content="#0a0a0a">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
@@ -16,7 +16,7 @@ html{scroll-padding-top:env(safe-area-inset-top,0px)} .cl>b:first-child{display:
 body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 Tajawal,system-ui,Tahoma,sans-serif}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
 #top{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5;border-bottom:1px solid var(--br)}
-.hd{display:flex;align-items:center;gap:10px;padding:10px 14px}.hd b{font-size:19px;flex:1}.hd input{width:auto}
+.hd{display:flex;align-items:center;gap:6px;padding:10px 12px}#hlp{padding:8px 12px}.hd b{font-size:19px;flex:1}.hd input{width:auto}
 nav{display:flex;gap:6px;padding:0 10px 8px}nav button{flex:1}
 main{max-width:760px;margin:auto;padding:12px 14px 90px}
 button,input,select,textarea{font:inherit;color:inherit}
@@ -40,7 +40,7 @@ nav button{font-size:13px;padding:6px 2px}table{width:100%;border-collapse:colla
 </head>
 <body>
 <div id="top">
-<div class="hd"><b>📖 سجل الحلقة</b><span class="badge" id="bd"></span><input type="date" id="dt"><button id="gear">⚙</button></div>
+<div class="hd"><b>📖 سجل الحلقة</b><span class="badge" id="bd"></span><input type="date" id="dt"><button id="gear">⚙</button><button id="hlp" title="الدليل">؟</button></div>
 <nav><button data-v="today">اليوم</button><button data-v="ex">الاختبارات</button><button data-v="st">الطلاب</button><button data-v="sta">الإحصاء</button><button data-v="rp">التقرير</button></nav>
 </div>
 <main id="v"></main>
@@ -61,7 +61,7 @@ let S=null,SN=0,LOADMSG='';
 if(!S)try{S=JSON.parse(localStorage.getItem(K))}catch(e){}
 function put(){SN++;const j=JSON.stringify(S);localStorage.setItem(K+(SN%2?'.a':'.b'),SN+'|'+fnv(j)+'|'+j)}
 try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
-if(!S||!S.log)S={sn:1,sn2:1,sn3:1,sn4:1,sn5:1,sn6:1,sn7:1,st:D.st,log:D.log,ex:D.ex,day:{date:iso(new Date()),lesson:'',taj:'',r:{}}};
+if(!S||!S.log)S={sn:1,sn2:1,sn3:1,sn4:1,sn5:1,sn6:1,sn7:1,sn8:1,sn9:1,sn10:1,sn11:1,st:D.st,log:D.log,ex:D.ex,day:{date:iso(new Date()),lesson:'',taj:'',r:{}}};
 if(!S.adj)S.adj=[];
 const save=()=>{try{(S.adj||[]).forEach(a=>{if(!a[8])a[8]=Date.now()});put()}catch(e){try{localStorage.removeItem(SK);put()}catch(e2){setTimeout(()=>toast('⚠ تعذّر الحفظ على هذا الجهاز، صدّر نسخة الآن'),0)}}};
 if(!S.trash)S.trash=[];
@@ -76,13 +76,14 @@ for(const c in D.pm){P[c]=[];IX[c]={};D.pm[c].split(',').forEach(x=>{const[a,b]=
 const CAT={};D.cat.forEach(e=>{(CAT[e[0]]=CAT[e[0]]||[])[e[4]-1]=e});
 const byName=n=>S.st.find(s=>s.n===n),dr=n=>S.day.r[n]||(S.day.r[n]={a:'',s:['','',''],v:'',n:'',nt:''});
 const active=d=>S.st.filter(s=>(!s.j||s.j<=d)&&(!s.q||s.q>=d)).sort((a,b)=>a.n.localeCompare(b.n,'ar'));
-const VER='2026-11-12.1';
+const VER='2026-11-14.1';
 const THK=['--bg','--sf','--tx','--mu','--br','--ac','--on','--ok','--bad','--wr','--w2'];
-const THS={o:{n:'أسود وبرتقالي',v:{'--bg':'#0a0a0a','--sf':'#161616','--tx':'#f2efe9','--mu':'#a39d92','--br':'#2b2b2b','--ac':'#ff9a1f','--on':'#1a0e00','--ok':'#2a1d0a','--bad':'#ff8f82','--wr':'#f0c35a','--w2':'#33260c'}},
+const THS={o:{n:'أسود وبرتقالي',v:{'--bg':'#0a0a0a','--sf':'#161616','--tx':'#f2efe9','--mu':'#a39d92','--br':'#2b2b2b','--ac':'#f59e42','--on':'#1a0e00','--ok':'#2a1d0a','--bad':'#ff8f82','--wr':'#f0c35a','--w2':'#33260c'}},
  b:{n:'أسود وأزرق',v:{'--bg':'#0a0b0e','--sf':'#14161b','--tx':'#eef1f6','--mu':'#9aa3b2','--br':'#262b35','--ac':'#4aa3ff','--on':'#001428','--ok':'#0d2238','--bad':'#ff8f82','--wr':'#f0c35a','--w2':'#2f2a14'}},
  g:{n:'الأخضر (الأصلي)',v:null}};
 function applyTheme(){const r=document.documentElement;if(!r||!r.style)return;THK.forEach(k=>r.style.removeProperty(k));const t=THS[S.th||'o'];if(t&&t.v){r.setAttribute('data-theme','dark');for(const k in t.v)r.style.setProperty(k,t.v[k])}else r.removeAttribute('data-theme');
- if(S.thc&&/^#[0-9a-f]{6}$/i.test(S.thc)){r.style.setProperty('--ac',S.thc);const n=parseInt(S.thc.slice(1),16),L=((n>>16)*299+((n>>8)&255)*587+(n&255)*114)/1000;r.style.setProperty('--on',L>150?'#111':'#fff')}}
+ if(S.thc&&/^#[0-9a-f]{6}$/i.test(S.thc)){r.style.setProperty('--ac',S.thc);const n=parseInt(S.thc.slice(1),16),L=((n>>16)*299+((n>>8)&255)*587+(n&255)*114)/1000;r.style.setProperty('--on',L>150?'#111':'#fff')}
+ try{const m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',(getComputedStyle(document.documentElement).getPropertyValue('--bg')||'').trim()||'#0a0a0a')}catch(e){}}
 function clKey(c){const b=c.firstElementChild;return b?b.textContent.replace(/[0-9٠-٩()]+/g,'').trim():''}
 function applyCl(){try{$$('.cl').forEach(c=>{c.classList.toggle('shut',!((S.op||{})[clKey(c)]))})}catch(e){}}
 const isSp=()=>Array.isArray(S.day.sel);const actD=d=>isSp()?active(d).filter(s=>S.day.sel.includes(s.n)):active(d);
@@ -145,9 +146,9 @@ const qa=s=>esc(s).replace(/'/g,'&#39;');
 const nrm=s=>s.replace(/[\u064B-\u0652]/g,'').replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي');
 const touched=n=>{const r=S.day.r[n];return (late()&&S.log.some(x=>x[0]===S.day.date&&x[1]===n))||S.ex.some(x=>x[1]===n&&x[0]===S.day.date)||!!r&&(!!r.a||r.s.some(Boolean)||!!r.v||!!r.n||!!r.xr||!!r.nt)};
 function qp(st,r){if(r.a)return'';return[T1(st),T2(st)].map((c,i)=>{if(!c)return'';const p=pos(st,c,S.day.date),pg=P[c].slice(p,p+5),cur=ND(r.s[i]||'').replace(/^(ته|[رتغ])\s*/,'');return `<div class='qp'><span>${c}</span>${pg.map(x=>`<button data-q='${i}|${x}' class='${cur==x?'on':''}'>${x}</button>`).join('')}${pg[0]?`<button data-q='${i}|${pg[0]}-' class='${cur===pg[0]+'-'?'on':''}'>إعادة</button>`:''}</div>`}).join('')}
-function inner(d){const L=actD(d.date),q=nrm(FQ.trim()).split(/\s+/).filter(Boolean),M=L.filter(s=>q.every(t=>nrm(s.n).includes(t))),f=byName(FOC)||(q.length&&M.length===1?M[0]:null);return(f?`<div>${card(f)}<button class='pri' ${late()?'data-sr=1':'data-done=1'} style='width:100%;margin-bottom:10px;padding:12px'>${late()?'حفظ الصف في السجل':'تم ✓'}</button></div>`:'')+`<div class='grid'>${M.filter(s=>!TODO||!touched(s.n)).map(s=>{const r=S.day.r[s.n]||{};return `<button class='chip ${r.a?'ab':touched(s.n)?'dn':''}' data-s='${qa(s.n)}'>${esc(s.n)}${xd(s.n)?' 📝':''}</button>`}).join('')}</div>`}
-function cardsArea(d){const L=actD(d.date);return `<div class='sb'><input id='fq' placeholder='ابحث باسم الطالب…' value='${qa(FQ)}' autocomplete='off'><div class='tb'><span class='badge' id='dn'>سُجّل ${L.filter(s=>touched(s.n)).length} / ${L.length}</span><button data-undo='1'>↩ تراجع</button>${isSp()?'':`<button data-m='ab' class='${MODE==='ab'?'on':''}'>تسجيل الغياب</button>`}<button data-m='todo' class='${TODO?'on':''}'>المتبقون فقط</button></div></div><div id='ca'>${inner(d)}</div>`}
-function renderArea(){const d=S.day,L=actD(d.date);$('#ca').innerHTML=inner(d);$$('#ca .card[data-n]').forEach(upd);$('#dn').textContent='سُجّل '+L.filter(s=>touched(s.n)).length+' / '+L.length}
+function inner(d){const L=actD(d.date),q=nrm(FQ.trim()).split(/\s+/).filter(Boolean),M=L.filter(s=>(!S.dtg||s.g===S.dtg)&&q.every(t=>nrm(s.n).includes(t))),f=byName(FOC)||(q.length&&M.length===1?M[0]:null);return(f?`<div>${card(f)}<button class='pri' ${late()?'data-sr=1':'data-done=1'} style='width:100%;margin-bottom:10px;padding:12px'>${late()?'حفظ الصف في السجل':'تم ✓'}</button></div>`:'')+`<div class='grid'>${M.filter(s=>!TODO||!touched(s.n)).map(s=>{const r=S.day.r[s.n]||{};return `<button class='chip ${r.a?'ab':touched(s.n)?'dn':''}' data-s='${qa(s.n)}'>${esc(s.n)}${xd(s.n)?' 📝':''}</button>`}).join('')}</div>`}
+function cardsArea(d){const L=actD(d.date).filter(s=>!S.dtg||s.g===S.dtg);return `<div class='sb'><input id='fq' placeholder='ابحث باسم الطالب…' value='${qa(FQ)}' autocomplete='off'>${allTags().length?`<select id='dtg' style='margin-top:6px'><option value=''>كل المجموعات</option>${allTags().map(g=>`<option${g===S.dtg?' selected':''}>${esc(g)}</option>`).join('')}</select>`:''}<div class='tb'><span class='badge' id='dn'>سُجّل ${L.filter(s=>touched(s.n)).length} / ${L.length}</span><button data-undo='1'>↩ تراجع</button>${isSp()?'':`<button data-m='ab' class='${MODE==='ab'?'on':''}'>تسجيل الغياب</button>`}<button data-m='todo' class='${TODO?'on':''}'>المتبقون فقط</button></div></div>${S.dtg?`<div class='msg'>التصفية بالمجموعة للعرض فقط؛ «اعتماد الحصة» يشمل كل الطلاب.</div>`:''}<div id='ca'>${inner(d)}</div>`}
+function renderArea(){const d=S.day,L=actD(d.date).filter(s=>!S.dtg||s.g===S.dtg);$('#ca').innerHTML=inner(d);$$('#ca .card[data-n]').forEach(upd);$('#dn').textContent='سُجّل '+L.filter(s=>touched(s.n)).length+' / '+L.length}
 function pick(n){if(MODE==='ab'){pushUn(n);const r=dr(n);r.a=r.a==='غ'?'':'غ';save();renderArea();return}if(late()){const i=S.log.findIndex(r=>r[0]===S.day.date&&r[1]===n);if(i>=0)editRow(i)}FOC=n;renderArea();scrollTo({top:0,behavior:'smooth'})}
 function finish(){FOC=null;FQ='';render();scrollTo({top:0})}
 function toggleMode(m){if(m==='ab')MODE=MODE==='ab'?'':'ab';else TODO=TODO?0:1;render()}
@@ -191,6 +192,7 @@ function listSt(){const t=totals(),q=(S.q||'').trim(),d=S.day.date;
 /* ===== التقرير ===== */
 function rowsFor(date){const l=S.log.filter(r=>r[0]===date&&r[26]!=='خاصة');if(l.length)return l;if(S.log.some(r=>r[0]===date))return[];const rd=isSp()?S.alt:S.day;if(!rd||rd.date!==date)return[];const t=S.day;S.day=rd;try{return active(date).map(st=>{const r=dr(st.n);return toRow(st,r,date,calc(st,r,date))})}finally{S.day=t}}
 function text(date){const rows=rowsFor(date).concat(S.log.filter(r=>r[0]===date&&r[26]==='خاصة')).filter(r=>inTg(r[1])),wd=new Date(date+'T00:00:00').toLocaleDateString('ar',{weekday:'long'}),L=['بسم الله الرحمن الرحيم',SET.hdr,'سجل المتابعة اليومي — '+wd+' '+date];
+ if(!S.log.some(r=>r[0]===date))L.push('⚠ مسودة غير مرحَّلة: الحضور والنقاط مبدئية، ولا يُعتمد هذا التقرير إلا بعد ترحيل الحصة.');
  if(rows[0]&&rows[0][23])L.push('الدرس: '+rows[0][23]);if(rows[0]&&rows[0][24])L.push('التجويد: '+rows[0][24]);L.push('');
  const seenX=new Set();rows.forEach((r,i)=>{const fx=!seenX.has(r[1]);seenX.add(r[1]);const xs=fx?S.ex.filter(x=>x[0]===date&&x[1]===r[1]):[],xp=xs.reduce((s,x)=>{const e=(CAT[x[2]]||[])[x[3]-1];return s+(x[4]==='نجح'&&e?e[5]:0)},0),
   rec=[fmt(r[3],r[4],r[5]),fmt(r[6],r[7],r[8]),fmt(r[9],r[10],r[11])].filter(Boolean),ch=[r[12]==='صح'?'مراجعة ✓'+(r[13]?' ('+r[13]+')':''):'',r[14]==='صح'?'تجويد ✓':'',r[15]==='صح'?'درس ✓':''].filter(Boolean);
@@ -327,8 +329,9 @@ const vRp=()=>{const[f,t]=rpRange(),n=S.rs||'',st=n&&byName(n),L=[...S.st].sort(
 <div class='msg' style='margin-top:10px'><b>٢) أي فترة؟</b></div><div class='row'>${pre('t','اليوم')}${pre('w','الأسبوع')}${pre('m','الشهر')}${pre('p','الشهر الماضي')}</div><div class='msg'>الأسبوع والشهر يُحسبان بالنسبة لتاريخ اليوم المفتوح (${S.day.date}). أو حدّد التاريخين بنفسك:</div><div class='row'><div><label>من<input type='date' id='rf' value='${f}'></label></div><div><label>إلى<input type='date' id='rt2' value='${t}'></label></div></div><div class='msg'>الفترة المختارة: ${f} ← ${t}</div>
 <div class='msg' style='margin-top:10px'><b>٣) الناتج</b></div><div class='row'><div><label>الصيغة<select id='rfm'><option value='t'${S.rfm==='c'?'':' selected'}>نص</option><option value='c'${S.rfm==='c'?' selected':''}>CSV (جدول)</option></select></label></div></div>${st?`<label style='display:flex;gap:8px;align-items:center'><input type='checkbox' id='rneg' ${S.rneg===0?'':'checked'} style='width:auto'>تضمين الملاحظات السلبية في رسالة ولي الأمر</label><label>رقم واتساب ولي الأمر (دولي بلا + ولا أصفار، مثل 31612345678)<input id='ph' inputmode='tel' value='${qa(st.ph||'')}'></label>`:''}<textarea id='rt' readonly style='margin-top:8px;min-height:360px'></textarea><div class='row'><button class='pri' id='rcp'>نسخ</button>${st?`<button id='rsend'>أرسل لولي الأمر</button>`:''}</div></div>${st?'':(sendList(f,t)||`<div class='card'><div class='msg'>لا يظهر «الإرسال الفردي لأولياء الأمور» لأنه لا يوجد يوم مرحَّل في هذه الفترة (اليوم المفتوح لا يظهر فيه حتى يُرحَّل). رحِّل اليوم أو اختر فترة فيها سجل، أو اختر طالباً من «النطاق» ليظهر زر «أرسل لولي الأمر».</div></div>`)}${negList(f,t)}`};
 function vCfg(){const f=(k,l)=>`<div><label>${l}<input data-cf='${k}' value='${SET[k]??''}'></label></div>`;
- return `<div class='card'><button data-back='1'>→ رجوع</button><b style='margin-inline-start:10px'>الإعدادات</b><div class='msg'>تسري التغييرات على ما يُسجَّل بعدها فقط؛ نقاط الأيام السابقة تبقى كما سُجّلت.</div></div><div class='card cl'><b>المظهر والإصدار</b><div class='msg'>اختر مظهراً جاهزاً، أو غيّر لون التمييز فقط:</div><div class='row'>${Object.entries(THS).map(([k,t])=>`<button data-th='${k}' class='${(S.th||'o')===k?'on':''}'>${t.n}</button>`).join('')}</div><label>لون التمييز (اختياري)<input type='color' id='thc' value='${S.thc||'#ff9a1f'}'></label><button data-thx='1'>إلغاء اللون المخصص</button><div class='msg'>إصدار التطبيق: ${VER}</div></div><div class='card'><label>اسم المعهد والحلقة (يظهر في التقارير)<input data-cf='hdr' dir='rtl' value='${qa(SET.hdr||'')}'></label></div><div class='card cl'><b>قيم النقاط</b><div class='row'>${f('abs','الغياب')}${f('exc','بعذر')}${f('pg','الصفحة')}</div><div class='row'>${f('xpg','صفحة إضافي')}${f('rev','المراجعة')}${f('taj','التجويد')}</div><div class='row'>${f('les','الدرس')}${f('pos','ملاحظة +')}${f('pos2','ملاحظة ++')}</div><div class='row'>${f('neg','ملاحظة −')}${f('rvx','نجاح اختبار المراجعة')}<div></div></div><div class='row'>${f('strN','الانتظام: كل كم حصة')}${f('strB','قيمة مكافأة الانتظام')}${f('abN','غياب متتالٍ للتنبيه (حصص)')}</div></div><div class='card cl'><b>حدود نجاح الاختبارات (علامة)</b><div class='row'>${Object.keys(SET.thr).map(k=>`<div><label>${esc(k)}<input data-ct='${qa(k)}' value='${SET.thr[k]}'></label></div>`).join('')}</div></div>${bkUI()}`}
+ return `<div class='card'><button data-back='1'>→ رجوع</button><b style='margin-inline-start:10px'>الإعدادات</b><div class='msg'>تسري التغييرات على ما يُسجَّل بعدها فقط؛ نقاط الأيام السابقة تبقى كما سُجّلت.</div></div><div class='card cl'><b>المظهر والإصدار</b><div class='msg'>اختر مظهراً جاهزاً، أو غيّر لون التمييز فقط:</div><div class='row'>${Object.entries(THS).map(([k,t])=>`<button data-th='${k}' class='${(S.th||'o')===k?'on':''}'>${t.n}</button>`).join('')}</div><label>لون التمييز (اختياري)<input type='color' id='thc' value='${S.thc||'#f59e42'}'></label><button data-thx='1'>إلغاء اللون المخصص</button><div class='msg'>إصدار التطبيق: ${VER}</div></div><div class='card'><label>اسم المعهد والحلقة (يظهر في التقارير)<input data-cf='hdr' dir='rtl' value='${qa(SET.hdr||'')}'></label></div><div class='card cl'><b>قيم النقاط</b><div class='row'>${f('abs','الغياب')}${f('exc','بعذر')}${f('pg','الصفحة')}</div><div class='row'>${f('xpg','صفحة إضافي')}${f('rev','المراجعة')}${f('taj','التجويد')}</div><div class='row'>${f('les','الدرس')}${f('pos','ملاحظة +')}${f('pos2','ملاحظة ++')}</div><div class='row'>${f('neg','ملاحظة −')}${f('rvx','نجاح اختبار المراجعة')}<div></div></div><div class='row'>${f('strN','الانتظام: كل كم حصة')}${f('strB','قيمة مكافأة الانتظام')}${f('abN','غياب متتالٍ للتنبيه (حصص)')}</div></div><div class='card cl'><b>حدود نجاح الاختبارات (علامة)</b><div class='row'>${Object.keys(SET.thr).map(k=>`<div><label>${esc(k)}<input data-ct='${qa(k)}' value='${SET.thr[k]}'></label></div>`).join('')}</div></div>${bkUI()}`}
 $('#gear').onclick=()=>{S.pv=S.v==='cfg'?S.pv:S.v;S.v='cfg';save();render();scrollTo(0,0)};
+$('#hlp').onclick=()=>{S.pv=S.v==='hlp'?S.pv:S.v;S.v='hlp';save();render();scrollTo(0,0)};
 if(!S.sn5){snap('قبل تحديث الدفعة الأولى (النقاط والتقارير والإعدادات)');S.sn5=1;save()}
 if(LOADMSG)setTimeout(()=>toast(LOADMSG),600);
 const b64e=u=>{let s='';for(let i=0;i<u.length;i+=8192)s+=String.fromCharCode.apply(null,u.subarray(i,i+8192));return btoa(s)};
@@ -396,10 +399,186 @@ $('#v').addEventListener('focusin',e=>{const c=e.target.closest&&e.target.closes
 if(!S.sn7){snap('قبل تحديث دفعتي الإدارة والتثبيت');S.sn7=1;save()} if(!S.sn8){snap('قبل إضافة المسارات اليدوية');S.sn8=1;save()} if(!S.sn9){snap('قبل تعديل التقارير والإحصاء');S.sn9=1;save()} if(!S.sn10){snap('قبل إضافة الحصة الخاصة');S.sn10=1;save()} if(!S.sn11){snap('قبل الوسم وحذف الطالب وتبسيط التقرير');S.sn11=1;save()} if(S.ver!==VER){snap('قبل الإصدار '+VER);S.ver=VER;save()}
 const vRpOld=()=>`<div class="card"><button class="pri" id="rcp" style="width:100%">نسخ التقرير للواتساب</button><textarea id="rt" readonly style="margin-top:8px;min-height:420px"></textarea></div>`;
 function copyTxt(){const a=$('#rt'),ok=()=>toast('نُسخ التقرير');try{navigator.clipboard.writeText(a.value).then(ok,()=>{a.select();document.execCommand('copy');ok()})}catch(e){a.select();document.execCommand('copy');ok()}}
+/* ===== الدليل ===== */
+const GUIDE=`
+<div class='card cl'><b>١) البداية السريعة: يومك في عشر خطوات</b>
+<div class='msg'>هذه الدورة تكررها كل حصة (أحد وثلاثاء وخميس):</div>
+<ol>
+<li>افتح التطبيق من أيقونته. تأكد أن التاريخ أعلى الشاشة هو تاريخ اليوم، وإلا اضبطه من حقل التاريخ.</li>
+<li>افتح قسم «الدرس والتجويد» واكتب عنوان الدرس وقاعدة التجويد مرة واحدة لكل الحصة (تُقترح لك العناوين السابقة تلقائياً).</li>
+<li>سجّل الغياب أولاً: اضغط «تسجيل الغياب» ثم اسم كل غائب (يظهر اسمه مشطوباً)، ثم ألغِ الوضع بالضغط على الزر مرة أخرى.</li>
+<li>اضغط اسم الطالب من الشبكة (أو ابحث عنه في حقل البحث) لتفتح بطاقته.</li>
+<li>اكتب تسميعه في خانة «تسميع» — الأسرع: اضغط زر الصفحة الجاهزة من أزرار الصفحات السريعة أسفل الخانات.</li>
+<li>علّم ما ينطبق: «مراجعة» أو «درس» أو «تجويد» (الدرس والتجويد يُعلمان تلقائياً لكل الحاضرين بمجرد كتابتهما أعلاه).</li>
+<li>راجع رقم النقاط الأحمر/الأخضر أعلى البطاقة، ثم اضغط «تم ✓» لتنتقل للطالب التالي.</li>
+<li>كرر حتى يكتمل العدّاد «سُجّل X / Y» (أو فعّل «المتبقون فقط» لإخفاء من سجّلتَهم).</li>
+<li>سجّل الاختبارات إن وُجدت من تبويب «الاختبارات» (زر «سجّل» في قائمة المستحقين ينقلك إليها بالطالب جاهزاً).</li>
+<li>اضغط «اعتماد الحصة وترحيلها إلى السجل» ثم اضغطها مرة ثانية للتأكيد. خُتمت الحصة وظهرت شارة «مرحَّلة ✓».</li>
+<li>أرسل التقرير: تبويب «التقرير» ← اليوم ← «نسخ» ثم الصق في مجموعة الأولياء.</li>
+</ol>
+<div class='msg'>⚠ لا شيء يدخل السجل قبل «اعتماد الحصة». إن أغلقتَ التطبيق قبلها فالمسودة محفوظة وتجدها عند فتح اليوم نفسه.</div></div>
+
+<div class='card cl'><b>٢) تبويب «اليوم» خانة خانة</b>
+<div class='msg'><b>الشريط العلوي:</b> الشارة بجانب العنوان تعرض «مفتوحة» أو «مرحَّلة ✓» لليوم المعروض (وتميّز العادية من الخاصة). حقل التاريخ ينقلك لأي يوم سابق أو قادم.</div>
+<div class='msg'><b>شريط البحث:</b> اكتب اسم الطالب لتصفية الشبكة، وإن بقي نتيجة واحدة فُتحت بطاقته مباشرة. Enter يفتح أول نتيجة.</div>
+<div class='msg'><b>قائمة المجموعة:</b> إن وُجدت وسوم فتظهر قائمة تصفية بجانب البحث؛ تعرض الطلاب والعدّاد فقط، و«اعتماد الحصة» يشمل كل الطلاب دائماً.</div>
+<div class='msg'><b>العدّاد والأزرار:</b> «سُجّل X / Y» عدد من مسجّل لهم اليوم. «↩ تراجع» يتراجع عن آخر تعديلات المسودة (حتى 30 خطوة، تعديلاتك داخل بطاقات اليوم فقط). «تسجيل الغياب» وضع سريع لتعليم الغائبين بالاسم. «المتبقون فقط» يخفي من سجّلتَ لهم شيئاً.</div>
+<div class='msg'><b>رقائق الأسماء:</b> الخضراء = سُجّل لهم اليوم، المشطوبة = غائبون. رمز 📝 بجانب الاسم = حُفظ له اختبار أو اختبار مراجعة في هذا التاريخ.</div>
+<div class='msg'><b>بطاقة الطالب:</b>
+<ul>
+<li>السطر الأول: الاسم، وسم المجموعة إن وُجد، النقاط المتوقعة لهذا اليوم، وسطر «تلميح» يعرض مساره وآخر صفحة سمّعها و«◂ اختبار» إن كان مستحقاً للاختبار القادم، وسطر «آخر حصة» بملخص يومه السابق.</li>
+<li>أزرار الحضور: حاضر / غائب / بعذر (بعذر = صفر نقطة ولا يكسر انتظامه ولا يُعد غياباً).</li>
+<li>ثلاث خانات تسميع: «تسميع» و«تسميع ٢» (لطالب يسمّع في مسارين) و«إضافي» (صفحات زائدة تُحتسب وتُنقّط مثل الصفحة).</li>
+<li>أزرار الصفحات السريعة: الصفحات الخمس القادمة في كل مسار نشط، وزر «إعادة» لإعادة الصفحة الحالية. الضغط يكتب الصيغة في الخانة، والضغط مرة أخرى يمسحها.</li>
+<li>أزرار: مراجعة (+1) · درس (+1) · تجويد (+1) · + إيجابية (+1) · ++ قوية (+2) · − سلبية (−1).</li>
+<li>خانة الملاحظة: نص حر يظهر في التقارير. بلا زر ملاحظة لا تتغير النقاط.</li>
+<li>اختبار المراجعة: يظهر دائماً لطلاب الحفظ، ولغيرهم زر «+ اختبار مراجعة». نجح من أول مرة = 3 + نقطة المراجعة (= 4 إن لم تُعلّم المراجعة)، نجح بعد إعادة = 3، رسب = 0. خانة «تفاصيل» اختيارية وتظهر في التقارير.</li>
+<li>«تم ✓» يغلق البطاقة ويعود بك للشبكة.</li>
+</ul></div>
+<div class='msg'><b>قبل الاعتماد</b> يعرض التطبيق ملخصاً: عدد الحاضرين والغائبين وبعذر، وأسماء من بلا تسميع ولا مراجعة (تأكد أنهم لم يسمّعوا فعلاً). الأخطاء الحمراء (كصفحة خارج المسار) تمنع الترحيل حتى تصححها.</div>
+<div class='msg'><b>نسيت الترحيل؟</b> المسودة تبقى محفوظة بتاريخها؛ افتح التطبيق في اليوم نفسه واضغط «اعتماد». ولتعديل حصة رحّلتَها: افتح تاريخها واضغط «إعادة فتحها للتعديل» (نقرتان) — يبقى السجل القديم كما هو حتى تعتمد من جديد، وتُؤخذ نقطة حفظ تلقائياً.</div>
+<div class='msg'>⚠ نص «نسخ اليوم» قبل الترحيل يعرض الجميع «حاضر» كمسودة، ويحمل لافتة «مسودة غير مرحَّلة»؛ لا ترسله قبل الاعتماد.</div></div>
+
+<div class='card cl'><b>٣) صيغ التسميع (مرجع سريع)</b>
+<div style='overflow-x:auto'><table><tr><th>اكتب</th><th>المعنى</th></tr>
+<tr><td>12</td><td>وصل إلى الصفحة 12 (يبدأ من صفحته الحالية + 1)</td></tr>
+<tr><td>10-12</td><td>نطاق صريح: من 10 إلى 12</td></tr>
+<tr><td>10-</td><td>إعادة للصفحة 10: لا تغيّر موضعه ولا صفحات، وتُعدّ في عدّاد الإعادات</td></tr>
+<tr><td>غ 12</td><td>الحرف الأول يحدد المسار: ر (الرشيدية) · ته (تهذيب اللسان) · ت (التلاوة) · غ (الحفظ). بلا حرف يُفهم مسار الخانة: الأولى مساره الأول والثانية مساره الثاني</td></tr>
+<tr><td>١٢ أو ۱۲</td><td>الأرقام العربية والفارسية تُفهم تلقائياً</td></tr></table></div>
+<div class='msg'>الفواصل (مسافة أو ، أو /) تُفهم شرطة: «10 12» = «10-12». وإن بدأت بشرطة «-12» فُهمت إعادة.</div>
+<div class='msg'><b>رسائل قد تظهر:</b> «الصفحة خارج المسار» (الرشيدية مثلاً بلا صفحات 13 و27 و37) · «الصفحة سبق تسميعها» (تجاوزت موضعه) · «النطاق معكوس». أما «⚠ تجاوز حد الاختبار» فتنبيه لا يمنع الترحيل.</div>
+<div class='msg'><b>جدول النقاط</b> (تغيّرها من ⚙ وتسري على ما يُسجَّل بعدها فقط):</div>
+<div style='overflow-x:auto'><table><tr><th>البند</th><th>النقاط</th><th>البند</th><th>النقاط</th></tr>
+<tr><td>غياب</td><td>−1</td><td>ملاحظة إيجابية</td><td>+1</td></tr>
+<tr><td>بعذر</td><td>0</td><td>ملاحظة قوية</td><td>+2</td></tr>
+<tr><td>صفحة (تسميع ١ و٢)</td><td>+1</td><td>ملاحظة سلبية</td><td>−1</td></tr>
+<tr><td>صفحة إضافي</td><td>+1</td><td>نجاح اختبار رسمي</td><td>3 أو 5 حسب الاختبار</td></tr>
+<tr><td>مراجعة</td><td>+1</td><td>نجاح اختبار مراجعة أول مرة</td><td>3 + المراجعة (= 4)</td></tr>
+<tr><td>تجويد</td><td>+1</td><td>نجاحه بعد إعادة</td><td>3</td></tr>
+<tr><td>درس</td><td>+1</td><td>رسوب اختبار مراجعة</td><td>0</td></tr>
+<tr><td>انتظام</td><td>+1 كل 3 حصص حضور متتالية</td><td></td><td></td></tr></table></div>
+<div class='msg'><b>الانتظام:</b> تُحسب من حصص ما قبل اليوم: كل 3 حصص حضور متتالية تمنح +1 في اليوم الثالث. الغياب يكسر المتتالية، والبعذر محايد (لا يكسر ولا يزيد). لا تُحسب في الحصة الخاصة.</div></div>
+
+<div class='card cl'><b>٤) الحصة الخاصة</b>
+<div class='msg'>لحصة إضافية بتاريخ معين وطلاب محددون (تقوية، تسميع استثنائي...). التطبيق لا يعرف أيام الدوام أصلاً، فأنت تحدد التاريخ من حقل التاريخ أعلى الشاشة.</div>
+<ol>
+<li>اضبط التاريخ أولاً، ثم اضغط «حصة خاصة» من شريط الوضع.</li>
+<li>اختر المشاركين بأسمائهم (تُضاء الأزرار).</li>
+<li>سجّل كالمعتاد — بلا أزرار حضور ولا غياب — ثم «اعتماد الحصة» بنقرتين.</li>
+<li>لتعديلها لاحقاً: افتح تاريخها واضغط «إعادة فتح الحصة الخاصة المرحَّلة لهذا التاريخ».</li>
+</ol>
+<div class='msg'><b>ما الذي يختلف عن العادية:</b> لا تُعدّ في عدد الحصص ولا الحضور ولا الانتظام ولا تنبيه الغياب المتتالي ولا عدد أيام الإحصاء. النقاط والصفحات والاختبارات تُحتسب كالعادة. في التقارير يظهر سطرها بوسم «حصة خاصة»، وفي CSV عمود «نوع الحصة». يجوز للطالب صفّان في التاريخ نفسه: عادي + خاص.</div>
+<div class='msg'>المسودات تُحفظ منفصلة لكل وضع، والتاريخ يُزامَن بين الوضعين عند التبديل. إعادة ترحيل طالب لديه صف خاص مرحَّل في التاريخ تُرفض حتى تعيد فتح الخاصة — حمايةً من الاستبدال الخاطئ.</div></div>
+
+<div class='card cl'><b>٥) تبويب «الاختبارات»</b>
+<div class='msg'><b>الكتالوج:</b> 219 اختباراً منقولة من ملف الإكسل: الرشيدي 7 · تهذيب اللسان 1: 7 · تهذيب اللسان 2: 7 · التلاوة 99 · الحفظ 99 (مراحل وأنصبة وأجزاء وخمسات وعشرات وشوامل). نقاط النجاح: 3 للمراحل والأنصبة والأجزاء، 5 للشوامل والخمسات والعشرات.</div>
+<div class='msg'><b>قائمة «المستحقون للاختبار»:</b> أعلى التبويب، تجمع من وصل تسميعه إلى حدّ اختباره القادم (أو تجاوزه) مع زر «سجّل» ينقلك لنموذج التسجيل بالطالب والمسار جاهزين.</div>
+<ol>
+<li>اختر الطالب فيُختار مساره المستحق تلقائياً، والاختبار القادم محدد مسبقاً (يمكنك تغييرهما).</li>
+<li>اكتب العامة واترك النتيجة «من العامة» فيحكم التطبيق بالحد (الجزء 90 · خمسة أجزاء 88 · عشرة أجزاء 88)، أو اختر النتيجة بنفسك (نجح/رسب/إعفاء/لم يختبر).</li>
+<li>«حفظ الاختبار بتاريخ الحصة» — أي بتاريخ اليوم المفتوح أعلى الشاشة، فاضبطه قبل الحفظ إن كان الاختبار أمس مثلاً.</li>
+</ol>
+<div class='msg'><b>الإعفاء بالرتبة:</b> إذا نجح طالب في اختبار متقدم يُسقط ما قبله تلقائياً (رتبته تصبح رتبة ذلك الاختبار).</div>
+<div class='msg'><b>الرسوب ثلاث مرات:</b> تحت سطر الاختبار الراسب يظهر عدّاد «رسب N مرة في القادم»، وعند 3 يظهر زر «⚠ رسب 3 مرات — اضغط لإعادة الجزء» يفتح خيارات: إعادة هذا النصف / إعادة الجزء كاملاً (أو أحد نصفيه) / <b>مسامحة</b> (لا تغيّر مؤشراً ولا رتبة وتصفّر العدّاد).</div>
+<div class='msg'><b>إعادة الجزء:</b> يعيد مؤشر التسميع لأول الجزء (أو أول النصف) ويسقط نتائج ما بعده. تنبيه: تعديل الإعادة في تاريخ حصة لم تُرحَّل بعد يسبق تسميعها، وبعدها يتبعه.</div>
+<div class='msg'><b>القائمة السفلية:</b> كل الاختبارات مع بحث بالاسم وترتيب (الأحدث · الأقدم · أبجدي · آخر ما أُدخل · الراسبون أولاً · حسب المسار). زر «تعديل ✎» يفتح نافذة: التاريخ، النتيجة، العلامة، الملاحظة، أو «حذف» (نقرتان، يذهب للسلة). ترتيب «الراسبون أولاً» يسهّل مراجعة نهاية كل شهر.</div></div>
+
+<div class='card cl'><b>٦) تبويب «الطلاب» وبطاقة الطالب</b>
+<div class='msg'><b>أعلى التبويب:</b> «تنبيهات» المجمعة بالنوع (اختبارات مستحقة · تجاوز حد اختبار · رسوب ثلاث مرات · غياب متتالٍ) ولكل تنبيه زر «سجّل» أو «إيقاف» (إيقاف الغياب المتتالٍ ينقل الطالب للمنقطعين — أعده من بطاقة «المنقطعون» بنفس التبويب). ثم بحث (يطابق الاسم أو الوسم) وترتيب (أبجدي · الأعلى نقاطاً · الأكثر غياباً) وقائمة تُظهر مستوى كل طالب ونقاطه وغيابه وإعاداته.</div>
+<div class='msg'><b>إضافة طالب:</b> الاسم + المستوى (رشيدي · تهذيب اللسان · تلاوة · غيب). اختر «غيب» لطالب حفظ من خارج المستويات (كطلاب الحفظ الذين تسميعهم غ ورتبهم صفر).</div>
+<div class='msg'><b>بطاقة الطالب</b> (اضغط اسمه):</div>
+<ul>
+<li><b>بيانات الطالب:</b> تاريخ الانضمام (فارغ = من بداية الحلقة)، تاريخ الانقطاع (فارغ = مستمر)، إعادة التسمية (تنتقل بها كل سجلاته)، <b>الدمج</b> لطالب مكرر: تُنقل سجلاته لطالب آخر ويُحذف، وانتبه: صفوفه في التواريخ التي للهدف فيها صف تُحذف.</li>
+<li><b>المسارات النشطة:</b> اختيار يدوي لمسارين على الأكثر لأزرار الصفحات السريعة. الافتراضي «تلقائي» يشتقها من رتب الاختبارات (رشيدي ← تهذيب١ ← عمّ ← تهذيب٢/تبارك ← تلاوة ← حفظ)، والوسم «غيب» يجعل المسار غ دائماً. «العودة إلى التلقائي» تلغي اليدوي.</li>
+<li><b>نقطة البداية:</b> آخر صفحة وصلها في كل مسار + آخر اختبار منجز في كل مسار، بلا تاريخ (لا تُحسب نشاطاً في يوم). استعملها لطالب انضم إليك وقد سمّع قبلك.</li>
+<li><b>الإحصاءات:</b> شبكة أرقام الشهر المختار (حصص، حضر، غاب، بعذر، نسبة الحضور، نقاط، صفحات، إعادات، اختبارات ✓/✗، ملاحظات +/−)، جدول المسارات (آخر صفحة وتاريخها وعدد حصصها والصفحة القادمة)، جدول تقدم الاختبارات بالأشرطة، وجدول شهري.</li>
+<li><b>تصحيحات متقدمة (تعديل يدوي):</b> «تسميع» يضبط آخر صفحة وصلها، «إعادة جزء» للتلاوة والحفظ (رقم الجزء 1–30)، «بداية الاختبارات» يتخطى ما قبل اختبار تختاره. كل تعديل مؤرخ بتاريخ الحصة ويظهر في تقرير اليوم، ويمكن حذفه (للسلة).</li>
+<li><b>الوسم (مجموعة):</b> نص حر مثل «أوقاف» يظهر شارة بجانب الاسم، ويمكن البحث به وتصفية الإحصاء والتقارير به. لا أثر له على الحساب.</li>
+<li><b>حذف الطالب:</b> بنقرتين؛ تُؤخذ نقطة حفظ ويُنقل مع كل سجلاته واختباراته وتعديلاته إلى سلة المحذوفات (استرجاعه من ⚙ ← نقاط الحفظ والمحذوفات).</li>
+<li>زر «تقرير هذا الطالب وإرساله لولي الأمر» ينقلك لتبويب التقرير بالطالب محدداً.</li>
+</ul></div>
+
+<div class='card cl'><b>٧) تبويب «الإحصاء»</b>
+<div class='msg'>ترتيب الطلاب بالنقاط أسبوعياً أو شهرياً. حقل التاريخ يختار أي يوم داخل الفترة المعروضة (الأسبوع = أحد–سبت المحيط بذلك اليوم، والشهر = شهره).</div>
+<div class='msg'>أعمدة الجدول: الترتيب · الطالب · النقاط · الصفحات · الإعادات · حضر (X من Y في النص المنسوخ) · غاب · بعذر · ✓ (اختبارات نجح) · ✗ (رسب) · + (ملاحظات إيجابية) · − (سلبية). الحصص الخاصة لا تُعدّ في «حضر» لكن طالبها يظهر في الجدول.</div>
+<div class='msg'>تصفية بالوسم (المجموعة)، وخانة «إظهار الملاحظات السلبية في النص المنسوخ» (الافتراضي مخفية). زر «نسخ الترتيب للواتساب» ينسخ نصاً كاملاً: الترتيب، النقاط، الصفحات، الإعادات، الحضور، الغياب، بعذر، نجح/رسب، الملاحظات.</div></div>
+
+<div class='card cl'><b>٨) تبويب «التقرير» والإرسال لأولياء الأمور</b>
+<div class='msg'>ثلاث خطوات مرقمة:</div>
+<ol>
+<li><b>لمن؟</b> طالب محدد أو «شامل (كل الطلاب)»، ويمكن تصفية الشامل بالوسم (المجموعة).</li>
+<li><b>أي فترة؟</b> أزرار: اليوم · الأسبوع · الشهر · الشهر الماضي (تُحسب بالنسبة لتاريخ اليوم المفتوح)، أو حدد التاريخين بنفسك. السطر الأخير يؤكد «الفترة المختارة».</li>
+<li><b>الناتج:</b> صيغة نص (للواتساب) أو CSV (جدول للإكسل، وفيه عمود «نوع الحصة»)، ثم «نسخ» أو «أرسل لولي الأمر».</li>
+</ol>
+<div class='msg'><b>نص اليوم (المجموعة):</b> يبدأ بالبسملة واسم المعهد واسم اليوم والتاريخ، والدرس والتجويد، ثم سطر لكل طالب: حالته، تسميعه بصيغة مقروءة، علاماته، اختباراته، ملاحظته (الإيجابية فقط — <b>السلبية مخفية دائماً</b>)، أسطر الإعادة والمسامحة، ونقاطه مع نقاط اختباراته. إن كان للطالب صف خاص يظهر سطره بوسم «حصة خاصة».</div>
+<div class='msg'><b>تقرير الطالب:</b> ملخص الحضور والنقاط، التقدم في كل مسار <b>بالمقاطع المسمَّعة فعلاً</b> («الجزء 1: ص7، ثم الجزء 29: ص562–572»)، «مصادر النقاط» (صفحات، مراجعة، تجويد... إلخ)، قائمة اختباراته، ثم سجل الأيام يوماً بيوم. خانة «تضمين الملاحظات السلبية» مفعّلة افتراضياً في تقرير الولي — ألغها إن أردت. ولإرساله: اكتب رقم واتساب الولي بصيغة دولية بلا + ولا أصفار (مثل 31612345678) ثم «أرسل».</div>
+<div class='msg'><b>قائمة «إرسال فردي لأولياء الأمور»:</b> تظهر في النطاق الشامل فقط وإذا وُجد يوم مرحَّل في الفترة (لا تظهر لليوم المفتوح قبل ترحيله). زر كل طالب يفتح واتساب برسالته، وتظهر ✓ بجانب من أرسلتَ له. وقائمة «إرسال الملاحظات السلبية» تسرد من لديهم سلبية في الفترة وترسل تقريرهم الكامل <b>متضمناً السلبية</b> بغض النظر عن الخانة. إن لم يفتح واتساب تُنسخ الرسالة تلقائياً.</div></div>
+
+<div class='card cl'><b>٩) النسخ الاحتياطي والاستعادة</b>
+<div class='msg'><b>بخطوة واحدة:</b> عندما يظهر الشريط «لم تحفظ نسخة/منذ 7 أيام» أعلى تبويب اليوم، اكتب كلمة مرور (اختيارية) واضغط «💾 احفظ نسخة الآن»: يُنشئ الملف ويفتح مشاركة أندرويد، وإلا نزّله. إن ألغيت المشاركة لا تُسجَّل نسخة.</div>
+<div class='msg'><b>من ⚙ ← النسخ الاحتياطي:</b> «إنشاء ملف» ثم انسخ النص أو نزّله أو شاركه. كلمة المرور 4 أحرف على الأقل؛ <b>بلا كلمة</b> = ملف غير مقروء للعين لكنه غير محمي، فلا ترسله لمن لا تأمنه.</div>
+<ol>
+<li><b>الفحص قبل الاستعادة:</b> الصق النص (أو اختر الملف) واضغط «فحص الملف» — يعرض أعداد الطلاب والسجلات والاختبارات وآخر تاريخ فيه مقارنةً بالحالي.</li>
+<li><b>الاستعادة:</b> نقرتان («اضغط للتأكيد: ستُستبدل البيانات الحالية»). تُؤخذ نقطة حفظ قبلها، فإن أخطأت استرجعت من نقاط الحفظ.</li>
+</ol>
+<div class='msg'>«تصدير نص غير مشفّر» في «متقدم» للتحليل الخارجي فقط. ويُقبل أيضاً ملف JSON خام من الإصدارات القديمة.</div>
+<div class='msg'>القاعدة الذهبية: نسخة خارج الهاتف (Drive أو رسالة لنفسك) كل أسبوع على الأقل. التخزين الداخلي نسختان متبادلتان مع بصمة تحقق، لكنه لا ينجو من مسح بيانات المتصفح أو تلف الجهاز.</div></div>
+
+<div class='card cl'><b>١٠) نقاط الحفظ وسلة المحذوفات وفحص المنطق</b>
+<div class='msg'>من ⚙ ← «نقاط الحفظ والمحذوفات»:</div>
+<ul>
+<li><b>نقاط الحفظ:</b> يصنعها التطبيق تلقائياً قبل كل ترحيل أو إعادة فتح أو استعادة أو حذف أو تعديل خطير أو تحديث إصدار، ويحتفظ بآخر 6. «استرجاع» نقرتان ويستبدل البيانات كلها بمحتوى النقطة.</li>
+<li><b>سلة المحذوفات:</b> الطلاب والاختبارات والتعديلات المحذوفة، ولكل عنصر «استرجاع». استرجاع طالب يُرفع إن وُجد طالب بالاسم نفسه (غيّر اسمه أولاً).</li>
+</ul>
+<div class='msg'><b>فحص منطق البيانات</b> (⚙ ← زره): يمرّ على السجل كله ويعرض ملاحظات للمراجعة: قفزات في الصفحات، رجوع للخلف، قفز في تسلسل الاختبارات، اختبار مكرر، اختبار قبل الوصول لحدّه، وأيام بلا نشاط مع حكم مساعد («غالباً لم يسمّع فعلاً»). ليست كلها أخطاء — بعضها طبيعي — لكنها أفضل أداة لاكتشاف ما لا يتناسق مع منطق الحلقة.</div></div>
+
+<div class='card cl'><b>١١) الإعدادات (⚙) والمظهر</b>
+<ul>
+<li><b>المظهر والإصدار:</b> ثلاثة مظاهر (أسود وبرتقالي — الافتراضي، أسود وأزرق، الأخضر الأصلي) ولون تمييز مخصص اختياري (يُحسب لون النص عليه تلقائياً). ورقم الإصدار يظهر هنا؛ عند كل إصدار جديد تُؤخذ نقطة حفظ تلقائياً عند أول تشغيل.</li>
+<li><b>اسم المعهد والحلقة:</b> يظهر في رأس كل التقارير والنصوص المنسوخة.</li>
+<li><b>قيم النقاط:</b> كل الأرقام في جدول النقاط أعلاه قابلة للتغيير، وكذلك «الانتظام: كل كم حصة» وقيمته، و«غياب متتالٍ للتنبيه» (الافتراضي 3). تسري على ما يُسجَّل بعدها فقط — نقاط الأيام السابقة لا تُعاد حسابها.</li>
+<li><b>حدود نجاح الاختبارات:</b> علامة النجاح لكل نوع (الجزء 90 · خمسة أجزاء 88 · عشرة أجزاء 88).</li>
+<li><b>البطاقات المطوية:</b> اضغط عنوان أي بطاقة (هنا وفي بطاقة الطالب) لتطوها أو تفتحها؛ حالتها محفوظة.</li>
+</ul></div>
+
+<div class='card cl'><b>١٢) أعمدة صف السجل (مرجع تقني)</b>
+<div class='msg'>كل صف في السجل 26 عموداً (وعمود إضافي «خاصة» للحصة الخاصة):</div>
+<div style='overflow-x:auto'><table><tr><th>#</th><th>المحتوى</th><th>#</th><th>المحتوى</th></tr>
+<tr><td>0</td><td>التاريخ</td><td>13</td><td>تفاصيل المراجعة</td></tr>
+<tr><td>1</td><td>اسم الطالب</td><td>14</td><td>تجويد (صح)</td></tr>
+<tr><td>2</td><td>الحضور (فارغ/غائب/بعذر)</td><td>15</td><td>درس (صح)</td></tr>
+<tr><td>3-5</td><td>تسميع ١: النوع، من، إلى</td><td>16</td><td>اختبار المراجعة ونتيجته</td></tr>
+<tr><td>6-8</td><td>تسميع ٢</td><td>17</td><td>تفاصيل اختبار المراجعة</td></tr>
+<tr><td>9-11</td><td>إضافي (إلى فارغ = إعادة)</td><td>18</td><td>نوع الملاحظة</td></tr>
+<tr><td>12</td><td>مراجعة (صح)</td><td>19-25</td><td>نص الملاحظة، النقاط، الصفحات، الإعادات، عنوان الدرس، عنوان التجويد، مكافأة الانتظام</td></tr></table></div>
+<div class='msg'>سجل الاختبارات: [التاريخ، الاسم، المسار، الرتبة، النتيجة، العلامة، الملاحظة]. والتعديلات اليدوية تحفظ بتاريخها وختمها الزمني.</div></div>
+
+<div class='card cl'><b>١٣) حماية بياناتك على الجهاز</b>
+<ul>
+<li><b>آيفون:</b> المتصفح قد يمسح تخزين المواقع غير المثبتة بعد 7 أيام دون استخدام. ثبّت التطبيق على الشاشة الرئيسية، وافتحه بانتظام، واحتفظ بنسخة خارجية.</li>
+<li><b>أندرويد:</b> التطبيق المثبّت يُمنح تخزيناً دائماً، لكن «مسح بيانات المتصفح» يمحوه — لا تمسحها.</li>
+<li><b>الحماية الفعلية</b> هي ملف النسخة خارج الهاتف. لا ترفع ملف نسخة احتياطية إلى GitHub أبداً (المستودع عام)، ولا تُدخل أسماء الطلاب في نسخة عامة.</li>
+<li><b>بعد رفع تحديث إلى GitHub:</b> افتح التطبيق مرتين وأنت متصل؛ سيظهر شريط «يوجد تحديث جديد — اضغط هنا لإعادة التحميل»، اضغطه مرة واحدة.</li>
+<li><b>ملاحظة معروفة:</b> وقت الترحيل محفوظ واحد لكل تاريخ، فإن عدّلت تعديلاً مؤرخاً بين حصتين في اليوم نفسه قد يتغير ترتيب أحداثه بالنسبة لإحدى الحصتين.</li>
+</ul></div>
+
+<div class='card cl'><b>١٤) مشاكل شائعة</b>
+<ul>
+<li><b>«الصفحة سبق تسميعها»:</b> كتبت صفحة قبل موضعه الحالي. إن كان الخطأ في الموضع نفسه صحّحه من بطاقة الطالب ← نقطة البداية أو تعديل يدوي.</li>
+<li><b>النقاط لا تتغير بعد تعديل قيمها:</b> القيم تسري مستقبلاً فقط؛ الأيام المرحَّلة تحفظ نقاطها كما سُجّلت.</li>
+<li><b>نسخت تقرير اليوم وظهر الجميع «حاضر»:</b> هذا مسودة ما قبل الترحيل. اعتمد الحصة ثم انسخ من جديد.</li>
+<li><b>طالب لا تظهر له أزرار صفحات:</b> مساره غير محدد — افتح بطاقته ← المسارات النشطة واختر له مساراً، أو سجّل له اختباراً يشتق منه النظام مساره.</li>
+<li><b>حصة خاصة لا تظهر في عدد الحصص:</b> مقصود؛ هي تُسجَّل في تقرير الطالب ونقاطه فقط.</li>
+<li><b>أرسلت تقريراً ولم يفتح واتساب:</b> تُنسخ الرسالة تلقائياً — الصقها في أي تطبيق.</li>
+<li><b>ظهرت رسالة تلف في النسخ الداخلية:</b> استُعملت السليمة تلقائياً؛ احفظ نسخة خارجية فوراً وافحص ملفها.</li>
+</ul></div>`;
+function vHlp(){return `<div class='card'><button data-back='1'>→ رجوع</button><b style='margin-inline-start:10px'>دليل الاستخدام الشامل</b><div class='msg'>يعمل هذا الدليل بلا إنترنت داخل التطبيق. اضغط عنوان أي قسم لفتحه أو طيه. إصدار التطبيق: ${VER}.</div></div>`+GUIDE}
+
 /* ===== التشغيل ===== */
-const after={today(){$$('.card[data-n]').forEach(upd)},ex(){fillEx(1);listEx()},st:listSt,sta(){},sv(){},au(){},cd(){fillAq();fillRp()},rp(){fillRp()},cfg(){}};
+const after={today(){$$('.card[data-n]').forEach(upd)},ex(){fillEx(1);listEx()},st:listSt,sta(){},sv(){},au(){},cd(){fillAq();fillRp()},rp(){fillRp()},hlp(){},cfg(){}};
 function render(){try{applyTheme()}catch(e){}const v=S.v||'today';$$('nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===(v==='cd'||v==='sv'||v==='au'||v==='cfg'?'st':v)));$('#dt').value=S.day.date;
- $('#bd').textContent=S.log.some(r=>r[0]===S.day.date&&(r[26]==='خاصة')===isSp())?'مرحَّلة ✓':'مفتوحة';$('#v').innerHTML=({today:vToday,ex:vEx,st:vSt,sta:vSta,cd:vCard,sv:vSv,au:vAu,cfg:vCfg,rp:vRp})[v]();after[v]();applyCl()}
+ $('#bd').textContent=S.log.some(r=>r[0]===S.day.date&&(r[26]==='خاصة')===isSp())?'مرحَّلة ✓':'مفتوحة';$('#v').innerHTML=({today:vToday,ex:vEx,st:vSt,sta:vSta,cd:vCard,sv:vSv,au:vAu,cfg:vCfg,hlp:vHlp,rp:vRp})[v]();after[v]();applyCl()}
 $('#v').addEventListener('click',e=>{const t=e.target.closest&&e.target.closest('.cl>b:first-child');if(!t)return;const c=t.parentElement,k=clKey(c);S.op=S.op||{};S.op[k]=c.classList.contains('shut')?1:0;c.classList.toggle('shut');save()});
 $('nav').onclick=e=>{const b=e.target.closest('button');if(b){S.v=b.dataset.v;save();render()}};
 $('#dt').onchange=e=>{if(e.target.value){S.day.date=e.target.value;save();render()}};
@@ -418,7 +597,7 @@ $('#v').addEventListener('input',e=>{const t=e.target,c=t.closest('.card[data-n]
  if(t.id==='ls'||t.id==='tj'){S.day[t.id==='ls'?'lesson':'taj']=t.value;save();$$('.card[data-n]').forEach(c=>{const r=dr(c.dataset.n);$('[data-t="l"]',c).classList.toggle('on',flag(r,'l',S.day.lesson));$('[data-t="t"]',c).classList.toggle('on',flag(r,'t',S.day.taj));upd(c)})}
  else if(t.id==='sq'){S.q=t.value;listSt()}else if(t.id==='xq'){S.xq=t.value;listEx()}else if(t.id==='fq'){FQ=t.value;FOC=null;renderArea()}});
 $('#v').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='fq'){const f=$('.chip');if(f)pick(f.dataset.s)}});
-$('#v').addEventListener('change',e=>{if(e.target.id==='xs')fillEx(1);else if(e.target.id==='xt')fillEx(0);else if(e.target.id==='ai'||e.target.id==='at')fillAq();else if(e.target.id==='xo'){S.xso=e.target.value;save();listEx()}else if(e.target.id==='ss'){S.ss=e.target.value;save();listSt()}else if(e.target.id==='ph'){const s=byName(S.rs);if(s){s.ph=e.target.value;save()}}else if(e.target.id==='rs'){S.rs=e.target.value;save();render()}else if(e.target.id==='rn'){renameStudent($('#cs').value,e.target.value.trim())}else if(e.target.dataset.ph2!==undefined){const s=byName(e.target.dataset.ph2);if(s){s.ph=e.target.value;save();render()}}else if(e.target.id==='bkf'){const f=e.target.files[0];if(f)f.text().then(x=>{$('#bk').value=x.trim();msgBk('تم تحميل الملف. اكتب كلمة مروره ثم اضغط «فحص الملف».')})}else if(e.target.id==='rfm'){S.rfm=e.target.value;save();fillRp()}else if(e.target.dataset.cf!==undefined){const k=e.target.dataset.cf,v=e.target.value.trim(),x=k==='hdr'?v:(v===''?0:+v);if(k!=='hdr'&&isNaN(x)){toast('أدخل رقماً');return}S.set=S.set||{};S.set[k]=x;SET[k]=x;save();toast('حُفظ')}else if(e.target.dataset.ct!==undefined){const x=+e.target.value;if(isNaN(x)){toast('أدخل رقماً');return}SET.thr[e.target.dataset.ct]=x;S.set=S.set||{};S.set.thr=SET.thr;save();toast('حُفظ')}else if(e.target.dataset.b!==undefined){const st=byName($('#cs').value),c=e.target.dataset.b,v=e.target.value.trim();if(v===''){snap('قبل تعديل نقطة البداية');st.b[c]=null;save();render();return}const n=+ND(v);if(!IX[c][n]){toast('الصفحة '+n+' خارج هذا المسار');return}snap('قبل تعديل نقطة البداية');st.b[c]=n;save();render()}else if(e.target.dataset.r!==undefined){const st=byName($('#cs').value);snap('قبل تعديل نقطة البداية');(st.r=st.r||{})[e.target.dataset.r]=+e.target.value;save();render()}else if(e.target.id==='rf'||e.target.id==='rt2'){S[e.target.id]=e.target.value;save();fillRp()}else if(e.target.id==='rneg'){S.rneg=e.target.checked?1:0;save();fillRp()}else if(e.target.id==='thc'){S.thc=e.target.value;save();render()}else if(e.target.id==='tg'){const s=byName($('#cs').value);if(s){const v=e.target.value.trim();if(v)s.g=v;else delete s.g;save();render()}}else if(e.target.id==='rtg'||e.target.id==='ftg'){S[e.target.id]=e.target.value;save();render()}else if(e.target.id==='pneg'){S.pneg=e.target.checked?1:0;save()}else if(e.target.dataset.mt!==undefined){const st=byName($('#cs').value),s=new Set(st.tr||[]),c=e.target.dataset.mt;if(e.target.checked)s.add(c);else s.delete(c);if(s.size>2){toast('اختر مسارين على الأكثر');render()}else{snap('قبل تعديل مسارات طالب');if(s.size)st.tr=[...s];else delete st.tr;save();render()}}else if(e.target.id==='jd'||e.target.id==='qd'){const st=byName($('#cs').value);snap('قبل تعديل تواريخ طالب');if(e.target.id==='jd')st.j=e.target.value;else st.q=e.target.value;save();render()}else if(e.target.dataset.xr!==undefined){const c=e.target.closest('.card[data-n]'),st=byName(c.dataset.n);dr(st.n).xr=e.target.value;save();c.outerHTML=card(st);upd($(`.card[data-n="${CSS.escape(st.n)}"]`))}else if(e.target.id==='pd'&&e.target.value){S.pd=e.target.value;save();render()}else if(e.target.id==='cs'){S.cs=e.target.value;save();render()}else if(e.target.id==='cm'&&e.target.value){S.cm=e.target.value;save();render()}});
+$('#v').addEventListener('change',e=>{if(e.target.id==='xs')fillEx(1);else if(e.target.id==='xt')fillEx(0);else if(e.target.id==='ai'||e.target.id==='at')fillAq();else if(e.target.id==='xo'){S.xso=e.target.value;save();listEx()}else if(e.target.id==='ss'){S.ss=e.target.value;save();listSt()}else if(e.target.id==='ph'){const s=byName(S.rs);if(s){s.ph=e.target.value;save()}}else if(e.target.id==='rs'){S.rs=e.target.value;save();render()}else if(e.target.id==='rn'){renameStudent($('#cs').value,e.target.value.trim())}else if(e.target.dataset.ph2!==undefined){const s=byName(e.target.dataset.ph2);if(s){s.ph=e.target.value;save();render()}}else if(e.target.id==='bkf'){const f=e.target.files[0];if(f)f.text().then(x=>{$('#bk').value=x.trim();msgBk('تم تحميل الملف. اكتب كلمة مروره ثم اضغط «فحص الملف».')})}else if(e.target.id==='rfm'){S.rfm=e.target.value;save();fillRp()}else if(e.target.dataset.cf!==undefined){const k=e.target.dataset.cf,v=e.target.value.trim(),x=k==='hdr'?v:(v===''?0:+v);if(k!=='hdr'&&isNaN(x)){toast('أدخل رقماً');return}S.set=S.set||{};S.set[k]=x;SET[k]=x;save();toast('حُفظ')}else if(e.target.dataset.ct!==undefined){const x=+e.target.value;if(isNaN(x)){toast('أدخل رقماً');return}SET.thr[e.target.dataset.ct]=x;S.set=S.set||{};S.set.thr=SET.thr;save();toast('حُفظ')}else if(e.target.dataset.b!==undefined){const st=byName($('#cs').value),c=e.target.dataset.b,v=e.target.value.trim();if(v===''){snap('قبل تعديل نقطة البداية');st.b[c]=null;save();render();return}const n=+ND(v);if(!IX[c][n]){toast('الصفحة '+n+' خارج هذا المسار');return}snap('قبل تعديل نقطة البداية');st.b[c]=n;save();render()}else if(e.target.dataset.r!==undefined){const st=byName($('#cs').value);snap('قبل تعديل نقطة البداية');(st.r=st.r||{})[e.target.dataset.r]=+e.target.value;save();render()}else if(e.target.id==='rf'||e.target.id==='rt2'){S[e.target.id]=e.target.value;save();fillRp()}else if(e.target.id==='rneg'){S.rneg=e.target.checked?1:0;save();fillRp()}else if(e.target.id==='thc'){S.thc=e.target.value;save();render()}else if(e.target.id==='tg'){const s=byName($('#cs').value);if(s){const v=e.target.value.trim();if(v)s.g=v;else delete s.g;save();render()}}else if(e.target.id==='rtg'||e.target.id==='ftg'||e.target.id==='dtg'){S[e.target.id]=e.target.value;save();render()}else if(e.target.id==='pneg'){S.pneg=e.target.checked?1:0;save()}else if(e.target.dataset.mt!==undefined){const st=byName($('#cs').value),s=new Set(st.tr||[]),c=e.target.dataset.mt;if(e.target.checked)s.add(c);else s.delete(c);if(s.size>2){toast('اختر مسارين على الأكثر');render()}else{snap('قبل تعديل مسارات طالب');if(s.size)st.tr=[...s];else delete st.tr;save();render()}}else if(e.target.id==='jd'||e.target.id==='qd'){const st=byName($('#cs').value);snap('قبل تعديل تواريخ طالب');if(e.target.id==='jd')st.j=e.target.value;else st.q=e.target.value;save();render()}else if(e.target.dataset.xr!==undefined){const c=e.target.closest('.card[data-n]'),st=byName(c.dataset.n);dr(st.n).xr=e.target.value;save();c.outerHTML=card(st);upd($(`.card[data-n="${CSS.escape(st.n)}"]`))}else if(e.target.id==='pd'&&e.target.value){S.pd=e.target.value;save();render()}else if(e.target.id==='cs'){S.cs=e.target.value;save();render()}else if(e.target.id==='cm'&&e.target.value){S.cm=e.target.value;save();render()}});
 render();
 if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){const had=!!navigator.serviceWorker.controller;addEventListener('load',()=>navigator.serviceWorker.register('sw.js').then(r=>{const u=()=>r.update().catch(()=>{});u();document.addEventListener('visibilitychange',()=>{if(!document.hidden)u()})}).catch(()=>{}));navigator.serviceWorker.addEventListener('controllerchange',()=>{if(!had||document.getElementById('updbar'))return;const d=document.createElement('div');d.id='updbar';d.style.cssText='position:fixed;left:0;right:0;bottom:0;z-index:99;background:var(--ac);color:var(--on);padding:14px;text-align:center;font-weight:700;cursor:pointer';d.textContent='يوجد تحديث جديد للتطبيق — اضغط هنا لإعادة التحميل';d.onclick=()=>location.reload();document.body.appendChild(d)})}
 </script>

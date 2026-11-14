@@ -7,8 +7,8 @@
  "orientation": "portrait",
  "dir": "rtl",
  "lang": "ar",
- "background_color": "#f5f3ec",
- "theme_color": "#1f6b4f",
+ "background_color": "#0a0a0a",
+ "theme_color": "#0a0a0a",
  "icons": [
   {
    "src": "icon-192.png",
