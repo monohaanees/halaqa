@@ -1,0 +1,29 @@
+name: Apply patch
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Apply patch script
+        run: python3 tools/patch.py
+
+      - name: Commit and start build
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A android
+          if git diff --cached --quiet; then echo "no changes"; exit 0; fi
+          git commit -m "تطبيق تعديل تلقائي من سكربت patch"
+          git push
+          gh workflow run android.yml --ref main
