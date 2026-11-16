@@ -8,13 +8,26 @@ android {
         applicationId 'com.monohaanees.halaqa'
         minSdk 24
         targetSdk 34
-        versionCode 4
-        versionName '1.4.0'
+        versionCode 5
+        versionName '1.4.1'
+    }
+
+    signingConfigs {
+        release {
+            def ks = System.getenv('KEYSTORE_PATH')
+            if (ks) {
+                storeFile file(ks)
+                storePassword System.getenv('KEYSTORE_PASSWORD')
+                keyAlias System.getenv('KEY_ALIAS')
+                keyPassword System.getenv('KEY_PASSWORD')
+            }
+        }
     }
 
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.release
         }
     }
 
