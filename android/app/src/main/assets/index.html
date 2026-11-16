@@ -363,6 +363,7 @@ async function bkCheck(apply,btn){const tx=$('#bk').value,pw=$('#pw2').value;let
  if(apply){if(!btn.dataset.ok){btn.dataset.ok=1;btn.textContent='اضغط للتأكيد: ستُستبدل البيانات الحالية';return}applyBk(d)}}
 if(!SN)save();
 if(!S.sn6){snap('قبل تحديث دفعة حماية البيانات');S.sn6=1;save()}
+if(!S.sn7){snap('قبل إصلاح النسخة السريعة في الأندرويد');S.sn7=1;save()}
 function lastLine(n){const r=S.log.filter(x=>x[1]===n&&x[0]<S.day.date).sort((a,b)=>a[0]<b[0]?1:-1)[0];if(!r)return'';const p=[r[2]==='غائب'?'غائب':r[2]==='بعذر'?'بعذر':''],rec=[fmt(r[3],r[4],r[5]),fmt(r[6],r[7],r[8]),fmt(r[9],r[10],r[11])].filter(Boolean);if(rec.length)p.push(rec.join(' | '));if(r[12]==='صح')p.push('مراجعة ✓');if(r[16]&&r[16]!=='لم يختبر')p.push('اختبار مراجعة '+r[16]);return'آخر حصة ('+r[0].slice(5)+'): '+(p.filter(Boolean).join(' · ')||'حاضر بلا تسميع')}
 const UN=[];function pushUn(n){const j=JSON.stringify(S.day.r[n]||null),l=UN[UN.length-1];if(l&&l[0]===n&&l[1]===j)return;UN.push([n,j]);if(UN.length>30)UN.shift()}
 function undo(){const u=UN.pop();if(!u){toast('لا شيء للتراجع عنه');return}if(u[1]==='null')delete S.day.r[u[0]];else S.day.r[u[0]]=JSON.parse(u[1]);save();toast('تم التراجع');renderArea()}
@@ -609,7 +610,13 @@ if(window.AndroidBridge){
    else if(k==='dl'){AndroidBridge.save(nm,b64);ok=1}
    else{AndroidBridge.share(nm,b64);ok=1}
   }catch(e){}
-  if(ok){S.ext=Date.now();save();msgBk(k==='copy'?'نُسخ الملف. تأكد أن النص وصل إلى مكان آمن.':k==='dl'?'نُزّل الملف إلى مجلد التنزيلات في هاتفك.':'فتح خيار المشاركة؛ اختر التطبيق الذي تريد إرسال النسخة إليه.')}}}
+  if(ok){S.ext=Date.now();save();msgBk(k==='copy'?'نُسخ الملف. تأكد أن النص وصل إلى مكان آمن.':k==='dl'?'نُزّل الملف إلى مجلد التنزيلات في هاتفك.':'فتح خيار المشاركة؛ اختر التطبيق الذي تريد إرسال النسخة إليه.')}}
+ window.quickBk=async function(){const pw=(($('#qpw')||{}).value)||'';if(pw&&pw.length<4){toast('كلمة المرور 4 أحرف على الأقل، أو اتركها فارغة');return}
+  let tx;try{tx=await pack(pw)}catch(e){toast('تعذّر إنشاء النسخة');return}
+  const nm='halaqa-backup-'+S.day.date+'.txt',b64=btoa(unescape(encodeURIComponent(tx)));
+  try{AndroidBridge.share(nm,b64)}catch(e){toast('تعذّر فتح المشاركة، جرّب «تنزيل ملف» من ⚙');return}
+  S.ext=Date.now();save();toast('فتح خيار المشاركة؛ اختر مكاناً آمناً خارج الهاتف (Drive أو غيره). لا يُسجَّل الحفظ إلا بعد أن تتأكد أن الملف وصل.')}
+}
 
 </script>
 </body>
