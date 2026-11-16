@@ -25,14 +25,29 @@ jobs:
         with:
           gradle-version: '8.7'
 
-      - name: Build APK
-        run: cd android && gradle assembleDebug --no-daemon
+      - name: Prepare signing key
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        run: |
+          if [ -z "$KEYSTORE_BASE64" ]; then echo "المفتاح السري KEYSTORE_BASE64 غير موجود في Secrets"; exit 1; fi
+          echo "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/halaqa.p12"
+          keytool -list -keystore "$RUNNER_TEMP/halaqa.p12" -storetype PKCS12 -storepass "$KEYSTORE_PASSWORD" | grep -E "PrivateKeyEntry|Keystore type" || { echo "فشل فتح المفتاح: تأكد من نسخ النص كاملاً وكلمة المرور"; exit 1; }
+          keytool -list -v -keystore "$RUNNER_TEMP/halaqa.p12" -storetype PKCS12 -storepass "$KEYSTORE_PASSWORD" | grep "SHA256:"
+          echo "KEYSTORE_PATH=$RUNNER_TEMP/halaqa.p12" >> "$GITHUB_ENV"
+
+      - name: Build signed APK
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: cd android && gradle assembleRelease --no-daemon
 
       - name: Publish APK to dist
         run: |
           git config user.name "github-actions"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           mkdir -p dist
-          cp android/app/build/outputs/apk/debug/app-debug.apk dist/halaqa.apk
+          cp android/app/build/outputs/apk/release/app-release.apk dist/halaqa.apk
           git add dist/halaqa.apk
           if git diff --cached --quiet; then echo "no change"; else git commit -m "تحديث ملف APK تلقائياً من البناء" && git push; fi
