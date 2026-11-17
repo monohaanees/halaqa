@@ -1,4 +1,4 @@
-import re, subprocess, sys, tempfile, os
+import re, subprocess, tempfile, os
 
 PATH = 'android/app/src/main/assets/index.html'
 
@@ -10,23 +10,21 @@ def rep(s, old, new):
 s = open(PATH, encoding='utf-8').read()
 orig = s
 
-# 1) إصلاح زر «احفظ نسخة الآن» داخل الـAPK: استعمال الجسر الأصلي بدل مشاركة المتصفح
-s = rep(s, "إرسال النسخة إليه.')}}}",
-"""إرسال النسخة إليه.')}}
- window.quickBk=async function(){const pw=(($('#qpw')||{}).value)||'';if(pw&&pw.length<4){toast('كلمة المرور 4 أحرف على الأقل، أو اتركها فارغة');return}
-  let tx;try{tx=await pack(pw)}catch(e){toast('تعذّر إنشاء النسخة');return}
-  const nm='halaqa-backup-'+S.day.date+'.txt',b64=btoa(unescape(encodeURIComponent(tx)));
-  try{AndroidBridge.share(nm,b64)}catch(e){toast('تعذّر فتح المشاركة، جرّب «تنزيل ملف» من ⚙');return}
-  S.ext=Date.now();save();toast('فتح خيار المشاركة؛ اختر مكاناً آمناً خارج الهاتف (Drive أو غيره). لا يُسجَّل الحفظ إلا بعد أن تتأكد أن الملف وصل.')}
-}""")
+# تأكد أن رقم نقطة الحفظ الجديد غير مستعمل من قبل
+assert 'S.sn12' not in s and 'sn12:' not in s, 'sn12 مستعمل سابقاً'
 
-# 2) نقطة حفظ تلقائية عند أول تشغيل بعد هذا الإصدار
-s = rep(s, "if(!S.sn6){snap('قبل تحديث دفعة حماية البيانات');S.sn6=1;save()}",
-"if(!S.sn6){snap('قبل تحديث دفعة حماية البيانات');S.sn6=1;save()}\nif(!S.sn7){snap('قبل إصلاح النسخة السريعة في الأندرويد');S.sn7=1;save()}")
+# 1) رقم الإصدار الظاهر في الإعدادات
+s = rep(s, "const VER='2026-11-14.1';", "const VER='2026-11-17.1';")
+
+# 2) نقطة حفظ تلقائية حقيقية عند أول تشغيل (الرقم الجديد sn12)
+s = rep(s, "if(!S.sn5){snap('قبل تحديث الدفعة الأولى (النقاط والتقارير والإعدادات)');S.sn5=1;save()}",
+"if(!S.sn5){snap('قبل تحديث الدفعة الأولى (النقاط والتقارير والإعدادات)');S.sn5=1;save()}\nif(!S.sn12){snap('قبل إصدار 2026-11-17.1');S.sn12=1;save()}")
+
+# 3) البيانات الجديدة تبدأ وعلامة sn12 مسجلة
+s = rep(s, "sn11:1,st:D.st", "sn11:1,sn12:1,st:D.st")
 
 assert s != orig
 
-# فحص صياغة كل سكربت داخلي بـ node
 scripts = re.findall(r'<script(?![^>]*\bsrc=)[^>]*>(.*?)</script>', s, re.S)
 assert scripts, 'لم أجد سكربتاً داخلياً'
 for i, code in enumerate(scripts):
@@ -38,11 +36,10 @@ for i, code in enumerate(scripts):
 
 open(PATH, 'w', encoding='utf-8').write(s)
 
-# رفع رقم الإصدار حتى يُقبل التثبيت فوق القديم
 G = 'android/app/build.gradle'
 g = open(G, encoding='utf-8').read()
-g = rep(g, 'versionCode 5', 'versionCode 6')
-g = rep(g, "versionName '1.4.1'", "versionName '1.4.2'")
+g = rep(g, 'versionCode 6', 'versionCode 7')
+g = rep(g, "versionName '1.4.2'", "versionName '1.4.3'")
 open(G, 'w', encoding='utf-8').write(g)
 
 print('تم التعديل بنجاح وفحص الصياغة سليم')
