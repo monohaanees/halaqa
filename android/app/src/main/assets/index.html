@@ -61,7 +61,7 @@ let S=null,SN=0,LOADMSG='';
 if(!S)try{S=JSON.parse(localStorage.getItem(K))}catch(e){}
 function put(){SN++;const j=JSON.stringify(S);localStorage.setItem(K+(SN%2?'.a':'.b'),SN+'|'+fnv(j)+'|'+j)}
 try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
-if(!S||!S.log)S={sn:1,sn2:1,sn3:1,sn4:1,sn5:1,sn6:1,sn7:1,sn8:1,sn9:1,sn10:1,sn11:1,st:D.st,log:D.log,ex:D.ex,day:{date:iso(new Date()),lesson:'',taj:'',r:{}}};
+if(!S||!S.log)S={sn:1,sn2:1,sn3:1,sn4:1,sn5:1,sn6:1,sn7:1,sn8:1,sn9:1,sn10:1,sn11:1,sn12:1,st:D.st,log:D.log,ex:D.ex,day:{date:iso(new Date()),lesson:'',taj:'',r:{}}};
 if(!S.adj)S.adj=[];
 const save=()=>{try{(S.adj||[]).forEach(a=>{if(!a[8])a[8]=Date.now()});put()}catch(e){try{localStorage.removeItem(SK);put()}catch(e2){setTimeout(()=>toast('⚠ تعذّر الحفظ على هذا الجهاز، صدّر نسخة الآن'),0)}}};
 if(!S.trash)S.trash=[];
@@ -76,7 +76,7 @@ for(const c in D.pm){P[c]=[];IX[c]={};D.pm[c].split(',').forEach(x=>{const[a,b]=
 const CAT={};D.cat.forEach(e=>{(CAT[e[0]]=CAT[e[0]]||[])[e[4]-1]=e});
 const byName=n=>S.st.find(s=>s.n===n),dr=n=>S.day.r[n]||(S.day.r[n]={a:'',s:['','',''],v:'',n:'',nt:''});
 const active=d=>S.st.filter(s=>(!s.j||s.j<=d)&&(!s.q||s.q>=d)).sort((a,b)=>a.n.localeCompare(b.n,'ar'));
-const VER='2026-11-14.1';
+const VER='2026-11-17.1';
 const THK=['--bg','--sf','--tx','--mu','--br','--ac','--on','--ok','--bad','--wr','--w2'];
 const THS={o:{n:'أسود وبرتقالي',v:{'--bg':'#0a0a0a','--sf':'#161616','--tx':'#f2efe9','--mu':'#a39d92','--br':'#2b2b2b','--ac':'#f59e42','--on':'#1a0e00','--ok':'#2a1d0a','--bad':'#ff8f82','--wr':'#f0c35a','--w2':'#33260c'}},
  b:{n:'أسود وأزرق',v:{'--bg':'#0a0b0e','--sf':'#14161b','--tx':'#eef1f6','--mu':'#9aa3b2','--br':'#262b35','--ac':'#4aa3ff','--on':'#001428','--ok':'#0d2238','--bad':'#ff8f82','--wr':'#f0c35a','--w2':'#2f2a14'}},
@@ -333,6 +333,7 @@ function vCfg(){const f=(k,l)=>`<div><label>${l}<input data-cf='${k}' value='${S
 $('#gear').onclick=()=>{S.pv=S.v==='cfg'?S.pv:S.v;S.v='cfg';save();render();scrollTo(0,0)};
 $('#hlp').onclick=()=>{S.pv=S.v==='hlp'?S.pv:S.v;S.v='hlp';save();render();scrollTo(0,0)};
 if(!S.sn5){snap('قبل تحديث الدفعة الأولى (النقاط والتقارير والإعدادات)');S.sn5=1;save()}
+if(!S.sn12){snap('قبل إصدار 2026-11-17.1');S.sn12=1;save()}
 if(LOADMSG)setTimeout(()=>toast(LOADMSG),600);
 const b64e=u=>{let s='';for(let i=0;i<u.length;i+=8192)s+=String.fromCharCode.apply(null,u.subarray(i,i+8192));return btoa(s)};
 const b64d=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
