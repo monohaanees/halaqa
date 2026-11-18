@@ -1,8 +1,10 @@
 package com.monohaanees.halaqa;
 
 import android.app.Activity;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,7 +21,11 @@ import android.widget.Toast;
 import androidx.core.content.FileProvider;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainActivity extends Activity {
     private WebView wv;
@@ -139,11 +145,87 @@ public class MainActivity extends Activity {
         } catch (Exception e) { toast("تعذّرت المشاركة"); }
     }
 
+    private static final int KEEP_AUTO = 8;
+
+    private boolean sameBytes(Uri uri, byte[] data) {
+        try {
+            InputStream in = getContentResolver().openInputStream(uri);
+            if (in == null) return false;
+            ByteArrayOutputStream bo = new ByteArrayOutputStream();
+            byte[] buf = new byte[8192];
+            int n;
+            while ((n = in.read(buf)) != -1) bo.write(buf, 0, n);
+            in.close();
+            return Arrays.equals(bo.toByteArray(), data);
+        } catch (Exception e) { return false; }
+    }
+
+    private void pruneAuto() {
+        try {
+            ArrayList<Uri> old = new ArrayList<>();
+            Cursor c = getContentResolver().query(MediaStore.Downloads.EXTERNAL_CONTENT_URI,
+                new String[]{MediaStore.Downloads._ID, MediaStore.Downloads.DISPLAY_NAME},
+                MediaStore.Downloads.DISPLAY_NAME + " LIKE ?", new String[]{"halaqa-auto-%"},
+                MediaStore.Downloads.DISPLAY_NAME + " DESC");
+            if (c == null) return;
+            int i = 0;
+            while (c.moveToNext()) {
+                i++;
+                if (i > KEEP_AUTO) old.add(ContentUris.withAppendedId(MediaStore.Downloads.EXTERNAL_CONTENT_URI, c.getLong(0)));
+            }
+            c.close();
+            for (Uri u : old) getContentResolver().delete(u, null, null);
+        } catch (Exception e) { }
+    }
+
+    // نسخة تلقائية صامتة في مجلد التنزيلات: تُقرأ بعد الكتابة وتُقارن بايتاً ببايت، وتُحذف إن لم تتطابق.
+    private String autoSaveNow(String name, String b64) {
+        try {
+            if (name == null || !name.matches("halaqa-auto-[0-9\\-]+\\.txt")) return "fail:name";
+            byte[] data = Base64.decode(b64, Base64.DEFAULT);
+            if (Build.VERSION.SDK_INT >= 29) {
+                ContentValues v = new ContentValues();
+                v.put(MediaStore.Downloads.DISPLAY_NAME, name);
+                v.put(MediaStore.Downloads.MIME_TYPE, "text/plain");
+                Uri uri = getContentResolver().insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, v);
+                if (uri == null) return "fail:insert";
+                OutputStream os = getContentResolver().openOutputStream(uri);
+                if (os == null) return "fail:open";
+                os.write(data);
+                os.close();
+                if (!sameBytes(uri, data)) {
+                    try { getContentResolver().delete(uri, null, null); } catch (Exception e2) { }
+                    return "fail:verify";
+                }
+                pruneAuto();
+                return "ok:" + data.length;
+            }
+            if (checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE") != 0) {
+                pendName = name; pendB64 = b64;
+                runOnUiThread(() -> requestPermissions(new String[]{"android.permission.WRITE_EXTERNAL_STORAGE"}, PERM_REQ));
+                return "perm";
+            }
+            File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            if (!dir.exists()) dir.mkdirs();
+            File f = new File(dir, name);
+            FileOutputStream fo = new FileOutputStream(f);
+            fo.write(data);
+            fo.close();
+            if (f.length() != data.length) return "fail:verify";
+            return "ok:" + data.length;
+        } catch (Exception e) {
+            return "fail:" + e.getClass().getSimpleName();
+        }
+    }
+
     class Bridge {
         @JavascriptInterface
         public void save(String name, String b64) { saveNow(name, b64); }
 
         @JavascriptInterface
         public void share(String name, String b64) { shareNow(name, b64); }
+
+        @JavascriptInterface
+        public String autoSave(String name, String b64) { return autoSaveNow(name, b64); }
     }
 }
