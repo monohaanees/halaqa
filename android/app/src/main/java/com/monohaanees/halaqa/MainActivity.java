@@ -2,6 +2,7 @@ package com.monohaanees.halaqa;
 
 import android.app.Activity;
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
@@ -9,6 +10,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.print.PrintAttributes;
+import android.print.PrintDocumentAdapter;
+import android.print.PrintManager;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.webkit.JavascriptInterface;
@@ -145,6 +149,34 @@ public class MainActivity extends Activity {
         } catch (Exception e) { toast("تعذّرت المشاركة"); }
     }
 
+    private WebView printWv;
+
+    // تصدير PDF: تُحمَّل الصفحة في WebView مخفي ثم تُفتح نافذة الطباعة الأصلية (حفظ بصيغة PDF أو مشاركة).
+    private void printNow(final String title, String html) {
+        try {
+            final WebView w = new WebView(this);
+            printWv = w;
+            final boolean[] done = {false};
+            w.setWebViewClient(new WebViewClient() {
+                @Override
+                public void onPageFinished(WebView v, String url) {
+                    if (done[0]) return;
+                    done[0] = true;
+                    try {
+                        PrintManager pm = (PrintManager) getSystemService(Context.PRINT_SERVICE);
+                        PrintDocumentAdapter ad = v.createPrintDocumentAdapter(title);
+                        PrintAttributes attrs = new PrintAttributes.Builder()
+                            .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
+                            .setMinMargins(new PrintAttributes.Margins(600, 600, 600, 600))
+                            .build();
+                        pm.print(title, ad, attrs);
+                    } catch (Exception e) { toast("تعذّر فتح نافذة الطباعة"); }
+                }
+            });
+            w.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null);
+        } catch (Exception e) { toast("تعذّر التصدير"); }
+    }
+
     private static final int KEEP_AUTO = 8;
 
     private boolean sameBytes(Uri uri, byte[] data) {
@@ -227,5 +259,10 @@ public class MainActivity extends Activity {
 
         @JavascriptInterface
         public String autoSave(String name, String b64) { return autoSaveNow(name, b64); }
+
+        @JavascriptInterface
+        public void printHtml(final String title, final String html) {
+            runOnUiThread(() -> printNow(title, html));
+        }
     }
 }
