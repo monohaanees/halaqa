@@ -1,7 +1,6 @@
 import re, subprocess, tempfile, os
 
 PATH = 'android/app/src/main/assets/index.html'
-JAVA = 'android/app/src/main/java/com/monohaanees/halaqa/MainActivity.java'
 GRADLE = 'android/app/build.gradle'
 
 def rep(s, old, new):
@@ -9,26 +8,26 @@ def rep(s, old, new):
     assert n == 1, 'المرساة وُجدت %d مرة (المطلوب مرة واحدة): %s' % (n, old[:60])
     return s.replace(old, new)
 
-# ===================== index.html =====================
 s = open(PATH, encoding='utf-8').read()
 orig = s
-assert 'delDay' in s, 'طبّق دفعة حذف/نقل السجل (2026-11-19.1) أولاً'
-assert 'pdfExport' not in s and 'sn15' not in s, 'الباتش طُبّق سابقاً'
-assert "const VER='2026-11-19.1';" in s, 'الملف ليس بإصدار 2026-11-19.1 المتوقع'
+assert 'pdfExport' in s, 'طبّق دفعة تصدير PDF (2026-11-19.2) أولاً'
+assert 'pdfRank' not in s and 'sn16' not in s, 'الباتش طُبّق سابقاً'
+assert "const VER='2026-11-19.2';" in s, 'الملف ليس بإصدار 2026-11-19.2 المتوقع'
 
-# 1) الإصدار + نقطة حفظ تلقائية عند أول تشغيل (sn15)
-s = rep(s, "const VER='2026-11-19.1';", "const VER='2026-11-19.2';")
-s = rep(s, "if(!S.sn14){snap('قبل إصدار 2026-11-19.1');S.sn14=1;save()}",
-"if(!S.sn14){snap('قبل إصدار 2026-11-19.1');S.sn14=1;save()}\nif(!S.sn15){snap('قبل إصدار 2026-11-19.2');S.sn15=1;save()}")
-s = rep(s, "sn13:1,sn14:1,st:D.st", "sn13:1,sn14:1,sn15:1,st:D.st")
+# 1) الإصدار + نقطة حفظ تلقائية عند أول تشغيل (sn16)
+s = rep(s, "const VER='2026-11-19.2';", "const VER='2026-11-19.3';")
+s = rep(s, "if(!S.sn15){snap('قبل إصدار 2026-11-19.2');S.sn15=1;save()}",
+"if(!S.sn15){snap('قبل إصدار 2026-11-19.2');S.sn15=1;save()}\nif(!S.sn16){snap('قبل إصدار 2026-11-19.3');S.sn16=1;save()}")
+s = rep(s, "sn14:1,sn15:1,st:D.st", "sn14:1,sn15:1,sn16:1,st:D.st")
 
-# 2) محرك التصدير: قالب واحد ثابت، والجدول يتمدد مع المحتوى
-NEW_JS = r'''/* ===== نهاية حذف/نقل السجل ===== */
-/* ===== تصدير PDF بقالب موحّد (2026-11-19) ===== */
-const pdfCss=`@page{size:A4;@bottom-center{content:"صفحة " counter(page) " من " counter(pages);font-size:10px;color:#666}}*{box-sizing:border-box}html,body{margin:0;padding:0}body{font-family:'Noto Naskh Arabic','Noto Sans Arabic','Droid Arabic Naskh',Tahoma,Arial,sans-serif;color:#111;font-size:12.5px;line-height:1.55;direction:rtl}.h{text-align:center;margin-bottom:10px}.h .b{font-size:13px;color:#444}.h .i{font-size:18px;font-weight:700;margin:2px 0}.h .t{font-size:15px;font-weight:700;margin-top:4px}.h .s{font-size:12px;color:#444}table{width:100%;border-collapse:collapse;margin-top:8px}thead{display:table-header-group}tr{break-inside:avoid;page-break-inside:avoid}th{background:#e9eef2;border:1px solid #9aa5ad;padding:5px 6px;font-size:12px}td{border:1px solid #b9c1c7;padding:4px 6px;vertical-align:top}td.c,th.c{text-align:center}.n{font-weight:700}.w{border:1px solid #c9a227;background:#fff7d6;padding:5px 8px;margin:6px 0;font-size:12px}`;
-const pdfHtml=(ttl,head,body)=>`<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>${esc(ttl)}</title><style>${pdfCss}</style></head><body><div class="h"><div class="b">بسم الله الرحمن الرحيم</div><div class="i">${esc(SET.hdr||'')}</div>${head}</div>${body}</body></html>`;
+# 2) استبدال كتلة تصدير PDF كاملة بالتصميم الجديد
+NEW_BLOCK = r'''/* ===== تصدير PDF بقالب موحّد (2026-11-19) ===== */
+const pdfCss=ft=>`@page{size:A4;margin:12mm 10mm 16mm 10mm;@bottom-left{content:"صفحة " counter(page) " من " counter(pages);font-size:10px;color:#667}@bottom-right{content:"${ft}";font-size:10px;color:#667}}*{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}html,body{margin:0;padding:0}body{font-family:'Noto Naskh Arabic','Noto Sans Arabic','Droid Arabic Naskh',Tahoma,Arial,sans-serif;color:#1b2a2f;font-size:12.5px;line-height:1.5;direction:rtl}.hd{border:2px solid #0d7a63;border-radius:12px;background:#eef9f5;text-align:center;padding:8px 10px 9px;margin-bottom:8px}.hd .b{font-size:11px;color:#4a6a62}.hd .i{font-size:20px;font-weight:700;color:#0a6b56;margin:1px 0}.hd .t{font-size:13.5px;font-weight:700;color:#14493d;margin-top:2px}.hd .s{font-size:12px;color:#33564d;margin-top:2px}.pl{margin-top:6px}.pl span{display:inline-block;white-space:nowrap;border:1px solid #7cc4b0;background:#fff;color:#0a6b56;border-radius:999px;padding:1px 12px;margin:0 3px;font-size:11.5px;font-weight:700}table{width:100%;border-collapse:collapse}thead{display:table-header-group}tr{break-inside:avoid;page-break-inside:avoid}th{background:#0d6b57;color:#fff;border:1px solid #0d6b57;padding:6px 5px;font-size:12px;font-weight:700}td{border:1px solid #cfd8dc;padding:4px 6px;vertical-align:middle}tbody tr:nth-child(even){background:#f4f7f9}td.c,th.c{text-align:center}.n{font-weight:700}.z{color:#a7b0b5;font-weight:400}.ok{color:#14803c;font-weight:700}.no{color:#c0262d;font-weight:700}.ng{color:#c0262d}.bd{display:inline-block;min-width:20px;height:20px;line-height:20px;border-radius:50%;background:#0d7a63;color:#fff;font-weight:700;font-size:11px;text-align:center}tr.g1 .bd{background:#d4a017}tr.g2 .bd{background:#6c7a89}tr.g3 .bd{background:#c8581a}tr.g1{background:#fff3b8!important}tr.g2{background:#e6ebf0!important}tr.g3{background:#fde3cf!important}tr.ab{background:#fdeeee!important}tr.ex{background:#fff6e3!important}.w{border:1px solid #c9a227;background:#fff7d6;padding:5px 8px;margin:6px 0;font-size:12px;border-radius:6px}.st{font-weight:700}.st.p{color:#14803c}.st.a{color:#c0262d}.st.e{color:#b26a00}.st.s{color:#1b5aa0}.d .pos{color:#14803c}.d .okl{color:#14803c;font-weight:700}.d .nol{color:#c0262d;font-weight:700}.dash{color:#a7b0b5}`;
+const cssStr=s=>String(s||'').replace(/["\\\n\r]/g,' ');
+const pdfHtml=(ttl,head,body,foot)=>`<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>${esc(ttl)}</title><style>${pdfCss(cssStr(foot))}</style></head><body><div class="hd"><div class="b">بسم الله الرحمن الرحيم</div><div class="i">${esc(SET.hdr||'')}</div>${head}</div>${body}</body></html>`;
 const pdfD=s=>String(s).replace(/(\d{4})-(\d{2})-(\d{2})/g,'\u200e$3-$2-$1\u200e');
 const pdfN=(n,one,two,pl,sg)=>n===1?one:n===2?two:n+' '+(n<=10?pl:sg);
+const pdfRank=A=>{const B=[...A].sort((a,b)=>b.pt-a.pt||b.pg-a.pg||a.n.localeCompare(b.n,'ar')),pts=[...new Set(B.map(o=>o.pt))];B.forEach(o=>{o.prk=1+pts.indexOf(o.pt)});return B};
 function pdfDay(date){
  const ls=text(date).split('\n'),re=/^(\d+)\. (.+) — (حاضر|غائب بعذر|غائب|حصة خاصة)$/,B=[],meta=[];let cur=null;
  ls.forEach(l=>{const m=re.exec(l);if(m){cur={i:m[1],n:m[2],a:m[3],d:[],p:''};B.push(cur);return}
@@ -36,102 +35,56 @@ function pdfDay(date){
   const b=l.replace(/^\s*•\s*/,'').trim();if(!b)return;
   if(/^النقاط: /.test(b))cur.p=b.replace(/^النقاط: /,'');else cur.d.push(b)});
  if(!B.length)return{};
+ const cls=a=>a==='حاضر'?'p':a==='غائب'?'a':a==='غائب بعذر'?'e':'s',rowc=a=>a==='غائب'?' class="ab"':a==='غائب بعذر'?' class="ex"':'',
+  dl=x=>{const c=/\(نجح/.test(x)?'okl':/\(رسب/.test(x)?'nol':/^ملاحظة إيجابية/.test(x)?'pos':'';return`<div${c?' class="'+c+'"':''}>${esc(x)}</div>`},
+  cn={p:0,a:0,e:0,s:0};B.forEach(o=>cn[cls(o.a)]++);
  const ttl='سجل-'+date,title=meta[2]||'سجل المتابعة اليومي — '+date,extra=meta.slice(3).filter(Boolean),
   warn=extra.filter(x=>x.charAt(0)==='⚠'),info=extra.filter(x=>x.charAt(0)!=='⚠'),
-  head=`<div class="t">${pdfD(esc(title))}</div>`+info.map(x=>`<div class="s">${esc(x)}</div>`).join('')+warn.map(x=>`<div class="w">${esc(x)}</div>`).join(''),
-  body=`<table><thead><tr><th class="c">#</th><th>اسم الطالب</th><th class="c">الحضور</th><th>التفاصيل والمتابعة اليومية</th><th class="c">النقاط</th></tr></thead><tbody>`+B.map(o=>`<tr><td class="c">${o.i}</td><td class="n">${esc(o.n)}</td><td class="c">${esc(o.a)}</td><td>${o.d.length?o.d.map(x=>`<div>${esc(x)}</div>`).join(''):'—'}</td><td class="c">\u200e${esc(o.p||'0')}\u200e</td></tr>`).join('')+`</tbody></table>`;
- return{ttl,head,body}}
-function pdfSta(){const{k,f,t,A,days}=pdata();if(!A.length)return{};
- const ttl='إحصائية-'+(k==='w'?'أسبوعية':'شهرية')+'-'+f+'-'+t,
-  head=`<div class="t">${k==='w'?'الإحصائية الأسبوعية':'الإحصائية الشهرية'} — من ${pdfD(f)} إلى ${pdfD(t)} (${pdfN(days,'حصة واحدة','حصتان','حصص','حصة')})</div><div class="s">عدد الطلاب: ${pdfN(A.length,'طالب واحد','طالبان','طلاب','طالبًا')} · عدد الحصص: ${pdfN(days,'حصة واحدة','حصتان','حصص','حصة')}</div>`,
-  H=['الترتيب','اسم الطالب','النقاط','الصفحات','الإعادات','الحضور','غياب','بعذر','الاختبارات','ملاحظات إيجابية'].concat(S.pneg?['ملاحظات سلبية']:[]),
-  body=`<table><thead><tr>${H.map((h,i)=>`<th class="${i===1?'':'c'}">${h}</th>`).join('')}</tr></thead><tbody>`+A.map(o=>{const c=[o.rk,esc(o.n),o.pt,o.pg,o.rp,(o.ses-o.ab-o.ex)+' من '+o.ses,o.ab,o.ex,'نجح '+o.ok+' · رسب '+o.no,o.np].concat(S.pneg?[o.nn]:[]);return`<tr>${c.map((x,i)=>`<td class="${i===1?'n':'c'}">${i===2?'\u200e'+x+'\u200e':x}</td>`).join('')}</tr>`}).join('')+`</tbody></table>`;
- return{ttl,head,body}}
+  pills=`<div class="pl"><span>عدد الطلاب: ${B.length}</span><span>حاضر: ${cn.p}</span><span>غائب: ${cn.a}</span><span>بعذر: ${cn.e}</span>${cn.s?`<span>حصة خاصة: ${cn.s}</span>`:''}</div>`,
+  head=`<div class="t">${pdfD(esc(title))}</div>`+info.map(x=>`<div class="s">${esc(x)}</div>`).join('')+warn.map(x=>`<div class="w">${esc(x)}</div>`).join('')+pills,
+  body=`<table><thead><tr><th class="c" style="width:28px">#</th><th style="width:22%">اسم الطالب</th><th class="c" style="width:11%">الحضور</th><th>التفاصيل والمتابعة اليومية</th><th class="c" style="width:48px">النقاط</th></tr></thead><tbody>`+B.map(o=>`<tr${rowc(o.a)}><td class="c">${o.i}</td><td class="n">${esc(o.n)}</td><td class="c"><span class="st ${cls(o.a)}">${esc(o.a)}</span></td><td class="d">${o.d.length?o.d.map(dl).join(''):'<span class="dash">—</span>'}</td><td class="c"><b class="${(+o.p)<0?'ng':''}">\u200e${esc(o.p||'0')}\u200e</b></td></tr>`).join('')+`</tbody></table>`;
+ return{ttl,head,body,foot:(SET.hdr||'')+' ('+pdfD(date)+')'}}
+function pdfSta(){const{k,f,t,A:A0,days}=pdata();if(!A0.length)return{};const A=pdfRank(A0),
+ ttl='إحصائية-'+(k==='w'?'أسبوعية':'شهرية')+'-'+f+'-'+t,hs=pdfN(days,'حصة واحدة','حصتان','حصص','حصة'),
+ head=`<div class="t">${k==='w'?'الإحصائية الأسبوعية':'الإحصائية الشهرية'} — من ${pdfD(f)} إلى ${pdfD(t)} (${hs})</div><div class="pl"><span>عدد الطلاب: ${pdfN(A.length,'طالب واحد','طالبان','طلاب','طالبًا')}</span><span>عدد الحصص: ${hs}</span></div>`,
+ H=['الترتيب','اسم الطالب','النقاط','الصفحات','الإعادات','الحضور','غياب','بعذر','الاختبارات','ملاحظات إيجابية'].concat(S.pneg?['ملاحظات سلبية']:[]),
+ zz=v=>v?v:`<span class="z">0</span>`,
+ row=o=>{const g=o.prk<=3?' class="g'+o.prk+'"':'',at=(o.ses-o.ab-o.ex)+' من '+o.ses,
+  c=[`<span class="bd">${o.prk}</span>`,`<span class="n">${esc(o.n)}</span>`,`<b class="${o.pt<0?'ng':''}">\u200e${o.pt}\u200e</b>`,zz(o.pg),zz(o.rp),(!o.ab&&!o.ex)?`<b>${at}</b>`:at,zz(o.ab),zz(o.ex),`<span class="${o.ok?'ok':'z'}">نجح ${o.ok}</span> · <span class="${o.no?'no':'z'}">رسب ${o.no}</span>`,zz(o.np)].concat(S.pneg?[o.nn?`<span class="no">${o.nn}</span>`:zz(0)]:[]);
+  return`<tr${g}>${c.map((x,i)=>`<td class="${i===1?'':'c'}">${x}</td>`).join('')}</tr>`},
+ body=`<table><thead><tr>${H.map((h,i)=>`<th class="${i===1?'':'c'}">${h}</th>`).join('')}</tr></thead><tbody>${A.map(row).join('')}</tbody></table>`;
+ return{ttl,head,body,foot:(SET.hdr||'')+' (من '+pdfD(f)+' إلى '+pdfD(t)+')'}}
 function pdfExport(kind){
  try{
   const r=kind==='day'?pdfDay(rpRange()[0]):pdfSta();
   if(!r.body){toast('لا بيانات للتصدير');return}
-  const html=pdfHtml(r.ttl,r.head,r.body);
+  const html=pdfHtml(r.ttl,r.head,r.body,r.foot);
   if(window.AndroidBridge&&typeof AndroidBridge.printHtml==='function'){AndroidBridge.printHtml(r.ttl,html);return}
   const fr=document.createElement('iframe');fr.style.cssText='position:fixed;right:0;bottom:0;width:0;height:0;border:0';document.body.appendChild(fr);
   fr.onload=()=>{try{fr.contentWindow.focus();fr.contentWindow.print()}catch(e){toast('تعذّرت الطباعة')}setTimeout(()=>fr.remove(),60000)};
   fr.srcdoc=html
  }catch(e){toast('تعذّر التصدير')}}
 /* ===== نهاية تصدير PDF ===== */'''
-s = rep(s, "/* ===== نهاية حذف/نقل السجل ===== */", NEW_JS)
-
-# 3) الأزرار: صفحة الإحصائية، وصفحة التقارير (سجل يوم واحد لكل الطلاب)
-s = rep(s, "<button class='pri' id='pcp' style='width:100%'>نسخ الترتيب للواتساب</button>",
-           "<button class='pri' id='pcp' style='width:100%'>نسخ الترتيب للواتساب</button><button id='pcpdf' style='width:100%'>📄 تصدير PDF</button>")
-s = rep(s, "<button class='pri' id='rcp'>نسخ</button>",
-           "<button class='pri' id='rcp'>نسخ</button>${!st&&f===t?`<button id='rpdf'>📄 تصدير PDF</button>`:''}")
-s = rep(s, "else if(id==='pcp')copyStr(ptext());",
-           "else if(id==='pcp')copyStr(ptext());else if(id==='pcpdf')pdfExport('sta');else if(id==='rpdf')pdfExport('day');")
+A = '/* ===== تصدير PDF بقالب موحّد (2026-11-19) ===== */'
+B = '/* ===== نهاية تصدير PDF ===== */'
+assert s.count(A) == 1 and s.count(B) == 1, 'علامتا كتلة PDF غير موجودتين مرة واحدة'
+i, j = s.index(A), s.index(B) + len(B)
+assert i < j
+s = s[:i] + NEW_BLOCK + s[j:]
 
 assert s != orig
 scripts = re.findall(r'<script(?![^>]*\bsrc=)[^>]*>(.*?)</script>', s, re.S)
 assert scripts, 'لم أجد سكربتاً داخلياً'
-for i, code in enumerate(scripts):
+for k, code in enumerate(scripts):
     with tempfile.NamedTemporaryFile('w', suffix='.js', delete=False, encoding='utf-8') as f:
         f.write(code)
     r = subprocess.run(['node', '--check', f.name], capture_output=True, text=True)
     os.unlink(f.name)
-    assert r.returncode == 0, 'خطأ صياغة في السكربت %d:\n%s' % (i, r.stderr)
+    assert r.returncode == 0, 'خطأ صياغة في السكربت %d:\n%s' % (k, r.stderr)
 
-# ===================== MainActivity.java =====================
-j = open(JAVA, encoding='utf-8').read()
-jo = j
-assert 'printHtml' not in j, 'الباتش طُبّق سابقاً على جافا'
-assert 'autoSaveNow' in j, 'طبّق دفعة النسخ التلقائي أولاً'
-
-j = rep(j, "import android.content.ContentUris;", "import android.content.ContentUris;\nimport android.content.Context;")
-j = rep(j, "import android.os.Environment;",
-           "import android.os.Environment;\nimport android.print.PrintAttributes;\nimport android.print.PrintDocumentAdapter;\nimport android.print.PrintManager;")
-
-JAVA_METHODS = r'''    private WebView printWv;
-
-    // تصدير PDF: تُحمَّل الصفحة في WebView مخفي ثم تُفتح نافذة الطباعة الأصلية (حفظ بصيغة PDF أو مشاركة).
-    private void printNow(final String title, String html) {
-        try {
-            final WebView w = new WebView(this);
-            printWv = w;
-            final boolean[] done = {false};
-            w.setWebViewClient(new WebViewClient() {
-                @Override
-                public void onPageFinished(WebView v, String url) {
-                    if (done[0]) return;
-                    done[0] = true;
-                    try {
-                        PrintManager pm = (PrintManager) getSystemService(Context.PRINT_SERVICE);
-                        PrintDocumentAdapter ad = v.createPrintDocumentAdapter(title);
-                        PrintAttributes attrs = new PrintAttributes.Builder()
-                            .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
-                            .setMinMargins(new PrintAttributes.Margins(600, 600, 600, 600))
-                            .build();
-                        pm.print(title, ad, attrs);
-                    } catch (Exception e) { toast("تعذّر فتح نافذة الطباعة"); }
-                }
-            });
-            w.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null);
-        } catch (Exception e) { toast("تعذّر التصدير"); }
-    }
-
-    private static final int KEEP_AUTO = 8;'''
-j = rep(j, "    private static final int KEEP_AUTO = 8;", JAVA_METHODS)
-j = rep(j, "        public String autoSave(String name, String b64) { return autoSaveNow(name, b64); }",
-"""        public String autoSave(String name, String b64) { return autoSaveNow(name, b64); }
-
-        @JavascriptInterface
-        public void printHtml(final String title, final String html) {
-            runOnUiThread(() -> printNow(title, html));
-        }""")
-assert j != jo
-open(JAVA, 'w', encoding='utf-8').write(j)
-
-# ===================== build.gradle =====================
 g = open(GRADLE, encoding='utf-8').read()
-g = rep(g, 'versionCode 9', 'versionCode 10')
-g = rep(g, "versionName '1.5.1'", "versionName '1.6.0'")
+g = rep(g, 'versionCode 10', 'versionCode 11')
+g = rep(g, "versionName '1.6.0'", "versionName '1.6.1'")
 open(GRADLE, 'w', encoding='utf-8').write(g)
 
 open(PATH, 'w', encoding='utf-8').write(s)
