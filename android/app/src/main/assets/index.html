@@ -61,7 +61,7 @@ let S=null,SN=0,LOADMSG='';
 if(!S)try{S=JSON.parse(localStorage.getItem(K))}catch(e){}
 function put(){SN++;const j=JSON.stringify(S);localStorage.setItem(K+(SN%2?'.a':'.b'),SN+'|'+fnv(j)+'|'+j)}
 try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
-if(!S||!S.log)S={sn:1,sn2:1,sn3:1,sn4:1,sn5:1,sn6:1,sn7:1,sn8:1,sn9:1,sn10:1,sn11:1,sn12:1,sn13:1,sn14:1,sn15:1,st:D.st,log:D.log,ex:D.ex,day:{date:iso(new Date()),lesson:'',taj:'',r:{}}};
+if(!S||!S.log)S={sn:1,sn2:1,sn3:1,sn4:1,sn5:1,sn6:1,sn7:1,sn8:1,sn9:1,sn10:1,sn11:1,sn12:1,sn13:1,sn14:1,sn15:1,sn16:1,st:D.st,log:D.log,ex:D.ex,day:{date:iso(new Date()),lesson:'',taj:'',r:{}}};
 if(!S.adj)S.adj=[];
 const save=()=>{try{(S.adj||[]).forEach(a=>{if(!a[8])a[8]=Date.now()});put()}catch(e){try{localStorage.removeItem(SK);put()}catch(e2){setTimeout(()=>toast('⚠ تعذّر الحفظ على هذا الجهاز، صدّر نسخة الآن'),0)}}};
 if(!S.trash)S.trash=[];
@@ -76,7 +76,7 @@ for(const c in D.pm){P[c]=[];IX[c]={};D.pm[c].split(',').forEach(x=>{const[a,b]=
 const CAT={};D.cat.forEach(e=>{(CAT[e[0]]=CAT[e[0]]||[])[e[4]-1]=e});
 const byName=n=>S.st.find(s=>s.n===n),dr=n=>S.day.r[n]||(S.day.r[n]={a:'',s:['','',''],v:'',n:'',nt:''});
 const active=d=>S.st.filter(s=>(!s.j||s.j<=d)&&(!s.q||s.q>=d)).sort((a,b)=>a.n.localeCompare(b.n,'ar'));
-const VER='2026-11-19.2';
+const VER='2026-11-19.3';
 const THK=['--bg','--sf','--tx','--mu','--br','--ac','--on','--ok','--bad','--wr','--w2'];
 const THS={o:{n:'أسود وبرتقالي',v:{'--bg':'#0a0a0a','--sf':'#161616','--tx':'#f2efe9','--mu':'#a39d92','--br':'#2b2b2b','--ac':'#f59e42','--on':'#1a0e00','--ok':'#2a1d0a','--bad':'#ff8f82','--wr':'#f0c35a','--w2':'#33260c'}},
  b:{n:'أسود وأزرق',v:{'--bg':'#0a0b0e','--sf':'#14161b','--tx':'#eef1f6','--mu':'#9aa3b2','--br':'#262b35','--ac':'#4aa3ff','--on':'#001428','--ok':'#0d2238','--bad':'#ff8f82','--wr':'#f0c35a','--w2':'#2f2a14'}},
@@ -337,6 +337,7 @@ if(!S.sn12){snap('قبل إصدار 2026-11-17.1');S.sn12=1;save()}
 if(!S.sn13){snap('قبل إصدار 2026-11-18.1');S.sn13=1;save()}
 if(!S.sn14){snap('قبل إصدار 2026-11-19.1');S.sn14=1;save()}
 if(!S.sn15){snap('قبل إصدار 2026-11-19.2');S.sn15=1;save()}
+if(!S.sn16){snap('قبل إصدار 2026-11-19.3');S.sn16=1;save()}
 if(LOADMSG)setTimeout(()=>toast(LOADMSG),600);
 const b64e=u=>{let s='';for(let i=0;i<u.length;i+=8192)s+=String.fromCharCode.apply(null,u.subarray(i,i+8192));return btoa(s)};
 const b64d=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
@@ -399,10 +400,12 @@ function mvDay(to){const d=S.day,sp=isSp(),from=d.date;
 const dayTools=()=>{const d=S.day,sp=isSp();return`<div class='card'><b>تصحيح تاريخ هذا السجل</b><div class='msg'>إن سجّلته في يوم خطأ: انقله إلى التاريخ الصحيح، أو احذفه (يذهب إلى سلة المحذوفات ويمكن استرجاعه). النقاط المحسوبة وقت الترحيل تبقى كما هي.</div><label>نقل إلى تاريخ<input type='date' id='mvto'></label><button id='mvday'>نقل السجل إلى هذا التاريخ</button><button id='delday'>حذف ${sp?'السجل الخاص ل':'سجل '}${esc(d.date)}</button></div>`};
 /* ===== نهاية حذف/نقل السجل ===== */
 /* ===== تصدير PDF بقالب موحّد (2026-11-19) ===== */
-const pdfCss=`@page{size:A4;@bottom-center{content:"صفحة " counter(page) " من " counter(pages);font-size:10px;color:#666}}*{box-sizing:border-box}html,body{margin:0;padding:0}body{font-family:'Noto Naskh Arabic','Noto Sans Arabic','Droid Arabic Naskh',Tahoma,Arial,sans-serif;color:#111;font-size:12.5px;line-height:1.55;direction:rtl}.h{text-align:center;margin-bottom:10px}.h .b{font-size:13px;color:#444}.h .i{font-size:18px;font-weight:700;margin:2px 0}.h .t{font-size:15px;font-weight:700;margin-top:4px}.h .s{font-size:12px;color:#444}table{width:100%;border-collapse:collapse;margin-top:8px}thead{display:table-header-group}tr{break-inside:avoid;page-break-inside:avoid}th{background:#e9eef2;border:1px solid #9aa5ad;padding:5px 6px;font-size:12px}td{border:1px solid #b9c1c7;padding:4px 6px;vertical-align:top}td.c,th.c{text-align:center}.n{font-weight:700}.w{border:1px solid #c9a227;background:#fff7d6;padding:5px 8px;margin:6px 0;font-size:12px}`;
-const pdfHtml=(ttl,head,body)=>`<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>${esc(ttl)}</title><style>${pdfCss}</style></head><body><div class="h"><div class="b">بسم الله الرحمن الرحيم</div><div class="i">${esc(SET.hdr||'')}</div>${head}</div>${body}</body></html>`;
+const pdfCss=ft=>`@page{size:A4;margin:12mm 10mm 16mm 10mm;@bottom-left{content:"صفحة " counter(page) " من " counter(pages);font-size:10px;color:#667}@bottom-right{content:"${ft}";font-size:10px;color:#667}}*{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}html,body{margin:0;padding:0}body{font-family:'Noto Naskh Arabic','Noto Sans Arabic','Droid Arabic Naskh',Tahoma,Arial,sans-serif;color:#1b2a2f;font-size:12.5px;line-height:1.5;direction:rtl}.hd{border:2px solid #0d7a63;border-radius:12px;background:#eef9f5;text-align:center;padding:8px 10px 9px;margin-bottom:8px}.hd .b{font-size:11px;color:#4a6a62}.hd .i{font-size:20px;font-weight:700;color:#0a6b56;margin:1px 0}.hd .t{font-size:13.5px;font-weight:700;color:#14493d;margin-top:2px}.hd .s{font-size:12px;color:#33564d;margin-top:2px}.pl{margin-top:6px}.pl span{display:inline-block;white-space:nowrap;border:1px solid #7cc4b0;background:#fff;color:#0a6b56;border-radius:999px;padding:1px 12px;margin:0 3px;font-size:11.5px;font-weight:700}table{width:100%;border-collapse:collapse}thead{display:table-header-group}tr{break-inside:avoid;page-break-inside:avoid}th{background:#0d6b57;color:#fff;border:1px solid #0d6b57;padding:6px 5px;font-size:12px;font-weight:700}td{border:1px solid #cfd8dc;padding:4px 6px;vertical-align:middle}tbody tr:nth-child(even){background:#f4f7f9}td.c,th.c{text-align:center}.n{font-weight:700}.z{color:#a7b0b5;font-weight:400}.ok{color:#14803c;font-weight:700}.no{color:#c0262d;font-weight:700}.ng{color:#c0262d}.bd{display:inline-block;min-width:20px;height:20px;line-height:20px;border-radius:50%;background:#0d7a63;color:#fff;font-weight:700;font-size:11px;text-align:center}tr.g1 .bd{background:#d4a017}tr.g2 .bd{background:#6c7a89}tr.g3 .bd{background:#c8581a}tr.g1{background:#fff3b8!important}tr.g2{background:#e6ebf0!important}tr.g3{background:#fde3cf!important}tr.ab{background:#fdeeee!important}tr.ex{background:#fff6e3!important}.w{border:1px solid #c9a227;background:#fff7d6;padding:5px 8px;margin:6px 0;font-size:12px;border-radius:6px}.st{font-weight:700}.st.p{color:#14803c}.st.a{color:#c0262d}.st.e{color:#b26a00}.st.s{color:#1b5aa0}.d .pos{color:#14803c}.d .okl{color:#14803c;font-weight:700}.d .nol{color:#c0262d;font-weight:700}.dash{color:#a7b0b5}`;
+const cssStr=s=>String(s||'').replace(/["\\\n\r]/g,' ');
+const pdfHtml=(ttl,head,body,foot)=>`<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>${esc(ttl)}</title><style>${pdfCss(cssStr(foot))}</style></head><body><div class="hd"><div class="b">بسم الله الرحمن الرحيم</div><div class="i">${esc(SET.hdr||'')}</div>${head}</div>${body}</body></html>`;
 const pdfD=s=>String(s).replace(/(\d{4})-(\d{2})-(\d{2})/g,'\u200e$3-$2-$1\u200e');
 const pdfN=(n,one,two,pl,sg)=>n===1?one:n===2?two:n+' '+(n<=10?pl:sg);
+const pdfRank=A=>{const B=[...A].sort((a,b)=>b.pt-a.pt||b.pg-a.pg||a.n.localeCompare(b.n,'ar')),pts=[...new Set(B.map(o=>o.pt))];B.forEach(o=>{o.prk=1+pts.indexOf(o.pt)});return B};
 function pdfDay(date){
  const ls=text(date).split('\n'),re=/^(\d+)\. (.+) — (حاضر|غائب بعذر|غائب|حصة خاصة)$/,B=[],meta=[];let cur=null;
  ls.forEach(l=>{const m=re.exec(l);if(m){cur={i:m[1],n:m[2],a:m[3],d:[],p:''};B.push(cur);return}
@@ -410,22 +413,30 @@ function pdfDay(date){
   const b=l.replace(/^\s*•\s*/,'').trim();if(!b)return;
   if(/^النقاط: /.test(b))cur.p=b.replace(/^النقاط: /,'');else cur.d.push(b)});
  if(!B.length)return{};
+ const cls=a=>a==='حاضر'?'p':a==='غائب'?'a':a==='غائب بعذر'?'e':'s',rowc=a=>a==='غائب'?' class="ab"':a==='غائب بعذر'?' class="ex"':'',
+  dl=x=>{const c=/\(نجح/.test(x)?'okl':/\(رسب/.test(x)?'nol':/^ملاحظة إيجابية/.test(x)?'pos':'';return`<div${c?' class="'+c+'"':''}>${esc(x)}</div>`},
+  cn={p:0,a:0,e:0,s:0};B.forEach(o=>cn[cls(o.a)]++);
  const ttl='سجل-'+date,title=meta[2]||'سجل المتابعة اليومي — '+date,extra=meta.slice(3).filter(Boolean),
   warn=extra.filter(x=>x.charAt(0)==='⚠'),info=extra.filter(x=>x.charAt(0)!=='⚠'),
-  head=`<div class="t">${pdfD(esc(title))}</div>`+info.map(x=>`<div class="s">${esc(x)}</div>`).join('')+warn.map(x=>`<div class="w">${esc(x)}</div>`).join(''),
-  body=`<table><thead><tr><th class="c">#</th><th>اسم الطالب</th><th class="c">الحضور</th><th>التفاصيل والمتابعة اليومية</th><th class="c">النقاط</th></tr></thead><tbody>`+B.map(o=>`<tr><td class="c">${o.i}</td><td class="n">${esc(o.n)}</td><td class="c">${esc(o.a)}</td><td>${o.d.length?o.d.map(x=>`<div>${esc(x)}</div>`).join(''):'—'}</td><td class="c">\u200e${esc(o.p||'0')}\u200e</td></tr>`).join('')+`</tbody></table>`;
- return{ttl,head,body}}
-function pdfSta(){const{k,f,t,A,days}=pdata();if(!A.length)return{};
- const ttl='إحصائية-'+(k==='w'?'أسبوعية':'شهرية')+'-'+f+'-'+t,
-  head=`<div class="t">${k==='w'?'الإحصائية الأسبوعية':'الإحصائية الشهرية'} — من ${pdfD(f)} إلى ${pdfD(t)} (${pdfN(days,'حصة واحدة','حصتان','حصص','حصة')})</div><div class="s">عدد الطلاب: ${pdfN(A.length,'طالب واحد','طالبان','طلاب','طالبًا')} · عدد الحصص: ${pdfN(days,'حصة واحدة','حصتان','حصص','حصة')}</div>`,
-  H=['الترتيب','اسم الطالب','النقاط','الصفحات','الإعادات','الحضور','غياب','بعذر','الاختبارات','ملاحظات إيجابية'].concat(S.pneg?['ملاحظات سلبية']:[]),
-  body=`<table><thead><tr>${H.map((h,i)=>`<th class="${i===1?'':'c'}">${h}</th>`).join('')}</tr></thead><tbody>`+A.map(o=>{const c=[o.rk,esc(o.n),o.pt,o.pg,o.rp,(o.ses-o.ab-o.ex)+' من '+o.ses,o.ab,o.ex,'نجح '+o.ok+' · رسب '+o.no,o.np].concat(S.pneg?[o.nn]:[]);return`<tr>${c.map((x,i)=>`<td class="${i===1?'n':'c'}">${i===2?'\u200e'+x+'\u200e':x}</td>`).join('')}</tr>`}).join('')+`</tbody></table>`;
- return{ttl,head,body}}
+  pills=`<div class="pl"><span>عدد الطلاب: ${B.length}</span><span>حاضر: ${cn.p}</span><span>غائب: ${cn.a}</span><span>بعذر: ${cn.e}</span>${cn.s?`<span>حصة خاصة: ${cn.s}</span>`:''}</div>`,
+  head=`<div class="t">${pdfD(esc(title))}</div>`+info.map(x=>`<div class="s">${esc(x)}</div>`).join('')+warn.map(x=>`<div class="w">${esc(x)}</div>`).join('')+pills,
+  body=`<table><thead><tr><th class="c" style="width:28px">#</th><th style="width:22%">اسم الطالب</th><th class="c" style="width:11%">الحضور</th><th>التفاصيل والمتابعة اليومية</th><th class="c" style="width:48px">النقاط</th></tr></thead><tbody>`+B.map(o=>`<tr${rowc(o.a)}><td class="c">${o.i}</td><td class="n">${esc(o.n)}</td><td class="c"><span class="st ${cls(o.a)}">${esc(o.a)}</span></td><td class="d">${o.d.length?o.d.map(dl).join(''):'<span class="dash">—</span>'}</td><td class="c"><b class="${(+o.p)<0?'ng':''}">\u200e${esc(o.p||'0')}\u200e</b></td></tr>`).join('')+`</tbody></table>`;
+ return{ttl,head,body,foot:(SET.hdr||'')+' ('+pdfD(date)+')'}}
+function pdfSta(){const{k,f,t,A:A0,days}=pdata();if(!A0.length)return{};const A=pdfRank(A0),
+ ttl='إحصائية-'+(k==='w'?'أسبوعية':'شهرية')+'-'+f+'-'+t,hs=pdfN(days,'حصة واحدة','حصتان','حصص','حصة'),
+ head=`<div class="t">${k==='w'?'الإحصائية الأسبوعية':'الإحصائية الشهرية'} — من ${pdfD(f)} إلى ${pdfD(t)} (${hs})</div><div class="pl"><span>عدد الطلاب: ${pdfN(A.length,'طالب واحد','طالبان','طلاب','طالبًا')}</span><span>عدد الحصص: ${hs}</span></div>`,
+ H=['الترتيب','اسم الطالب','النقاط','الصفحات','الإعادات','الحضور','غياب','بعذر','الاختبارات','ملاحظات إيجابية'].concat(S.pneg?['ملاحظات سلبية']:[]),
+ zz=v=>v?v:`<span class="z">0</span>`,
+ row=o=>{const g=o.prk<=3?' class="g'+o.prk+'"':'',at=(o.ses-o.ab-o.ex)+' من '+o.ses,
+  c=[`<span class="bd">${o.prk}</span>`,`<span class="n">${esc(o.n)}</span>`,`<b class="${o.pt<0?'ng':''}">\u200e${o.pt}\u200e</b>`,zz(o.pg),zz(o.rp),(!o.ab&&!o.ex)?`<b>${at}</b>`:at,zz(o.ab),zz(o.ex),`<span class="${o.ok?'ok':'z'}">نجح ${o.ok}</span> · <span class="${o.no?'no':'z'}">رسب ${o.no}</span>`,zz(o.np)].concat(S.pneg?[o.nn?`<span class="no">${o.nn}</span>`:zz(0)]:[]);
+  return`<tr${g}>${c.map((x,i)=>`<td class="${i===1?'':'c'}">${x}</td>`).join('')}</tr>`},
+ body=`<table><thead><tr>${H.map((h,i)=>`<th class="${i===1?'':'c'}">${h}</th>`).join('')}</tr></thead><tbody>${A.map(row).join('')}</tbody></table>`;
+ return{ttl,head,body,foot:(SET.hdr||'')+' (من '+pdfD(f)+' إلى '+pdfD(t)+')'}}
 function pdfExport(kind){
  try{
   const r=kind==='day'?pdfDay(rpRange()[0]):pdfSta();
   if(!r.body){toast('لا بيانات للتصدير');return}
-  const html=pdfHtml(r.ttl,r.head,r.body);
+  const html=pdfHtml(r.ttl,r.head,r.body,r.foot);
   if(window.AndroidBridge&&typeof AndroidBridge.printHtml==='function'){AndroidBridge.printHtml(r.ttl,html);return}
   const fr=document.createElement('iframe');fr.style.cssText='position:fixed;right:0;bottom:0;width:0;height:0;border:0';document.body.appendChild(fr);
   fr.onload=()=>{try{fr.contentWindow.focus();fr.contentWindow.print()}catch(e){toast('تعذّرت الطباعة')}setTimeout(()=>fr.remove(),60000)};
